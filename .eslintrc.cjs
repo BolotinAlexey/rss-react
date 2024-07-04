@@ -8,7 +8,12 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
+  plugins: [
+    'react-compiler',
+    'react-refresh',
+    '@typescript-eslint',
+    'prettier',
+  ],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -16,5 +21,6 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'error',
     'prettier/prettier': 'error',
+    'react-compiler/react-compiler': 'error',
   },
 };

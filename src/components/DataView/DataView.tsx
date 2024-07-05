@@ -20,6 +20,6 @@ export default class DataView extends Component<State, StateDataView> {
   }
 
   render() {
-    return <p>{this.state.planet?.name}</p>;
+    return <p>{this.props.name}</p>;
   }
 }

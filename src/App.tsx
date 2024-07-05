@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Form from './components/Form/Form';
 import { State } from './interfaces';
+import DataView from './components/DataView/DataView';
 
 class App extends React.Component {
   state: State = {
@@ -15,6 +16,8 @@ class App extends React.Component {
       <>
         <h1>Planets</h1>
         <Form onSubmitName={this.onSubmitNameApp} />
+        <hr />
+        <DataView name={this.state.name} />
       </>
     );
   }

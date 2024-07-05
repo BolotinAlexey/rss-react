@@ -1,1 +1,1 @@
-export type PokemonState = Readonly<{ pokemonName: string }>;
+export type State = Readonly<{ name: string }>;

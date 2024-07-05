@@ -1,20 +1,20 @@
 import React from 'react';
 import './App.css';
-import PokemonForm from './components/PokemonForm/PokemonForm';
-import { PokemonState } from './interfaces';
+import Form from './components/Form/Form';
+import { State } from './interfaces';
 
 class App extends React.Component {
-  state: PokemonState = {
-    pokemonName: '',
+  state: State = {
+    name: '',
   };
   onSubmitNameApp = (name: string) => {
-    this.setState({ pokemonName: name });
+    this.setState({ name });
   };
   render() {
     return (
       <>
-        <h1>Pokemons</h1>
-        <PokemonForm onSubmitName={this.onSubmitNameApp} />
+        <h1>Planets</h1>
+        <Form onSubmitName={this.onSubmitNameApp} />
       </>
     );
   }

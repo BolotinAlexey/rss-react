@@ -1,25 +1,25 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
-import './PokemonForm.modules.css';
-import { PokemonState } from '../../interfaces';
+import './form.css';
+import { State } from '../../interfaces';
 
 type Props = {
   onSubmitName: (name: string) => void;
 };
 
-export default class PokemonForm extends Component<Props> {
-  state: PokemonState = {
-    pokemonName: '',
+export default class Form extends Component<Props> {
+  state: State = {
+    name: '',
   };
 
   submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const name = this.state.pokemonName.replace(/\s+/g, '').toLowerCase();
+    const name = this.state.name.replace(/\s+/g, '').toLowerCase();
     this.props.onSubmitName(name);
-    this.setState({ pokemonName: '' });
+    this.setState({ name: '' });
   };
 
   changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ pokemonName: event.target.value });
+    this.setState({ name: event.target.value });
   };
 
   render() {
@@ -29,8 +29,8 @@ export default class PokemonForm extends Component<Props> {
           className="input"
           type="text"
           onChange={this.changeHandler}
-          value={this.state.pokemonName}
-          placeholder="Enter pokemon name"
+          value={this.state.name}
+          placeholder="Enter name"
         />
         <button className="submit-button" type="submit">
           Search

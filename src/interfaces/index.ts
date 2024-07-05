@@ -1,3 +1,2 @@
-import { PokemonState } from './types';
-
-export type { PokemonState };
+export * from './types';
+export * from './interfaces';

@@ -1,4 +1,4 @@
-export enum ResourcesType {
+export enum Resources {
   Films = 'films',
   People = 'people',
   Planets = 'planets',

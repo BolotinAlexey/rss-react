@@ -1,9 +1,9 @@
 .list__card {
-  /* height: 100%; */
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  -webkit-box-shadow: var(--shadow-card);
+  -webkit-box-shadow: 3px 3px 10px#777,
+  -3px -3px 10px #777;;
   box-shadow:
     3px 3px 10px#777,
     -3px -3px 10px #777;

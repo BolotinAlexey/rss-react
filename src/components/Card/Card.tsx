@@ -1,11 +1,7 @@
 import { Component } from 'react';
 import { IPlanet } from '../../interfaces';
 import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
-// import transformToString from '../../utils/transformToString';
-
-// Date.prototype.toString = function dateToString() {
-//   return `${this.getMonth()}/${this.getDate()} of ${this.getFullYear()}`;
-// };
+import './card.css';
 
 interface CardState {
   filmTitles: string;
@@ -34,7 +30,7 @@ export default class Card extends Component<IPlanet, CardState> {
   }
 
   render() {
-    const {url, name, films, residents, created, edited, ...restProps } =
+    const { url, name, films, residents, created, edited, ...restProps } =
       this.props;
     const transformProps = {
       ...restProps,
@@ -43,8 +39,10 @@ export default class Card extends Component<IPlanet, CardState> {
     };
 
     return (
-      <div className="card">
-        <h3>{name}</h3>
+      <>
+        <h3 className="card__title">
+          Planet: <i>{name}</i>
+        </h3>
         {Object.keys(transformProps).map((key) => {
           const k = key as keyof typeof transformProps;
           return (
@@ -53,10 +51,18 @@ export default class Card extends Component<IPlanet, CardState> {
             </p>
           );
         })}
-        {!!films?.length && <p>films: [{this.state.filmTitles}]</p>}
-        {!!residents?.length && <p>residents: [{this.state.residentNames}]</p>}
+        {!!films?.length && (
+          <p>
+            <b>films:</b> [{this.state.filmTitles}]
+          </p>
+        )}
+        {!!residents?.length && (
+          <p>
+            <b>residents:</b> [{this.state.residentNames}]
+          </p>
+        )}
         {!!url && <a href={url}>link</a>}
-      </div>
+      </>
     );
   }
 }

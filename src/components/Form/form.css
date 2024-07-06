@@ -1,5 +1,7 @@
 .form {
   font-size: 2rem;
+  display: flex;
+  gap: 1rem;
 }
 .input {
   font-size: 3rem;

@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import Form from './components/Form/Form';
+import Form from './components/Form';
 import { State } from './interfaces';
-import DataView from './components/DataView/DataView';
+import DataView from './components/DataView';
 
 class App extends React.Component {
   state: State = {

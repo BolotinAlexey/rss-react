@@ -1,4 +1,4 @@
-import { Resources } from '../interfaces/enums';
+import { Resources } from '../interfaces';
 
 const URL = 'https://swapi.dev/api/';
 const resource: Resources = Resources.Planets;

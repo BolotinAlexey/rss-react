@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import { IPlanet, State } from '../../interfaces';
-import Card from '../Card/Card';
+import Card from '../Card';
 import getPage from '../../service/api';
+import './dataView.css';
 
 interface StateDataView {
   planets: IPlanet[];
@@ -29,7 +30,7 @@ export default class DataView extends Component<State, StateDataView> {
       <ul className="list">
         {this.state.planets.map((planet: IPlanet) => {
           return (
-            <li className="list__item" key={planet.name}>
+            <li className="list__card" key={planet.name}>
               <Card {...planet} />
             </li>
           );

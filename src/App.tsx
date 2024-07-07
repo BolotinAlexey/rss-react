@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
 import Form from './components/Form';
-import { State } from './interfaces';
 import DataView from './components/DataView';
 
+interface IStateApp {
+  name: string | null;
+  isError: boolean;
+}
 class App extends React.Component {
-  state: State & { isError: boolean } = {
-    name: '',
+  state: IStateApp = {
+    name: null,
     isError: false,
   };
 
@@ -19,7 +22,7 @@ class App extends React.Component {
   };
 
   render() {
-    if (this.state.isError) throw new Error('syntetic error');
+    if (this.state.isError) throw new Error('synthetic error');
     return (
       <>
         <div className="list__wrap">

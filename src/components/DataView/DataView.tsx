@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { IPlanet, State } from '../../interfaces';
+import { IPlanet } from '../../interfaces';
 import Card from '../Card';
 import getPage from '../../service/api';
 import './dataView.css';
@@ -10,7 +10,9 @@ interface StateDataView {
   isLoading: boolean;
 }
 
-type PropsDataView = State;
+interface PropsDataView {
+  name: string | null;
+}
 
 export default class DataView extends Component<PropsDataView, StateDataView> {
   state: StateDataView = {
@@ -22,7 +24,9 @@ export default class DataView extends Component<PropsDataView, StateDataView> {
     this.setState({ isLoading: true });
 
     try {
-      const list = await getPage(1, this.props.name);
+      const list = await getPage(1, this.props.name ?? '');
+      console.log(list);
+
       this.setState({ planets: list.results });
     } catch (error) {
       console.error('Failed to fetch planets', error);
@@ -31,14 +35,10 @@ export default class DataView extends Component<PropsDataView, StateDataView> {
     }
   };
 
-  componentDidMount(): void {
-    if (this.props.name === '') this.loadPage();
-  }
-
   async componentDidUpdate(prevProps: Readonly<PropsDataView>): Promise<void> {
     if (
       prevProps.name !== this.props.name ||
-      (this.props.name === '' && prevProps.name !== '')
+      (this.props.name === '' && prevProps.name === null)
     )
       this.loadPage();
   }

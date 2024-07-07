@@ -25,8 +25,6 @@ export default class DataView extends Component<PropsDataView, StateDataView> {
 
     try {
       const list = await getPage(1, this.props.name ?? '');
-      console.log(list);
-
       this.setState({ planets: list.results });
     } catch (error) {
       console.error('Failed to fetch planets', error);

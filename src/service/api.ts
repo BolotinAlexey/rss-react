@@ -1,6 +1,6 @@
+import { URL } from '../constants';
 import { Resources } from '../interfaces';
 
-const URL = 'https://swapi.dev/api/';
 const resource: Resources = Resources.Planets;
 export async function request(endpoint: string) {
   return await fetch(URL + endpoint).then((res) => res.json());

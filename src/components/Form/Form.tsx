@@ -1,7 +1,7 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
 import './form.css';
 import { State } from '../../interfaces';
-import { LS_KEY } from '../../constants/constants';
+import { LS_KEY } from '../../constants';
 
 type Props = {
   onSubmitName: (name: string) => void;

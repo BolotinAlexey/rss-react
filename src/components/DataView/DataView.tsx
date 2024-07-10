@@ -8,7 +8,6 @@ import Loader from '../Loader';
 export default function DataView({ name }: { name: string | null }) {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(name);
 
   const loadPage = async () => {
     setIsLoading(true);
@@ -16,7 +15,6 @@ export default function DataView({ name }: { name: string | null }) {
     try {
       const list = await getPage(1, name ?? '');
       setPlanets(list.results);
-      console.log(list.results, name);
     } catch (error) {
       console.error('Failed to fetch planets', error);
     } finally {

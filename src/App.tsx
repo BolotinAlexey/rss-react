@@ -4,7 +4,7 @@ import Form from './components/Form';
 import DataView from './components/DataView';
 
 function App() {
-  const [name, setName] = useState('');
+  const [name, setName] = useState<null | string>(null);
   const [isError, setIsError] = useState(false);
 
   const onSubmitNameApp = (name: string) => {

@@ -14,6 +14,7 @@ export default function DataView({ name }: { name: string | null }) {
 
     try {
       const list = await getPage(1, name ?? '');
+      console.log(list.results, name);
       setPlanets(list.results);
     } catch (error) {
       console.error('Failed to fetch planets', error);
@@ -23,7 +24,7 @@ export default function DataView({ name }: { name: string | null }) {
   };
 
   useEffect(() => {
-    loadPage();
+    if (name !== null) loadPage();
   }, [name]);
 
   return (

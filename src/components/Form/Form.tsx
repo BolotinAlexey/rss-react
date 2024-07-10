@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import './form.css';
 import { LS_KEY } from '../../constants';
 
@@ -18,6 +18,10 @@ export default function Form({ onSubmitName }: Props) {
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value.trim().toLowerCase());
   };
+
+  useEffect(() => {
+    onSubmitName(name);
+  }, []);
 
   return (
     <section className="section section-form">

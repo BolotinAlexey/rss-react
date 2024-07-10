@@ -1,42 +1,34 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
 import Form from './components/Form';
 import DataView from './components/DataView';
 
-interface IStateApp {
-  name: string | null;
-  isError: boolean;
-}
-class App extends React.Component {
-  state: IStateApp = {
-    name: null,
-    isError: false,
+function App() {
+  const [name, setName] = useState('');
+  const [isError, setIsError] = useState(false);
+
+  const onSubmitNameApp = (name: string) => {
+    setName(name);
   };
 
-  onSubmitNameApp = (name: string) => {
-    this.setState({ name });
+  const errorHandler = () => {
+    setIsError(true);
   };
 
-  errorHandler = () => {
-    this.setState({ isError: true });
-  };
-
-  render() {
-    if (this.state.isError) throw new Error('synthetic error');
-    return (
-      <>
-        <div className="list__wrap">
-          <h1>Planets</h1>
-          <button className="btn-error" onClick={this.errorHandler}>
-            Throw error
-          </button>
-        </div>
-        <Form onSubmitName={this.onSubmitNameApp} />
-        <hr />
-        <DataView name={this.state.name} />
-      </>
-    );
-  }
+  if (isError) throw new Error('synthetic error');
+  return (
+    <>
+      <div className="list__wrap">
+        <h1>Planets</h1>
+        <button className="btn-error" onClick={errorHandler}>
+          Throw error
+        </button>
+      </div>
+      <Form onSubmitName={onSubmitNameApp} />
+      <hr />
+      <DataView name={name} />
+    </>
+  );
 }
 
 export default App;

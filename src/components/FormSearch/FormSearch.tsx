@@ -6,7 +6,7 @@ type Props = {
   onSubmitName: (name: string) => void;
 };
 
-export default function Form({ onSubmitName }: Props) {
+export default function FormSearch({ onSubmitName }: Props) {
   const [name, setName, saveNameToLocalStorage] = useLS(onSubmitName);
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {

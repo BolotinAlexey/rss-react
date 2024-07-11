@@ -1,27 +1,25 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import './form.css';
-import { LS_KEY } from '../../constants';
+import useLS from '../../hooks/useLS';
 
 type Props = {
   onSubmitName: (name: string) => void;
 };
 
 export default function Form({ onSubmitName }: Props) {
-  const [name, setName] = useState(localStorage.getItem(LS_KEY) ?? '');
+  const [name, setName, saveNameToLocalStorage] = useLS(onSubmitName);
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmitName(name);
-    localStorage.setItem(LS_KEY, name);
+    if (name !== null) {
+      onSubmitName(name);
+      saveNameToLocalStorage();
+    }
   };
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value.trim().toLowerCase());
   };
-
-  useEffect(() => {
-    onSubmitName(name);
-  }, []);
 
   return (
     <section className="section section-form">

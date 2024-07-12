@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { IPlanet, IPlanetResponse } from '../../interfaces';
 import Card from '../Card';
-// import getPage from '../../service/api';
 import './dataView.css';
 import Loader from '../Loader';
 import {

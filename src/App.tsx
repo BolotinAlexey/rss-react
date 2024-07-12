@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Main from './components/Main';
-import { loaderDetails, loaderPageSearch } from './service/loaderPageSearch';
+import { loaderDetails, loaderPageSearch } from './service/loaders';
 import DetailsCard from './components/DetailsCard';
 
 function App() {

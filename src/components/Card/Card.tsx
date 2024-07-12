@@ -1,51 +1,52 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { IPlanet } from '../../interfaces';
-import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
-import './card.css';
+// import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
+// import './card.css';
+import { NavLink } from 'react-router-dom';
 
 export default function Card(planet: IPlanet) {
-  const [filmTitles, setFilmTitles] = useState('');
-  const [residentNames, setResidentNames] = useState('');
-  const { url, name, films, residents, created, edited, ...restProps } = planet;
+  // const [filmTitles, setFilmTitles] = useState('');
+  // const [residentNames, setResidentNames] = useState('');
+  // const { url, name, films, residents, created, edited, ...restProps } = planet;
 
-  const transformProps = {
-    ...restProps,
-    created: created.toString().slice(0, 10),
-    edited: edited.toString().slice(0, 10),
-  };
+  // const transformProps = {
+  //   ...restProps,
+  //   created: created.toString().slice(0, 10),
+  //   edited: edited.toString().slice(0, 10),
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (films) {
-        const filmTitles = await transformPropsArrayToString(films, 'title');
-        setFilmTitles(filmTitles);
-      }
-      if (residents) {
-        const residentNames = await transformPropsArrayToString(
-          residents,
-          'name'
-        );
-        setResidentNames(residentNames);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (films) {
+  //       const filmTitles = await transformPropsArrayToString(films, 'title');
+  //       setFilmTitles(filmTitles);
+  //     }
+  //     if (residents) {
+  //       const residentNames = await transformPropsArrayToString(
+  //         residents,
+  //         'name'
+  //       );
+  //       setResidentNames(residentNames);
+  //     }
+  //   };
 
-    fetchData();
-  });
+  //   fetchData();
+  // });
 
   return (
-    <>
+    <NavLink to={`details/${planet.name}`}>
       <h3 className="card__title">
-        Planet: <i>{name}</i>
+        Planet: <i>{planet.name}</i>
       </h3>
-      {Object.keys(transformProps).map((key) => {
+      {/* {Object.keys(transformProps).map((key) => {
         const k = key as keyof typeof transformProps;
         return (
           <p key={k}>
             <b>{k}</b>: {String(transformProps[k])}
           </p>
         );
-      })}
-      {!!films?.length && (
+      })} */}
+      {/* {!!films?.length && (
         <p>
           <b>films:</b> [{filmTitles}]
         </p>
@@ -54,8 +55,8 @@ export default function Card(planet: IPlanet) {
         <p>
           <b>residents:</b> [{residentNames}]
         </p>
-      )}
-      {!!url && <a href={url}>link</a>}
-    </>
+      )} */}
+      {/* {!!url && <a href={url}>link</a>} */}
+    </NavLink>
   );
 }

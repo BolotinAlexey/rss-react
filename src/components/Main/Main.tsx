@@ -14,16 +14,12 @@ export default function Main() {
 
   return (
     <>
-      <div className="list__wrap">
-        <h1>Planets</h1>
-      </div>
+      <h1>Planets</h1>
       <FormSearch onSubmitName={onSubmitNameApp} />
       <hr />
       <DataView name={name} />
       {state === 'idle' && <Paginator />}
-      <div className="details">
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 }

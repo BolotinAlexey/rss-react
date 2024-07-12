@@ -11,30 +11,12 @@ import {
 } from 'react-router-dom';
 
 export default function DataView({ name }: { name: string | null }) {
-  // const [planets, setPlanets] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
   const response = useLoaderData() as IPlanetResponse;
-  console.log(response);
   const planets = response.results;
   const navigate = useNavigate();
   const page = new URLSearchParams(useLocation().search).get('page') ?? 1;
 
   const { state } = useNavigation();
-
-  // const loadPage = async () => {
-  //   setIsLoading(true);
-
-  //   try {
-  //     // const list = await getPage(1, name ?? '');
-  //     // console.log(list.results, name);
-  //     // setPlanets(list.results);
-  //     navigate(`?page=${page}&search=${name}`);
-  //   } catch (error) {
-  //     console.error('Failed to fetch planets', error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   useEffect(() => {
     if (name !== null) navigate(`?page=${page}&search=${name}`);

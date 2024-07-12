@@ -1,0 +1,41 @@
+.paginator{
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+.paginator__list{
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.paginator__item{
+  width: 2rem;
+  height: 2rem;
+  /* border: solid 1px currentColor; */
+  -webkit-box-shadow:
+    3px 3px 10px#777,
+    -3px -3px 10px #777;
+  box-shadow:
+    3px 3px 10px#777,
+    -3px -3px 10px #777;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.paginator__item:has(.paginator__link.active-page) {
+  box-shadow:
+  3px 3px 10px red,
+  -3px -3px 10px red;
+}
+
+.paginator__link {
+  padding: 1rem;
+  color: currentColor;
+}
+
+.paginator__link:hover {
+  color: red;
+}

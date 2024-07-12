@@ -2,12 +2,15 @@ import { useState } from 'react';
 import DataView from '../DataView';
 import FormSearch from '../FormSearch';
 import './main.css';
+import Paginator from '../Paginator';
+import { useNavigation } from 'react-router-dom';
 
 export default function Main() {
   const [name, setName] = useState<null | string>(null);
   const onSubmitNameApp = (name: string) => {
     setName(name);
   };
+  const { state } = useNavigation();
 
   return (
     <>
@@ -17,6 +20,7 @@ export default function Main() {
       <FormSearch onSubmitName={onSubmitNameApp} />
       <hr />
       <DataView name={name} />
+      {state === 'idle' && <Paginator />}
     </>
   );
 }

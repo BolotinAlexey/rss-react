@@ -3,7 +3,7 @@ import DataView from '../DataView';
 import FormSearch from '../FormSearch';
 import './main.css';
 import Paginator from '../Paginator';
-import { useNavigation } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 
 export default function Main() {
   const [name, setName] = useState<null | string>(null);
@@ -21,6 +21,9 @@ export default function Main() {
       <hr />
       <DataView name={name} />
       {state === 'idle' && <Paginator />}
+      <div className="details">
+        <Outlet />
+      </div>
     </>
   );
 }

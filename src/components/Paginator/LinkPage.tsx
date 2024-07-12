@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
+import { LS_KEY } from '../../constants';
 
 export default function LinkPage({ page }: { page: number }) {
   const location = useLocation();
@@ -6,7 +7,13 @@ export default function LinkPage({ page }: { page: number }) {
 
   const createPageUrl = (pageNumber: number) => {
     params.set('page', pageNumber.toString());
-    return `${location.pathname}?${params.toString()}`;
+    console.log(params.get('search'));
+    if (params.get('search') === null) {
+      const word = localStorage.getItem(LS_KEY) ?? '';
+      params.set('search', word);
+    }
+
+    return `/?${params.toString()}`;
   };
 
   const isActive = () => {

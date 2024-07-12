@@ -6,5 +6,5 @@ export async function loaderPageSearch({ request }: { request: Request }) {
   console.log(page, search);
 
   const response = await getPage(parseInt(page || '1'), search);
-  return { response };
+  return response;
 }

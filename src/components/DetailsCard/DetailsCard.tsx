@@ -73,9 +73,9 @@ export default function DetailsCard() {
               <a href={url}>link</a>
             </p>
           )}
+          <CloseDetailsButton />
         </>
       )}
-      <CloseDetailsButton />
     </section>
   );
 }

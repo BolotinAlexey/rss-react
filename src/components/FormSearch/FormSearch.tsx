@@ -11,8 +11,6 @@ export default function FormSearch({ onSubmitName }: Props) {
   const [name, setName, saveNameToLocalStorage] = useLS(onSubmitName);
 
   const submitHandler = () => {
-    // event: FormEvent<HTMLFormElement>
-    // event.preventDefault();
     onSubmitName(name);
     saveNameToLocalStorage();
   };

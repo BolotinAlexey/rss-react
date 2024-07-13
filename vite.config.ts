@@ -9,5 +9,18 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      all: true,
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      exclude: ['node_modules', 'dist'],
+      thresholds: {
+        statements: 80,
+        branches: 80,
+        functions: 80,
+        lines: 80,
+      },
+    },
   },
 });

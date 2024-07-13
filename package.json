@@ -10,7 +10,7 @@
     "format:fix": "prettier --write .",
     "preview": "vite preview",
     "prepare": "npx husky && husky",
-    "test": "vitest --watch=false",
+    "test": "npx vitest run --coverage",
     "test:ui": "vitest --ui --watch=false"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.2",
     "@vitest/ui": "^2.0.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",

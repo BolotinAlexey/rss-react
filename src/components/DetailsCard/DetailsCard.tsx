@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import { IPlanet } from '../../interfaces';
 import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigation } from 'react-router-dom';
 
 import './detailsCard.css';
+import Loader from '../Loader';
+import CloseDetailsButton from './CloseDetailsButton';
 
 export default function DetailsCard() {
   const planet = useLoaderData() as IPlanet;
   const [filmTitles, setFilmTitles] = useState('');
   const [residentNames, setResidentNames] = useState('');
   const { url, name, films, residents, created, edited, ...restProps } = planet;
+  const navigation = useNavigation();
+  const isLoader =
+    navigation.location && navigation.location.pathname.includes('details');
 
   const transformProps = {
     ...restProps,
@@ -37,29 +42,40 @@ export default function DetailsCard() {
 
   return (
     <section className="section details">
-      <h2 className="details__titles">Details</h2>
-      <h3 className="card__title">
-        Planet: <i>{name}</i>
-      </h3>
-      {Object.keys(transformProps).map((key) => {
-        const k = key as keyof typeof transformProps;
-        return (
-          <p key={k}>
-            <b>{k}</b>: {String(transformProps[k])}
-          </p>
-        );
-      })}
-      {!!films?.length && (
-        <p>
-          <b>films:</b> [{filmTitles}]
-        </p>
+      {isLoader ? (
+        <Loader />
+      ) : (
+        <>
+          <h2 className="details__titles">Details</h2>
+          <h3 className="card__title-details">
+            Planet: <i>{name}</i>
+          </h3>
+          {Object.keys(transformProps).map((key) => {
+            const k = key as keyof typeof transformProps;
+            return (
+              <p className="card__item-details" key={k}>
+                <b>{k}</b>: {String(transformProps[k])}
+              </p>
+            );
+          })}
+          {!!films?.length && (
+            <p className="card__item-details">
+              <b>films:</b> [{filmTitles}]
+            </p>
+          )}
+          {!!residents?.length && (
+            <p className="card__item-details">
+              <b>residents:</b> [{residentNames}]
+            </p>
+          )}
+          {!!url && (
+            <p className="card__item-details">
+              <a href={url}>link</a>
+            </p>
+          )}
+        </>
       )}
-      {!!residents?.length && (
-        <p>
-          <b>residents:</b> [{residentNames}]
-        </p>
-      )}
-      {!!url && <a href={url}>link</a>}
+      <CloseDetailsButton />
     </section>
   );
 }

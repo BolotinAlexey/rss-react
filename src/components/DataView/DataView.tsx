@@ -16,7 +16,11 @@ export default function DataView({ name }: { name: string | null }) {
   const navigate = useNavigate();
   const page = new URLSearchParams(useLocation().search).get('page') ?? 1;
 
-  const { state } = useNavigation();
+  const navigation = useNavigation();
+  const isLoader =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has('search') &&
+    !navigation.location.pathname.includes('details');
 
   useEffect(() => {
     if (name !== null) navigate(`?page=${page}&search=${name}`);
@@ -24,7 +28,7 @@ export default function DataView({ name }: { name: string | null }) {
 
   return (
     <section className="section section-list">
-      {state === 'loading' ? (
+      {isLoader ? (
         <Loader />
       ) : planets.length ? (
         <ul className="list">

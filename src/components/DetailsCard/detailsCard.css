@@ -1,4 +1,4 @@
-.details{
+.details {
   min-width: 40%;
   padding: 1rem;
   border-left: solid 1px currentColor;
@@ -20,7 +20,6 @@
 }
 
 .card__title-details {
-  margin: 0;
   text-align: center;
 }
 .list__card-details:hover {
@@ -28,4 +27,8 @@
   box-shadow:
     3px 3px 10px red,
     -3px -3px 10px red;
+}
+
+.card__item-details {
+  margin-bottom: .7rem;
 }

@@ -27,6 +27,7 @@ export default function Main() {
   };
 
   return (
+    // todo: delete root padding and set in Main
     <div onClick={handleClickOutside}>
       <h1>Planets</h1>
       <FormSearch onSubmitName={onSubmitNameApp} />

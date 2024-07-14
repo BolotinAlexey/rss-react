@@ -1,7 +1,5 @@
-// import { useEffect, useState } from 'react';
 import { IPlanet } from '../../interfaces';
 import searchLastNumber from '../../utils/searchLastNumber';
-// import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
 import './card.css';
 import { NavLink, useLocation } from 'react-router-dom';
 

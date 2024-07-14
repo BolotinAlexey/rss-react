@@ -22,7 +22,7 @@
   animation: text 2s infinite;
 }
 .loader::before {
-  content: 'Loading';
+  content: '';
 }
 .loader::after {
   content: '';

@@ -9,5 +9,7 @@
     "strict": true,
     "noEmit": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "@testing-library/jest-dom"],
+  "types": ["vitest","jest", "node", "@testing-library/jest-dom"],
+  
 }

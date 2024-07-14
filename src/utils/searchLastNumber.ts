@@ -1,3 +1,5 @@
 export default function searchLastNumber(url: string): string {
-  return url.split('/').reduce((a, b) => (isNaN(parseInt(b)) ? a : b), '0');
+  if (!url) return '0';
+  const matches = url.match(/(\d+)/g);
+  return matches ? matches[matches.length - 1] : '0';
 }

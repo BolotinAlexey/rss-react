@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import ErrorBoundary from './ErrorBoundary';
 import { vi } from 'vitest';
 
-// Mock ErrorFallBack
 vi.mock('./ErrorFallBack', () => ({
   __esModule: true,
   default: ({

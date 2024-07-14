@@ -70,7 +70,9 @@ export default function DetailsCard() {
           )}
           {!!url && (
             <p className="card__item-details">
-              <a href={url}>link</a>
+              <a role="link" href={url}>
+                link
+              </a>
             </p>
           )}
           <CloseDetailsButton />

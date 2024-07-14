@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/23</span>
+                <span class='fraction'>23/23</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">85.71% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/23</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,63 +96,63 @@
 <a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NavLink, useLocation } from 'react-router-dom';
 import { LS_KEY } from '../../constants';
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default function LinkPage({ page }: { page: number }) {</span></span>
-<span class="cstat-no" title="statement not covered" >  const location = useLocation();</span>
-<span class="cstat-no" title="statement not covered" >  const params = new URLSearchParams(location.search);</span>
+export default function LinkPage({ page }: { page: number }) {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const createPageUrl = (pageNumber: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    params.set('page', pageNumber.toString());</span>
-<span class="cstat-no" title="statement not covered" >    if (params.get('search') === null) {</span>
-<span class="cstat-no" title="statement not covered" >      const word = localStorage.getItem(LS_KEY) ?? '';</span>
-<span class="cstat-no" title="statement not covered" >      params.set('search', word);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+  const createPageUrl = (pageNumber: number) =&gt; {
+    params.set('page', pageNumber.toString());
+    if (params.get('search') === null) {
+      const word = localStorage.getItem(LS_KEY<span class="branch-0 cbranch-no" title="branch not covered" >) ?? '';</span>
+      params.set('search', word);
+    }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return `/?${params.toString()}`;</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+    return `/?${params.toString()}`;
+  };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const isActive = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return params.get('page') === page.toString();</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+  const isActive = () =&gt; {
+    return params.get('page') === page.toString();
+  };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;NavLink</span>
-<span class="cstat-no" title="statement not covered" >      className={isActive() ? 'paginator__link active-page' : 'paginator__link'}</span>
-<span class="cstat-no" title="statement not covered" >      to={createPageUrl(page)}</span>
+  return (
+    &lt;NavLink
+      className={isActive() ? 'paginator__link active-page' : 'paginator__link'}
+      to={createPageUrl(page)}
     &gt;
-<span class="cstat-no" title="statement not covered" >      {page}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/NavLink&gt;</span>
+      {page}
+    &lt;/NavLink&gt;
   );
-<span class="cstat-no" title="statement not covered" >}</span>
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -160,7 +160,7 @@ import { LS_KEY } from '../../constants';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-14T19:55:03.137Z
+                at 2024-07-14T20:06:37.397Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

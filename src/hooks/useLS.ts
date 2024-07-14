@@ -14,6 +14,7 @@ export default function useLS(
     const lsWord = q !== null ? q : localStorage.getItem(LS_KEY) ?? '';
     setName(lsWord);
     onSubmitName(lsWord);
+    return () => saveNameToLocalStorage();
   }, []);
 
   const saveNameToLocalStorage = () => {

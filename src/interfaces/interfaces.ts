@@ -108,3 +108,10 @@ export interface IVehicle {
   url: string;
   vehicle_class: string;
 }
+
+export interface IPlanetResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: IPlanet[];
+}

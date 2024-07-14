@@ -1,0 +1,69 @@
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import Card from './Card';
+import { IPlanet } from '../../interfaces';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('../../utils/searchLastNumber', () => ({
+  default: vi
+    .fn()
+    .mockImplementation((url) => url.split('/').filter(Boolean).pop()),
+}));
+
+describe('Card component', () => {
+  const planet: IPlanet = {
+    climate: 'arid',
+    created: new Date('2014-12-09T13:50:49.641000Z'),
+    diameter: '10465',
+    edited: new Date('2014-12-20T20:58:18.411000Z'),
+    films: [
+      'https://swapi.dev/api/films/1/',
+      'https://swapi.dev/api/films/3/',
+      'https://swapi.dev/api/films/4/',
+    ],
+    gravity: '1 standard',
+    name: 'Tatooine',
+    orbital_period: '304',
+    population: '200000',
+    residents: [
+      'https://swapi.dev/api/people/1/',
+      'https://swapi.dev/api/people/2/',
+    ],
+    rotation_period: '23',
+    surface_water: '1',
+    terrain: 'desert',
+    url: 'https://swapi.dev/api/planets/1/',
+  };
+
+  const renderWithRouter = (ui: React.ReactElement) => {
+    return render(<BrowserRouter>{ui}</BrowserRouter>);
+  };
+
+  it('should render the planet name correctly', () => {
+    const { getByText } = renderWithRouter(<Card {...planet} />);
+    expect(getByText('Planet:')).toBeInTheDocument();
+    expect(getByText('Tatooine')).toBeInTheDocument();
+  });
+
+  it('should generate the correct path for NavLink', () => {
+    const { getByRole } = renderWithRouter(<Card {...planet} />);
+    const link = getByRole('link');
+    expect(link).toHaveAttribute('href', '/details/1/');
+  });
+
+  it('should append search params to the path', () => {
+    const searchParams = '?page=1&search=tatooine';
+    Object.defineProperty(window, 'location', {
+      value: {
+        ...window.location,
+        search: searchParams,
+      },
+      writable: true,
+    });
+
+    const { getByRole } = renderWithRouter(<Card {...planet} />);
+    const link = getByRole('link');
+    expect(link).toHaveAttribute('href', '/details/1/?page=1&search=tatooine');
+  });
+});

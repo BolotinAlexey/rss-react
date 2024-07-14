@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/components/Paginator/LinkPage.test.tsx</title>
+    <title>Code coverage report for src/components/ErrorBoundary/ErrorBoundary.test.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/Paginator</a> LinkPage.test.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/ErrorBoundary</a> ErrorBoundary.test.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/40</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/40</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -111,45 +111,35 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -163,54 +153,58 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import LinkPage from './LinkPage';
-import { LS_KEY } from '../../constants';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { render, screen, fireEvent } from '@testing-library/react';
+import ErrorBoundary from './ErrorBoundary';
+import React from 'react';
+import { vi } from 'vitest';
 &nbsp;
-const renderWithRouter = (ui: React.ReactElement, { route = '/' } = {}) =&gt; {
-  window.history.pushState({}, 'Test page', route);
+// Mock ErrorFallBack
+vi.mock('./ErrorFallBack', () =&gt; ({
+  __esModule: true,
+  default: ({
+    errorMessage,
+    onResetError,
+  }: {
+    errorMessage: string;
+    onResetError: () =&gt; void;
+  }) =&gt; (
+    &lt;div data-testid="error-fallback"&gt;
+      &lt;p&gt;{errorMessage}&lt;/p&gt;
+      &lt;button onClick={onResetError}&gt;reset error&lt;/button&gt;
+    &lt;/div&gt;
+  ),
+}));
 &nbsp;
-  return render(
-    &lt;MemoryRouter initialEntries={[route]}&gt;
-      &lt;Routes&gt;
-        &lt;Route path="/" element={ui} /&gt;
-      &lt;/Routes&gt;
-    &lt;/MemoryRouter&gt;
-  );
+const ProblemChild = () =&gt; {
+  throw new Error('Test error');
 };
 &nbsp;
-describe('LinkPage component', () =&gt; {
-  beforeEach(() =&gt; {
-    localStorage.setItem(LS_KEY, 'test');
+describe('ErrorBoundary', () =&gt; {
+  it('renders child component when no error is thrown', () =&gt; {
+    render(
+      &lt;ErrorBoundary&gt;
+        &lt;div data-testid="child"&gt;Child Component&lt;/div&gt;
+      &lt;/ErrorBoundary&gt;
+    );
+&nbsp;
+    expect(screen.getByTestId('child')).toBeInTheDocument();
   });
 &nbsp;
-  afterEach(() =&gt; {
-    localStorage.clear();
-  });
+  it('catches an error and displays ErrorFallBack', () =&gt; {
+    render(
+      &lt;ErrorBoundary&gt;
+        &lt;ProblemChild /&gt;
+      &lt;/ErrorBoundary&gt;
+    );
 &nbsp;
-  it('renders NavLink with the correct page number', () =&gt; {
-    renderWithRouter(&lt;LinkPage page={1} /&gt;);
-&nbsp;
-    const linkElement = screen.getByText('1');
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveClass('paginator__link');
-  });
-&nbsp;
-  it('sets the correct URL in the NavLink', () =&gt; {
-    renderWithRouter(&lt;LinkPage page={2} /&gt;, { route: '/?page=1&amp;search=test' });
-&nbsp;
-    const linkElement = screen.getByText('2');
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', '/?page=2&amp;search=test');
-  });
-&nbsp;
-  it('applies the active-page class when the link is active', () =&gt; {
-    renderWithRouter(&lt;LinkPage page={2} /&gt;, { route: '/?page=2&amp;search=test' });
-&nbsp;
-    const linkElement = screen.getByText('2');
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveClass('active-page');
+    expect(screen.getByTestId('error-fallback')).toBeInTheDocument();
+    expect(screen.getByText(/Test error/)).toBeInTheDocument();
   });
 });
 &nbsp;</pre></td></tr></table></pre>

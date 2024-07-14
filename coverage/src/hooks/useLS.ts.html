@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.78% </span>
+                <span class="strong">89.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/19</span>
+                <span class='fraction'>17/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.78% </span>
+                <span class="strong">89.47% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/19</span>
+                <span class='fraction'>17/19</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,50 +91,50 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { LS_KEY } from '../constants';
 import { useLocation } from 'react-router-dom';
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default function useLS(</span></span>
-<span class="cstat-no" title="statement not covered" >  onSubmitName: (name: string) =&gt; void</span>
-<span class="cstat-no" title="statement not covered" >): [string, Dispatch&lt;SetStateAction&lt;string&gt;&gt;, () =&gt; void] {</span>
-<span class="cstat-no" title="statement not covered" >  const [name, setName] = useState('');</span>
+export default function useLS(
+  onSubmitName: (name: string) =&gt; void
+): [string, Dispatch&lt;SetStateAction&lt;string&gt;&gt;, () =&gt; void] {
+  const [name, setName] = useState('');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const { search } = useLocation();</span>
+  const { search } = useLocation();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const q = new URLSearchParams(search).get('search');</span>
-<span class="cstat-no" title="statement not covered" >    const lsWord = q !== null ? q : localStorage.getItem(LS_KEY) ?? '';</span>
-<span class="cstat-no" title="statement not covered" >    setName(lsWord);</span>
-<span class="cstat-no" title="statement not covered" >    onSubmitName(lsWord);</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
+  useEffect(() =&gt; {
+    const q = new URLSearchParams(search).get('search');
+    const lsWord = q !== null ? <span class="branch-0 cbranch-no" title="branch not covered" >q : localStorage.getItem(LS_KEY) ?? '';</span>
+    setName(lsWord);
+    onSubmitName(lsWord);
+  }, []);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const saveNameToLocalStorage = () =&gt; {</span>
+  const saveNameToLocalStorage = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    localStorage.setItem(LS_KEY, name);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return [name, setName, saveNameToLocalStorage];</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+  return [name, setName, saveNameToLocalStorage];
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -142,7 +142,7 @@ import { useLocation } from 'react-router-dom';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-14T18:04:12.218Z
+                at 2024-07-14T19:55:03.137Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

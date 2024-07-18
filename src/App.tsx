@@ -4,6 +4,7 @@ import { loaderDetails, loaderPageSearch } from './service/loaders';
 import DetailsCard from './components/DetailsCard';
 import { createPortal } from 'react-dom';
 import ErrorPage from './pages/ErrorPage';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   const router = createBrowserRouter([
@@ -19,6 +20,10 @@ function App() {
           loader: loaderDetails,
         },
       ],
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ]);
 

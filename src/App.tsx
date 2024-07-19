@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Main from './components/Main';
 import { loaderDetails, loaderPageSearch } from './service/loaders';
 import DetailsCard from './components/DetailsCard';
-import { createPortal } from 'react-dom';
 import ErrorPage from './pages/ErrorPage';
 import NotFound from './pages/NotFound/NotFound';
 import { useTheme } from './hooks/useTheme';
@@ -22,7 +21,7 @@ function App() {
       children: [
         {
           path: '/details/:namePlanet',
-          element: createPortal(<DetailsCard />, document.body),
+          element: <DetailsCard />,
           loader: loaderDetails,
         },
       ],

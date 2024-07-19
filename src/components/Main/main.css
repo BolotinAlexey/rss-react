@@ -3,9 +3,14 @@
   padding: 0;
 }
 
-.main {
+.main-wrap {
+  display: flex;
+}
+
+.left-section {
   padding: 2rem;
-  min-height: calc(100vh - 28px);
+  min-height: calc(100vh - 2rem);
+  flex-grow: 1;
 }
 
 .section {

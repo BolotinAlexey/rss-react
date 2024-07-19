@@ -31,10 +31,10 @@ input[type='checkbox'] {
 }
 
 header {
-  /* width: 100vw; */
+  width: 100vw;
   min-height: 2rem;
   display: flex;
-  /* justify-content: right; */
+  justify-content: right;
   align-items: center;
 }
 

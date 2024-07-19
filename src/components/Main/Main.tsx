@@ -17,23 +17,23 @@ export default function Main() {
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     const { target } = event;
     if (!(target instanceof HTMLElement)) return;
-    if (
-      !target.closest('.list__card') &&
-      !target.closest('.details') &&
-      location.pathname.includes('/details/')
-    ) {
+    if (location.pathname.includes('/details/')) {
       navigate(`/${location.search}`, { replace: true });
     }
   };
 
   return (
-    <section className="secton main" onClick={handleClickOutside}>
-      <h1>Planets</h1>
-      <FormSearch onSubmitName={onSubmitNameApp} />
-      <hr />
-      <DataView name={name} />
-      <Paginator />
-      <Outlet />
+    <section className="main-wrap">
+      <div className="left-section" onClick={handleClickOutside}>
+        <h1>Planets</h1>
+        <FormSearch onSubmitName={onSubmitNameApp} />
+        <hr />
+        <DataView name={name} />
+        <Paginator />
+      </div>
+      <div className="right-section">
+        <Outlet />
+      </div>
     </section>
   );
 }

@@ -5,10 +5,11 @@
 
 .main {
   padding: 2rem;
+  min-height: calc(100vh - 28px);
 }
 
 .section {
-  margin: 2rem 0;
+  margin: 2rem 0 0;
 }
 .list__wrap {
   display: flex;

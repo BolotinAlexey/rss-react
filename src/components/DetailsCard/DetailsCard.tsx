@@ -6,8 +6,12 @@ import { useLoaderData, useNavigation } from 'react-router-dom';
 import './detailsCard.css';
 import Loader from '../Loader';
 import CloseDetailsButton from './CloseDetailsButton';
+import { useTheme } from '../../hooks/useTheme';
+import styleTheme from '../../utils/styleTheme';
 
 export default function DetailsCard() {
+  const [theme] = useTheme();
+  const themeStyles = styleTheme(theme);
   const planet = useLoaderData() as IPlanet;
   const [filmTitles, setFilmTitles] = useState('');
   const [residentNames, setResidentNames] = useState('');
@@ -41,7 +45,7 @@ export default function DetailsCard() {
   });
 
   return (
-    <section className="section details">
+    <section style={themeStyles} className="section details">
       {isLoader ? (
         <Loader />
       ) : (

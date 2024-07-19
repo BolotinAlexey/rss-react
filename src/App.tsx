@@ -5,8 +5,14 @@ import DetailsCard from './components/DetailsCard';
 import { createPortal } from 'react-dom';
 import ErrorPage from './pages/ErrorPage';
 import NotFound from './pages/NotFound/NotFound';
+import { useTheme } from './hooks/useTheme';
+import styleTheme from './utils/styleTheme';
 
 function App() {
+  const [theme] = useTheme();
+
+  const themeStyles = styleTheme(theme);
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -27,7 +33,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <main style={themeStyles}>
+      <RouterProvider router={router} />
+    </main>
+  );
 }
 
 export default App;

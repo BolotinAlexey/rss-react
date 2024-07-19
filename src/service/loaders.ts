@@ -10,7 +10,6 @@ export async function loaderPageSearch({ request }: { request: Request }) {
 }
 
 export async function loaderDetails({ request }: { request: Request }) {
-  console.log(request);
   const detailsNumber: number = getDetailsNumber(request.url);
   const response = await getDetails(detailsNumber);
   return response;

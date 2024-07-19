@@ -17,6 +17,7 @@
   margin: 0;
   text-align: center;
 }
+
 .list__card:hover {
   cursor: pointer;
   box-shadow:

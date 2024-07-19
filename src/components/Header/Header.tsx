@@ -12,6 +12,7 @@ export default function Header() {
             onChange={toggleTheme}
             className="switcher__input"
             type="checkbox"
+            aria-label="Toggle theme"
             name="theme"
           />
           <span className="switcher__icon-sun switcher__icon flex-center">

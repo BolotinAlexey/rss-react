@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import * as Module from './Loader';
+import * as Module from './Header';
 import ReExportedModule from './index';
 
 describe('index.ts re-export', () => {

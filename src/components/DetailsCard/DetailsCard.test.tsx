@@ -94,7 +94,7 @@ describe('DetailsCard component', () => {
           screen.getByText('residents: [Luke Skywalker, C-3PO]')
         ).toBeInTheDocument();
       });
-    }, 1000);
+    });
   });
 
   it('should render the correct link for the planet', () => {

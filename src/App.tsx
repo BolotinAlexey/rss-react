@@ -9,6 +9,7 @@ import styleTheme from './utils/styleTheme';
 
 function App() {
   const [theme] = useTheme();
+  const cls: string = theme ? 'dark' : 'light';
 
   const themeStyles = styleTheme(theme);
 
@@ -33,7 +34,7 @@ function App() {
   ]);
 
   return (
-    <main style={themeStyles}>
+    <main style={themeStyles} className={cls}>
       <RouterProvider router={router} />
     </main>
   );

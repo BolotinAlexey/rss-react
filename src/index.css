@@ -30,6 +30,15 @@ body {
   margin: 0;
   display: flex;
   min-height: 100vh;
+  color: #2b3f5b;
+  background-color: #f6f5f2;
+}
+body:has(.dark) {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  background-color: #2b3f5b;
+  color: #f6f5f2;
 }
 
 h1 {

@@ -2,7 +2,7 @@ import { useTheme } from '../../hooks/useTheme';
 import './header.css';
 
 export default function Header() {
-  const [_, toggleTheme] = useTheme();
+  const [, toggleTheme] = useTheme();
 
   return (
     <header>

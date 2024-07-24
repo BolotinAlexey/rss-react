@@ -4,7 +4,7 @@
   --accent-color: #cc8e1e;
 }
 
-input[type='checkbox'] {
+.switcher__input {
   display: none;
 }
 

@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Main from './components/Main';
-import { loaderDetails, loaderPageSearch } from './service/loaders';
+import { loaderDetails } from './service/loaders';
 import DetailsCard from './components/DetailsCard';
 import ErrorPage from './pages/ErrorPage';
 import NotFound from './pages/NotFound/NotFound';
@@ -17,7 +17,7 @@ function App() {
     {
       path: '/',
       element: <Main />,
-      loader: loaderPageSearch,
+      // loader: loaderPageSearch,
       errorElement: <ErrorPage />,
       children: [
         {

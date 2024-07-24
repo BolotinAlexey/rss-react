@@ -29,5 +29,6 @@ export const useGetPlanetsQuery: (arg: {
 
 export const useGetDetailsQuery: (arg: {
   id: number;
+  skip: boolean;
 }) => ReturnType<typeof apiSW.endpoints.getDetails.useQuery> =
   apiSW.endpoints.getDetails.useQuery;

@@ -16,8 +16,11 @@ const currentCardSlice = createSlice({
     setCurrentCard(state, action: PayloadAction<IPlanet | null>) {
       state.currentCard = action.payload;
     },
+    resetCurrentCard(state) {
+      state.currentCard = null;
+    },
   },
 });
 
-export const { setCurrentCard } = currentCardSlice.actions;
+export const { setCurrentCard, resetCurrentCard } = currentCardSlice.actions;
 export default currentCardSlice.reducer;

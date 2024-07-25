@@ -11,8 +11,6 @@ export default function Paginator() {
   const page = Number.parseInt(params.get('page') || '1');
   const { data } = useGetPlanetsQuery({ page, search });
 
-  // const response = useLoaderData() as IPlanetResponse;
-
   const number = data?.count ? Math.ceil(Number.parseInt(data?.count) / 10) : 0;
 
   if (!data) return null;

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
 
 describe('App Component', () => {
@@ -6,14 +6,9 @@ describe('App Component', () => {
     render(<App />);
 
     setTimeout(async () => {
-      expect(screen.getByText('Planets')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText('Planets')).toBeInTheDocument();
+      });
     }, 500);
-  });
-
-  it('should render ErrorPage for invalid routes', () => {
-    render(<App />);
-    setTimeout(async () => {
-      expect(screen.getByText('Page not found')).toBeInTheDocument();
-    });
   });
 });

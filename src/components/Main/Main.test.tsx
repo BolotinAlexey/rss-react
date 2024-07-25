@@ -1,6 +1,8 @@
 import { vi } from 'vitest';
 import Main from './Main';
 import { render, screen } from '@testing-library/react';
+import store from '../../store';
+import { Provider } from 'react-redux';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
@@ -28,7 +30,11 @@ vi.mock('../Paginator', () => ({
 }));
 
 it('renders the header "Planets"', () => {
-  render(<Main />);
+  render(
+    <Provider store={store}>
+      <Main />
+    </Provider>
+  );
 
   const headerElement = screen.getByRole('heading', { name: /Planets/i });
   expect(headerElement).toBeInTheDocument();

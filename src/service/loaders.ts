@@ -1,5 +1,5 @@
-import getDetailsNumber from '../utils/getDetailsNumber';
-import { getDetails } from './api';
+// import getDetailsNumber from '../utils/getDetailsNumber';
+// import { getDetails } from './api';
 
 // export async function loaderPageSearch({ request }: { request: Request }) {
 //   const url = new URL(request.url);
@@ -9,8 +9,8 @@ import { getDetails } from './api';
 //   return response;
 // }
 
-export async function loaderDetails({ request }: { request: Request }) {
-  const detailsNumber: number = getDetailsNumber(request.url);
-  const response = await getDetails(detailsNumber);
-  return response;
-}
+// export async function loaderDetails({ request }: { request: Request }) {
+//   const detailsNumber: number = getDetailsNumber(request.url);
+//   const response = await getDetails(detailsNumber);
+//   return response;
+// }

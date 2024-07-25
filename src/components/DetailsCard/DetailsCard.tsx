@@ -7,9 +7,9 @@ import { useTheme } from '../../hooks/useTheme';
 import styleTheme from '../../utils/styleTheme';
 import { useDispatch } from 'react-redux';
 import { useGetDetailsQuery } from '../../service/apiRtk';
+import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
 import './detailsCard.css';
-import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
 export default function DetailsCard() {
   const [theme] = useTheme();
@@ -18,10 +18,9 @@ export default function DetailsCard() {
   const [residentNames, setResidentNames] = useState('');
   const dispatch = useDispatch();
 
-  let id = 0;
   const params = useParams();
   const detailsNumber: string | undefined = params?.namePlanet;
-  if (detailsNumber) id = Number(detailsNumber);
+  const id = detailsNumber ? Number(detailsNumber) : 0;
 
   const {
     data: planet,
@@ -31,13 +30,16 @@ export default function DetailsCard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (films) {
-        const filmTitles = await transformPropsArrayToString(films, 'title');
+      if (planet?.films) {
+        const filmTitles = await transformPropsArrayToString(
+          planet.films,
+          'title'
+        );
         setFilmTitles(filmTitles);
       }
-      if (residents) {
+      if (planet?.residents) {
         const residentNames = await transformPropsArrayToString(
-          residents,
+          planet.residents,
           'name'
         );
         setResidentNames(residentNames);
@@ -45,9 +47,16 @@ export default function DetailsCard() {
     };
 
     fetchData();
-  });
-  if (!planet) return null;
-  dispatch(setCurrentCard(planet));
+  }, [planet]);
+
+  useEffect(() => {
+    if (planet) {
+      dispatch(setCurrentCard(planet));
+    }
+  }, [planet, dispatch]);
+
+  if (error) return <>Error: {error.message}</>;
+  if (!id || !planet) return null;
 
   const { url, name, films, residents, created, edited, ...restProps } = planet;
 
@@ -57,47 +66,43 @@ export default function DetailsCard() {
     edited: edited.toString().slice(0, 10),
   };
 
-  if (error) return <> Error: {error.message}</>;
-
   return (
     <section style={themeStyles} className="section details">
-      {isFetching ? (
+      {isFetching || !planet ? (
         <Loader />
       ) : (
-        { planet } && (
-          <>
-            <h2 className="details__titles">Details</h2>
-            <h3 className="card__title-details">
-              Planet: <i>{name}</i>
-            </h3>
-            {Object.keys(transformProps).map((key) => {
-              const k = key as keyof typeof transformProps;
-              return (
-                <p className="card__item-details" key={k.toString()}>
-                  <b>{k.toString()}</b>: {String(transformProps[k])}
-                </p>
-              );
-            })}
-            {!!films?.length && (
-              <p className="card__item-details">
-                <b>films:</b> [{filmTitles}]
+        <>
+          <h2 className="details__titles">Details</h2>
+          <h3 className="card__title-details">
+            Planet: <i>{name}</i>
+          </h3>
+          {Object.keys(transformProps).map((key) => {
+            const k = key as keyof typeof transformProps;
+            return (
+              <p className="card__item-details" key={k.toString()}>
+                <b>{k.toString()}</b>: {String(transformProps[k])}
               </p>
-            )}
-            {!!residents?.length && (
-              <p className="card__item-details">
-                <b>residents:</b> [{residentNames}]
-              </p>
-            )}
-            {!!url && (
-              <p className="card__item-details">
-                <a role="link" href={url}>
-                  link
-                </a>
-              </p>
-            )}
-            <CloseDetailsButton />
-          </>
-        )
+            );
+          })}
+          {!!films?.length && (
+            <p className="card__item-details">
+              <b>films:</b> [{filmTitles}]
+            </p>
+          )}
+          {!!residents?.length && (
+            <p className="card__item-details">
+              <b>residents:</b> [{residentNames}]
+            </p>
+          )}
+          {!!url && (
+            <p className="card__item-details">
+              <a role="link" href={url}>
+                link
+              </a>
+            </p>
+          )}
+          <CloseDetailsButton />
+        </>
       )}
     </section>
   );

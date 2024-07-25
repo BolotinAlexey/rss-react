@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { IPlanet } from '../../interfaces';
 import searchLastNumber from '../../utils/searchLastNumber';
-import './card.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
+
+import './card.css';
 
 export default function Card(planet: IPlanet) {
   const location = useLocation();
@@ -19,13 +20,18 @@ export default function Card(planet: IPlanet) {
   );
   const isSelected = selectedCards.some((card) => card.name === planet.name);
 
-  const handleClick = () => {
-    // dispatch(setCurrentCardId(planet.name));
-    // dispatch(setCurrentCard(planet));
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (
+      e.target instanceof HTMLLabelElement ||
+      e.target instanceof HTMLInputElement
+    )
+      return;
     navigate(path);
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     if (e.target.checked) {
       dispatch(addCard(planet));
     } else {
@@ -34,11 +40,22 @@ export default function Card(planet: IPlanet) {
   };
 
   return (
-    <div className="card__wrap" onClick={handleClick}>
-      <h3 className="card__title">
-        Planet: <i>{planet.name}</i>
-      </h3>
-      <input type="checkbox" checked={isSelected} onChange={handleSelect} />
-    </div>
+    <>
+      <div className="card__wrap" onClick={handleClick}>
+        <h3 className="card__title">
+          Planet: <i>{planet.name}</i>
+        </h3>
+
+        <label className="card__label" htmlFor={planet.name}>
+          <input
+            id={planet.name}
+            type="checkbox"
+            checked={isSelected}
+            onChange={handleSelect}
+          />
+          {isSelected ? 'remove from favorites' : 'add to favorites'}
+        </label>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Main from './components/Main';
-import { loaderDetails } from './service/loaders';
 import DetailsCard from './components/DetailsCard';
 import ErrorPage from './pages/ErrorPage';
 import NotFound from './pages/NotFound/NotFound';
@@ -17,13 +16,11 @@ function App() {
     {
       path: '/',
       element: <Main />,
-      // loader: loaderPageSearch,
       errorElement: <ErrorPage />,
       children: [
         {
           path: '/details/:namePlanet',
           element: <DetailsCard />,
-          loader: loaderDetails,
         },
       ],
     },

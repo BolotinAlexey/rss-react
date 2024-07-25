@@ -4,11 +4,14 @@ import FormSearch from '../FormSearch';
 import './main.css';
 import Paginator from '../Paginator';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 
 export default function Main() {
   const [name, setName] = useState<null | string>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const onSubmitNameApp = (name: string) => {
     setName(name);
@@ -20,6 +23,8 @@ export default function Main() {
     if (location.pathname.includes('/details/')) {
       navigate(`/${location.search}`, { replace: true });
     }
+    // navigate(`/${location.search}`, { replace: true });
+    dispatch(resetCurrentCard());
   };
 
   return (

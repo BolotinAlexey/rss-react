@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import DataView from '../DataView';
 import FormSearch from '../FormSearch';
-import './main.css';
 import Paginator from '../Paginator';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
+import FlyOut from '../FlyOut/FlyOut';
+
+import './main.css';
 
 export default function Main() {
   const [name, setName] = useState<null | string>(null);
@@ -35,6 +37,7 @@ export default function Main() {
         <hr />
         <DataView name={name} />
         <Paginator />
+        <FlyOut />
       </div>
       <div className="right-section">
         <Outlet />

@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { apiSW } from '../service/apiRtk';
 import cardsSlice from './slices/cardsSlice';
 import currentCardSlice from './slices/currentCardSlice';
-// import { setupListeners } from '@reduxjs/toolkit/query';
 
 const store = configureStore({
   reducer: {

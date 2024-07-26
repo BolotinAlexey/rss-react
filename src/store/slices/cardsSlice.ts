@@ -21,8 +21,11 @@ const cardsSlice = createSlice({
         (card) => card.name !== action.payload
       );
     },
+    clearCards(state) {
+      state.selectedCards = [];
+    },
   },
 });
 
-export const { addCard, removeCard } = cardsSlice.actions;
+export const { addCard, removeCard, clearCards } = cardsSlice.actions;
 export default cardsSlice.reducer;

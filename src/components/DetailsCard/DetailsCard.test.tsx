@@ -2,9 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter, useParams } from 'react-router-dom';
 import DetailsCard from './DetailsCard';
-// import { IPlanet } from '../../interfaces';
 import { describe, it, Mock, vi } from 'vitest';
-import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
 import { Provider } from 'react-redux';
 import store from '../../store';
 
@@ -19,94 +17,43 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-const mockTransformPropsArrayToString = transformPropsArrayToString as Mock;
+vi.mock('../../utils/transformPropsArrayToString', () => ({
+  __esModule: true,
+  default: vi.fn(() => Promise.resolve('Mocked String')),
+}));
 
 describe('DetailsCard component', () => {
-  // const planet: IPlanet = {
-  //   climate: 'arid',
-  //   created: new Date('2014-12-09T13:50:49.641000Z'),
-  //   diameter: '10465',
-  //   edited: new Date('2014-12-20T20:58:18.411000Z'),
-  //   films: [
-  //     'https://swapi.dev/api/films/1/',
-  //     'https://swapi.dev/api/films/3/',
-  //     'https://swapi.dev/api/films/4/',
-  //   ],
-  //   gravity: '1 standard',
-  //   name: 'Tatooine',
-  //   orbital_period: '304',
-  //   population: '200000',
-  //   residents: [
-  //     'https://swapi.dev/api/people/1/',
-  //     'https://swapi.dev/api/people/2/',
-  //   ],
-  //   rotation_period: '23',
-  //   surface_water: '1',
-  //   terrain: 'desert',
-  //   url: 'https://swapi.dev/api/planets/1/',
-  // };
-
-  const renderWithRouter = (ui: React.ReactElement) => {
-    return render(<BrowserRouter>{ui}</BrowserRouter>);
-  };
-
   beforeEach(() => {
     (useParams as Mock).mockReset();
-    if (typeof mockTransformPropsArrayToString.mockReset === 'function')
-      mockTransformPropsArrayToString.mockReset();
+    vi.clearAllMocks();
   });
-
-  // it('should render the loader when navigation is in progress', async () => {
-  //   (useParams as Mock).mockReturnValue({ namePlanet: '1' });
-
-  //   renderWithRouter(
-  //     <Provider store={store}>
-  //       <DetailsCard />
-  //     </Provider>
-  //   );
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText('Loading..')).toBeInTheDocument();
-  //   });
-  // });
 
   it('should render the planet details correctly', async () => {
     (useParams as Mock).mockReturnValue({ namePlanet: '1' });
 
-    if (typeof mockTransformPropsArrayToString.mockReset === 'function')
-      mockTransformPropsArrayToString
-        .mockResolvedValueOnce('Film 1, Film 3, Film 4')
-        .mockResolvedValueOnce('Luke Skywalker, C-3PO');
-
-    renderWithRouter(
+    render(
       <Provider store={store}>
-        <DetailsCard />
+        <BrowserRouter>
+          <DetailsCard />
+        </BrowserRouter>
       </Provider>
     );
 
-    setTimeout(async () => {
-      await waitFor(() => {
-        expect(screen.getByText('Planet:')).toBeInTheDocument();
-        expect(screen.getByText('Tatooine')).toBeInTheDocument();
-        expect(screen.getByText('climate: arid')).toBeInTheDocument();
-        expect(screen.getByText('diameter: 10465')).toBeInTheDocument();
-        expect(screen.getByText('gravity: 1 standard')).toBeInTheDocument();
-        expect(
-          screen.getByText('films: [Film 1, Film 3, Film 4]')
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText('residents: [Luke Skywalker, C-3PO]')
-        ).toBeInTheDocument();
-      });
-    }, 500);
+    await waitFor(() => {
+      expect(screen.getByText('Details')).toBeInTheDocument();
+      expect(screen.getByText('Planet:')).toBeInTheDocument();
+      expect(screen.getByText('Tatooine')).toBeInTheDocument();
+    });
   });
 
   it('should render the correct link for the planet', async () => {
     (useParams as Mock).mockReturnValue({ namePlanet: '1' });
 
-    renderWithRouter(
+    render(
       <Provider store={store}>
-        <DetailsCard />
+        <BrowserRouter>
+          <DetailsCard />
+        </BrowserRouter>
       </Provider>
     );
 

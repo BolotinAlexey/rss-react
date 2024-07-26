@@ -1,10 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
-import Paginator from '../Paginator'; // Replace with your actual component path
+import Paginator from '../Paginator';
 import { Provider } from 'react-redux';
 import store from '../../store';
-import { useGetPlanetsQuery } from '../../service/apiRtk'; // Ensure correct import
+import { useGetPlanetsQuery } from '../../service/apiRtk';
 
 vi.mock('../../service/apiRtk', async (importOriginal) => {
   const actual = (await importOriginal()) as object;

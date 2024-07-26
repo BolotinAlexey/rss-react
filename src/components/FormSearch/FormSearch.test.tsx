@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import FormSearch from '../FormSearch'; // Replace with your actual component path
+import FormSearch from '../FormSearch';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-// Mock the useLS hook
 vi.mock('../../hooks/useLS', () => ({
   __esModule: true,
   default: () => ['', vi.fn(), vi.fn()],

@@ -52,35 +52,4 @@ describe('Card component', () => {
     expect(getByText('Planet:')).toBeInTheDocument();
     expect(getByText('Tatooine')).toBeInTheDocument();
   });
-
-  // it('should generate the correct path for NavLink', () => {
-  //   const { getByRole } = renderWithRouter(
-  //     <Provider store={store}>
-  //       <Card {...planet} />
-  //     </Provider>
-  //   );
-  //   const link = getByRole('link');
-
-  //   expect(link).toHaveAttribute('href', '/details/1/');
-  // });
-
-  // it('should append search params to the path', () => {
-  //   const searchParams = '?page=1&search=tatooine';
-  //   Object.defineProperty(window, 'location', {
-  //     value: {
-  //       ...window.location,
-  //       search: searchParams,
-  //     },
-  //     writable: true,
-  //   });
-
-  //   const { getByRole } = renderWithRouter(
-  //     <Provider store={store}>
-  //       <Card {...planet} />
-  //     </Provider>
-  //   );
-  //   const link = getByRole('link');
-
-  //   expect(link).toHaveAttribute('href', '/details/1/?page=1&search=tatooine');
-  // });
 });

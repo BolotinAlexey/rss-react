@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-// import DataView from './DataView';
 import { IPlanet } from '../../interfaces';
 import { describe, expect, it, vi } from 'vitest';
 import Card from '../Card';

@@ -25,7 +25,6 @@ export default function Main() {
     if (location.pathname.includes('/details/')) {
       navigate(`/${location.search}`, { replace: true });
     }
-    // navigate(`/${location.search}`, { replace: true });
     dispatch(resetCurrentCard());
   };
 

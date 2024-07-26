@@ -7,18 +7,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetPlanetsQuery } from '../../service/apiRtk';
 
 export default function DataView({ name }: { name: string | null }) {
-  // const response = useLoaderData() as IPlanetResponse;
-  // const planets = response.results;
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const search = params.get('search') || '';
   const page = Number.parseInt(params.get('page') || '1');
-  // const navigation = useNavigation();
-  // const isLoader =
-  //   navigation.location &&
-  //   new URLSearchParams(navigation.location.search).has('search') &&
-  //   !navigation.location.pathname.includes('details');
 
   const { data, isFetching, error } = useGetPlanetsQuery({ page, search });
 

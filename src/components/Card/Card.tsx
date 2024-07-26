@@ -48,6 +48,7 @@ export default function Card(planet: IPlanet) {
 
         <label className="card__label" htmlFor={planet.name}>
           <input
+            className="card__input"
             id={planet.name}
             type="checkbox"
             checked={isSelected}

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { clearCards } from '../../store/slices/cardsSlice';
+import { clearCards } from '../../../store/slices/cardsSlice';
 
 export default function UnselectButton() {
   const dispatch = useDispatch();

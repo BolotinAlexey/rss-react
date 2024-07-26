@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-
-import './flyOut.css';
 import { useTheme } from '../../hooks/useTheme';
 import styleTheme from '../../utils/styleTheme';
-import UnselectButton from '../UnselectButton/UnselectButton';
+import UnselectButton from './UnselectButton';
+import DownloadButton from './DownloadButton';
+
+import './flyOut.css';
 
 export default function FlyOut() {
   const num = useSelector(
@@ -17,7 +18,7 @@ export default function FlyOut() {
     <div style={themeStyles} className={num ? 'fly show' : 'fly'}>
       <UnselectButton />
       <p>{num} items are selected</p>
-      <button>Download</button>
+      <DownloadButton />
     </div>
   );
 }

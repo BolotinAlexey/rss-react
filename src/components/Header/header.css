@@ -62,4 +62,5 @@ header {
   display: flex;
   width: 52px;
   height: 28px;
+  cursor: pointer;
 }

@@ -20,7 +20,7 @@ export default defineConfig({
         'dist',
         'src/main.tsx',
         'src/**/*.test.*',
-        'src/test/**',
+        'src/tests/',
       ],
       thresholds: {
         statements: 80,

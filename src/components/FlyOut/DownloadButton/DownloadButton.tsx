@@ -6,7 +6,7 @@ import {
   createCsvBlob,
   createCsvUrl,
   revokeCsvUrl,
-} from '../../../utils/downloatCsv';
+} from '../../../utils/downloadCsv';
 
 export default function DownloadButton() {
   const cards = useSelector((state: RootState) => state.cards.selectedCards);

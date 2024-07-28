@@ -1,57 +1,44 @@
-import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter, useParams } from 'react-router-dom';
-import DetailsCard from './DetailsCard';
-import { describe, it, Mock, vi } from 'vitest';
+import { describe, it, expect, vi, Mock } from 'vitest';
 import { Provider } from 'react-redux';
-import store from '../../store';
+import { BrowserRouter } from 'react-router-dom';
+import DetailsCard from './DetailsCard';
+import { setCurrentCard } from '../../store/slices/currentCardSlice';
+import store from '../../store/store';
+import { useGetDetailsQuery } from '../../service/apiRtk';
 
-vi.mock('react-router-dom', async () => {
-  const originalModule =
-    await vi.importActual<typeof import('react-router-dom')>(
-      'react-router-dom'
-    );
+vi.mock('../../service/apiRtk', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react-redux');
   return {
-    ...originalModule,
-    useParams: vi.fn(),
+    ...actual,
+    useGetDetailsQuery: vi.fn(),
   };
 });
 
 vi.mock('../../utils/transformPropsArrayToString', () => ({
-  __esModule: true,
-  default: vi.fn(() => Promise.resolve('Mocked String')),
+  default: vi.fn().mockResolvedValue('mocked string'),
 }));
 
-describe('DetailsCard component', () => {
-  beforeEach(() => {
-    (useParams as Mock).mockReset();
-    vi.clearAllMocks();
-  });
+vi.mock('../../utils/styleTheme', () => ({
+  default: vi.fn().mockReturnValue({ backgroundColor: 'white' }),
+}));
 
-  it('should render the planet details correctly', async () => {
-    (useParams as Mock).mockReturnValue({ namePlanet: '1' });
+vi.mock('../../hooks/useTheme', () => ({
+  useTheme: () => ['light'],
+}));
 
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <DetailsCard />
-        </BrowserRouter>
-      </Provider>
-    );
+// Mock CloseDetailsButton component
+vi.mock('./CloseDetailsButton', () => ({
+  default: () => <button>Close</button>,
+}));
 
-    setTimeout(
-      async () =>
-        await waitFor(() => {
-          expect(screen.getByText('Details')).toBeInTheDocument();
-          expect(screen.getByText('Planet:')).toBeInTheDocument();
-          expect(screen.getByText('Tatooine')).toBeInTheDocument();
-        }),
-      1000
-    );
-  });
-
-  it('should render the correct link for the planet', async () => {
-    (useParams as Mock).mockReturnValue({ namePlanet: '1' });
+describe('DetailsCard Component', () => {
+  it('should display error message if there is an error', () => {
+    (useGetDetailsQuery as Mock).mockReturnValue({
+      data: null,
+      isFetching: false,
+      error: { message: 'Error message' },
+    });
 
     render(
       <Provider store={store}>
@@ -61,16 +48,50 @@ describe('DetailsCard component', () => {
       </Provider>
     );
 
-    setTimeout(
-      async () =>
-        await waitFor(() => {
-          const link = screen.getByRole('link');
-          expect(link).toHaveAttribute(
-            'href',
-            'https://swapi.dev/api/planets/1/'
-          );
-        }),
-      1000
+    expect(screen.getByText('Error: Error message')).toBeInTheDocument();
+  });
+
+  it('should dispatch setCurrentCard action when data is fetched', async () => {
+    const mockPlanet = {
+      climate: 'arid',
+      created: new Date('2014-12-09T13:50:49.641000Z'),
+      diameter: '10465',
+      edited: new Date('2014-12-20T20:58:18.411000Z'),
+      films: [
+        'https://swapi.dev/api/films/1/',
+        'https://swapi.dev/api/films/3/',
+      ],
+      gravity: '1 standard',
+      name: 'Tatooine',
+      orbital_period: '304',
+      population: '200000',
+      residents: [
+        'https://swapi.dev/api/people/1/',
+        'https://swapi.dev/api/people/2/',
+      ],
+      rotation_period: '23',
+      surface_water: '1',
+      terrain: 'desert',
+      url: 'https://swapi.dev/api/planets/1/',
+    };
+
+    (useGetDetailsQuery as Mock).mockReturnValue({
+      data: mockPlanet,
+      isFetching: false,
+      error: null,
+    });
+
+    const dispatch = vi.spyOn(store, 'dispatch');
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DetailsCard />
+        </BrowserRouter>
+      </Provider>
     );
+
+    await waitFor(() => {
+      expect(dispatch).toHaveBeenCalledWith(setCurrentCard(mockPlanet));
+    });
   });
 });

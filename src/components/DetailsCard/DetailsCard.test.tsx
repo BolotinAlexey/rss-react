@@ -27,7 +27,6 @@ vi.mock('../../hooks/useTheme', () => ({
   useTheme: () => ['light'],
 }));
 
-// Mock CloseDetailsButton component
 vi.mock('./CloseDetailsButton', () => ({
   default: () => <button>Close</button>,
 }));

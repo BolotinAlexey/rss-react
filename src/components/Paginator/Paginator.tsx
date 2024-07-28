@@ -1,12 +1,18 @@
-import { useLoaderData } from 'react-router-dom';
-import { IPlanetResponse } from '../../interfaces';
+import { useLocation } from 'react-router-dom';
 import LinkPage from './LinkPage';
 import './paginator.css';
+import { useGetPlanetsQuery } from '../../service/apiRtk';
 
 export default function Paginator() {
-  const response = useLoaderData() as IPlanetResponse;
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const search = params.get('search') || '';
+  const page = Number.parseInt(params.get('page') || '1');
+  const { data } = useGetPlanetsQuery({ page, search });
 
-  const number = Math.ceil(response.count / 10);
+  const number = data?.count ? Math.ceil(Number.parseInt(data?.count) / 10) : 0;
+
+  if (!data) return null;
   return (
     <div className="paginator">
       <ul className="paginator__list">

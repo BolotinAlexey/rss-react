@@ -1,0 +1,66 @@
+:root {
+  --max-width: 1280px;
+  --trans: 0.3s linear;
+  --accent-color: #cc8e1e;
+}
+
+.switcher__input {
+  display: none;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  min-height: 2rem;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  border-bottom: 1px solid currentColor;
+}
+
+.switcher {
+  position: relative;
+}
+
+.switcher__bg {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  transition: transform var(--trans);
+  z-index: -5;
+}
+
+.switcher__input:checked ~ .switcher__bg {
+  transform: translateX(100%);
+}
+
+.switcher__icon {
+  width: 24px;
+  height: 24px;
+  color: #d3cfc3;
+}
+
+.switcher__icon-sun {
+  color: white;
+}
+
+.switcher__input:checked ~ .switcher__icon-moon {
+  color: white;
+}
+
+.switcher__input:checked ~ .switcher__icon-sun {
+  color: #d3cfc3;
+}
+
+.switcher__label {
+  display: flex;
+  width: 52px;
+  height: 28px;
+  cursor: pointer;
+}

@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import * as CardModule from './Loader';
-import ReExportedCard from './index';
+import * as Module from './Loader';
+import ReExportedModule from './index';
 
 describe('index.ts re-export', () => {
   it('should re-export Loader as default', () => {
-    expect(ReExportedCard).toBe(CardModule.default);
+    expect(ReExportedModule).toBe(Module.default);
   });
 });

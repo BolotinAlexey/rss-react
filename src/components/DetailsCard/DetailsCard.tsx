@@ -1,36 +1,45 @@
 import { useEffect, useState } from 'react';
-import { IPlanet } from '../../interfaces';
 import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
-import { useLoaderData, useNavigation } from 'react-router-dom';
-
-import './detailsCard.css';
+import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import CloseDetailsButton from './CloseDetailsButton';
+import { useTheme } from '../../hooks/useTheme';
+import styleTheme from '../../utils/styleTheme';
+import { useDispatch } from 'react-redux';
+import { useGetDetailsQuery } from '../../service/apiRtk';
+import { setCurrentCard } from '../../store/slices/currentCardSlice';
+
+import './detailsCard.css';
 
 export default function DetailsCard() {
-  const planet = useLoaderData() as IPlanet;
+  const [theme] = useTheme();
+  const themeStyles = styleTheme(theme);
   const [filmTitles, setFilmTitles] = useState('');
   const [residentNames, setResidentNames] = useState('');
-  const { url, name, films, residents, created, edited, ...restProps } = planet;
-  const navigation = useNavigation();
-  const isLoader =
-    navigation.location && navigation.location.pathname.includes('details');
+  const dispatch = useDispatch();
 
-  const transformProps = {
-    ...restProps,
-    created: created.toString().slice(0, 10),
-    edited: edited.toString().slice(0, 10),
-  };
+  const params = useParams();
+  const detailsNumber: string | undefined = params?.namePlanet;
+  const id = detailsNumber ? Number(detailsNumber) : 0;
+
+  const {
+    data: planet,
+    isFetching,
+    error,
+  } = useGetDetailsQuery({ id, skip: !id });
 
   useEffect(() => {
     const fetchData = async () => {
-      if (films) {
-        const filmTitles = await transformPropsArrayToString(films, 'title');
+      if (planet?.films) {
+        const filmTitles = await transformPropsArrayToString(
+          planet.films,
+          'title'
+        );
         setFilmTitles(filmTitles);
       }
-      if (residents) {
+      if (planet?.residents) {
         const residentNames = await transformPropsArrayToString(
-          residents,
+          planet.residents,
           'name'
         );
         setResidentNames(residentNames);
@@ -38,11 +47,28 @@ export default function DetailsCard() {
     };
 
     fetchData();
-  });
+  }, [planet]);
+
+  useEffect(() => {
+    if (planet) {
+      dispatch(setCurrentCard(planet));
+    }
+  }, [planet, dispatch]);
+
+  if (error) return <>Error: {error.message}</>;
+  if (!id || !planet) return null;
+
+  const { url, name, films, residents, created, edited, ...restProps } = planet;
+
+  const transformProps = {
+    ...restProps,
+    created: created.toString().slice(0, 10),
+    edited: edited.toString().slice(0, 10),
+  };
 
   return (
-    <section className="section details">
-      {isLoader ? (
+    <section style={themeStyles} className="section details">
+      {isFetching || !planet ? (
         <Loader />
       ) : (
         <>
@@ -53,8 +79,8 @@ export default function DetailsCard() {
           {Object.keys(transformProps).map((key) => {
             const k = key as keyof typeof transformProps;
             return (
-              <p className="card__item-details" key={k}>
-                <b>{k}</b>: {String(transformProps[k])}
+              <p className="card__item-details" key={k.toString()}>
+                <b>{k.toString()}</b>: {String(transformProps[k])}
               </p>
             );
           })}

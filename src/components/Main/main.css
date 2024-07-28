@@ -3,12 +3,19 @@
   padding: 0;
 }
 
-.main {
+.main-wrap {
+  display: flex;
+  margin-bottom: 75px;
+}
+
+.left-section {
   padding: 2rem;
+  min-height: calc(100vh - 2rem);
+  flex-grow: 1;
 }
 
 .section {
-  margin: 2rem 0;
+  margin: 2rem 0 0;
 }
 .list__wrap {
   display: flex;

@@ -1,6 +1,8 @@
 import { vi } from 'vitest';
-import Main from './Main';
 import { render, screen } from '@testing-library/react';
+import Main from './Main';
+import store from '../../store';
+import { Provider } from 'react-redux';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
@@ -27,8 +29,15 @@ vi.mock('../Paginator', () => ({
   default: () => <div data-testid="mock-paginator"></div>,
 }));
 
+global.URL.createObjectURL = vi.fn(() => 'http://mockurl.com');
+global.URL.revokeObjectURL = vi.fn();
+
 it('renders the header "Planets"', () => {
-  render(<Main />);
+  render(
+    <Provider store={store}>
+      <Main />
+    </Provider>
+  );
 
   const headerElement = screen.getByRole('heading', { name: /Planets/i });
   expect(headerElement).toBeInTheDocument();

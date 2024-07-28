@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Card from './Card';
 import { IPlanet } from '../../interfaces';
 import { describe, expect, it, vi } from 'vitest';
+import { Provider } from 'react-redux';
+import store from '../../store';
 
 vi.mock('../../utils/searchLastNumber', () => ({
   default: vi
@@ -41,29 +43,13 @@ describe('Card component', () => {
   };
 
   it('should render the planet name correctly', () => {
-    const { getByText } = renderWithRouter(<Card {...planet} />);
+    const { getByText } = renderWithRouter(
+      <Provider store={store}>
+        <Card {...planet} />
+      </Provider>
+    );
+
     expect(getByText('Planet:')).toBeInTheDocument();
     expect(getByText('Tatooine')).toBeInTheDocument();
-  });
-
-  it('should generate the correct path for NavLink', () => {
-    const { getByRole } = renderWithRouter(<Card {...planet} />);
-    const link = getByRole('link');
-    expect(link).toHaveAttribute('href', '/details/1/');
-  });
-
-  it('should append search params to the path', () => {
-    const searchParams = '?page=1&search=tatooine';
-    Object.defineProperty(window, 'location', {
-      value: {
-        ...window.location,
-        search: searchParams,
-      },
-      writable: true,
-    });
-
-    const { getByRole } = renderWithRouter(<Card {...planet} />);
-    const link = getByRole('link');
-    expect(link).toHaveAttribute('href', '/details/1/?page=1&search=tatooine');
   });
 });

@@ -1,23 +1,32 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
-import Paginator from '../Paginator'; // Replace with your actual component path
-import { IPlanetResponse } from '../../interfaces';
-import { useLoaderData } from 'react-router-dom'; // Ensure correct import
+import Paginator from '../Paginator';
+import { Provider } from 'react-redux';
+import store from '../../store';
+import { useGetPlanetsQuery } from '../../service/apiRtk';
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('../../service/apiRtk', async (importOriginal) => {
+  const actual = (await importOriginal()) as object;
   return {
     ...actual,
-    useLoaderData: vi.fn(),
+    useGetPlanetsQuery: vi.fn(),
   };
 });
 
-const mockResponse: IPlanetResponse = {
+const mockResponse = {
   count: 45,
   results: [],
   next: null,
   previous: null,
+};
+
+const mockQueryReturnValue = {
+  data: mockResponse,
+  error: null,
+  isLoading: false,
+  isFetching: false,
+  refetch: vi.fn(),
 };
 
 describe('Paginator component', () => {
@@ -25,36 +34,44 @@ describe('Paginator component', () => {
     vi.resetAllMocks();
   });
 
-  it('renders the correct number of pages based on the loader data', () => {
-    vi.mocked(useLoaderData).mockReturnValue(mockResponse);
+  it('renders the correct number of pages based on the loader data', async () => {
+    vi.mocked(useGetPlanetsQuery).mockReturnValue(mockQueryReturnValue);
 
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<Paginator />} />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Paginator />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
-    const linkElements = screen.getAllByRole('link');
-    expect(linkElements).toHaveLength(Math.ceil(mockResponse.count / 10));
+    await waitFor(() => {
+      const linkElements = screen.getAllByRole('link');
+      expect(linkElements).toHaveLength(Math.ceil(mockResponse.count / 10));
+    });
   });
 
-  it('renders page links with correct numbers', () => {
-    vi.mocked(useLoaderData).mockReturnValue(mockResponse);
+  it('renders page links with correct numbers', async () => {
+    mockResponse.count = 30;
+    vi.mocked(useGetPlanetsQuery).mockReturnValue(mockQueryReturnValue);
 
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<Paginator />} />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Paginator />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
-    mockResponse.count = 30;
-    const linkElements = screen.getAllByRole('link');
-    linkElements.forEach((link, index) => {
-      expect(link).toHaveTextContent((index + 1).toString());
+    await waitFor(() => {
+      const linkElements = screen.getAllByRole('link');
+      linkElements.forEach((link, index) => {
+        expect(link).toHaveTextContent((index + 1).toString());
+      });
     });
   });
 });

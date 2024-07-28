@@ -1,0 +1,22 @@
+.fly {
+  position: fixed;
+  padding: 1rem;
+  bottom: 3px;
+  left: 50%;
+  min-width: max-content;
+
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+
+  transform: translate(-50%, calc(100% + 3px));
+  z-index: 10;
+  border-radius: 1rem;
+  border: solid 1px currentColor;
+  transition: all 0.3s linear;
+}
+
+.fly.show {
+  transform: translate(-50%, 0);
+}

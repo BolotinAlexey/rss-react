@@ -1,7 +1,9 @@
 .details {
-  min-width: 40%;
+  min-width: 40vw;
   padding: 1rem;
   border-left: solid 1px currentColor;
+  border-bottom: solid 1px currentColor;
+  border-bottom-left-radius: 1rem;
 }
 
 .card-details {

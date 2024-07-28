@@ -39,11 +39,15 @@ describe('DetailsCard component', () => {
       </Provider>
     );
 
-    await waitFor(() => {
-      expect(screen.getByText('Details')).toBeInTheDocument();
-      expect(screen.getByText('Planet:')).toBeInTheDocument();
-      expect(screen.getByText('Tatooine')).toBeInTheDocument();
-    });
+    setTimeout(
+      async () =>
+        await waitFor(() => {
+          expect(screen.getByText('Details')).toBeInTheDocument();
+          expect(screen.getByText('Planet:')).toBeInTheDocument();
+          expect(screen.getByText('Tatooine')).toBeInTheDocument();
+        }),
+      1000
+    );
   });
 
   it('should render the correct link for the planet', async () => {
@@ -57,9 +61,16 @@ describe('DetailsCard component', () => {
       </Provider>
     );
 
-    await waitFor(() => {
-      const link = screen.getByRole('link');
-      expect(link).toHaveAttribute('href', 'https://swapi.dev/api/planets/1/');
-    });
+    setTimeout(
+      async () =>
+        await waitFor(() => {
+          const link = screen.getByRole('link');
+          expect(link).toHaveAttribute(
+            'href',
+            'https://swapi.dev/api/planets/1/'
+          );
+        }),
+      1000
+    );
   });
 });

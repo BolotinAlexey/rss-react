@@ -38,7 +38,7 @@ export default function DataView({ name }: { name: string | null }) {
           })}
         </ul>
       ) : (
-        <h3>Not founds</h3>
+        <h3>Not found</h3>
       )}
     </section>
   );

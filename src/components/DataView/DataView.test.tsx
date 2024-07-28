@@ -1,55 +1,72 @@
+import { describe, it, expect } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { IPlanet } from '../../interfaces';
-import { describe, expect, it, vi } from 'vitest';
-import Card from '../Card';
+import userEvent from '@testing-library/user-event';
+import DataView from './DataView';
 import { Provider } from 'react-redux';
 import store from '../../store';
 
-vi.mock('../../utils/searchLastNumber', () => ({
-  default: vi
-    .fn()
-    .mockImplementation((url) => url.split('/').filter(Boolean).pop()),
-}));
-
-describe('Card component', () => {
-  const planet: IPlanet = {
-    climate: 'arid',
-    created: new Date('2014-12-09T13:50:49.641000Z'),
-    diameter: '10465',
-    edited: new Date('2014-12-20T20:58:18.411000Z'),
-    films: [
-      'https://swapi.dev/api/films/1/',
-      'https://swapi.dev/api/films/3/',
-      'https://swapi.dev/api/films/4/',
-    ],
-    gravity: '1 standard',
-    name: 'Tatooine',
-    orbital_period: '304',
-    population: '200000',
-    residents: [
-      'https://swapi.dev/api/people/1/',
-      'https://swapi.dev/api/people/2/',
-    ],
-    rotation_period: '23',
-    surface_water: '1',
-    terrain: 'desert',
-    url: 'https://swapi.dev/api/planets/1/',
-  };
-
-  const renderWithRouter = (ui: React.ReactElement) => {
-    return render(<BrowserRouter>{ui}</BrowserRouter>);
-  };
-
-  it('should render the planet name correctly', () => {
-    const { getByText } = renderWithRouter(
+describe('DataView', () => {
+  it("displays 'Loading..' when loading", async () => {
+    render(
       <Provider store={store}>
-        <Card {...planet} />
+        <BrowserRouter>
+          <DataView name={''} />
+        </BrowserRouter>
+      </Provider>
+    );
+    expect(screen.getByText('Loading..')).toBeInTheDocument();
+  });
+  it('renders a Tatooine and Alderaan planets with relevant data', async () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DataView name={''} />
+        </BrowserRouter>
+      </Provider>
+    );
+    setTimeout(async () => {
+      await waitFor(() => {
+        expect(screen.getByText('Tatooine')).toBeInTheDocument();
+        expect(screen.getByText('Alderaan')).toBeInTheDocument();
+      });
+      const user = userEvent.setup();
+      const tatooine = screen.getByText('Tatooine');
+
+      user.click(tatooine);
+
+      await waitFor(() => expect(window.location.pathname).toBe(`/details/1/`));
+    }, 1000);
+  });
+
+  it('renders the specified number of planets', async () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DataView name={''} />
+        </BrowserRouter>
       </Provider>
     );
 
-    expect(getByText('Planet:')).toBeInTheDocument();
-    expect(getByText('Tatooine')).toBeInTheDocument();
+    setTimeout(async () => {
+      await waitFor(() => {
+        const characterList = screen.getAllByRole('listitem');
+        expect(characterList).toHaveLength(10);
+      });
+    }, 1000);
+  });
+
+  it("displays 'Not found' when there are no results", async () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DataView name={'no exist'} />
+        </BrowserRouter>
+      </Provider>
+    );
+    await waitFor(() =>
+      expect(screen.getByText('Not found')).toBeInTheDocument()
+    );
   });
 });

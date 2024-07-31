@@ -1,22 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { describe, it, expect, vi, Mock } from 'vitest';
+import { useRouter } from 'next/router';
 import CloseDetailsButton from './CloseDetailsButton';
-import { resetCurrentCard } from '../../store/slices/currentCardSlice';
-import store from '../../store';
 
-const mockNavigate = vi.fn();
-const mockDispatch = vi.fn();
+interface MockRouter {
+  query: Record<string, string>;
+  push: (path: string) => void;
+}
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-    useLocation: () => ({ search: '?example=search' }),
-  };
-});
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 describe('CloseDetailsButton component', () => {
   beforeEach(() => {
@@ -24,44 +18,43 @@ describe('CloseDetailsButton component', () => {
   });
 
   it('should render the button with correct text', () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <CloseDetailsButton />
-        </BrowserRouter>
-      </Provider>
-    );
+    const mockRouter: MockRouter = {
+      query: {},
+      push: vi.fn(),
+    };
 
-    expect(screen.getByText('Hide details')).toBeInTheDocument();
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+
+    render(<CloseDetailsButton />);
+    const button = screen.getByText('Hide details');
+    expect(button).toBeInTheDocument();
   });
 
   it('should call navigate with the correct path when button is clicked', () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <CloseDetailsButton />
-        </BrowserRouter>
-      </Provider>
-    );
+    const mockPush = vi.fn();
+    (useRouter as unknown as Mock).mockReturnValue({
+      query: { page: '1', search: 'test' },
+      push: mockPush,
+    });
 
+    render(<CloseDetailsButton />);
     fireEvent.click(screen.getByText('Hide details'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('/?example=search', {
-      replace: true,
-    });
+    expect(mockPush).toHaveBeenCalledWith('/?page=1&search=test');
   });
 
-  it('should dispatch resetCurrentCard action when button is clicked', () => {
-    vi.spyOn(store, 'dispatch').mockImplementation(mockDispatch);
+  it('should handle empty query', () => {
+    const mockRouter: MockRouter = {
+      query: {},
+      push: vi.fn(),
+    };
 
-    const { getByText } = render(
-      <Provider store={store}>
-        <CloseDetailsButton />
-      </Provider>
-    );
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
-    fireEvent.click(getByText('Hide details'));
+    render(<CloseDetailsButton />);
+    const button = screen.getByText('Hide details');
+    fireEvent.click(button);
 
-    expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
+    expect(mockRouter.push).toHaveBeenCalledWith('/?');
   });
 });

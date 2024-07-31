@@ -5,10 +5,14 @@ export default function CloseDetailsButton() {
   console.log(router);
 
   const changePath = () => {
-    const homePath = router.asPath.replace('details', '');
-    console.log(router);
-
-    router.push(homePath);
+    const { query, push } = router;
+    const homePath =
+      '/?' +
+      Object.keys(query)
+        .map((q) => `${q}=${query[q]}`)
+        .join('&');
+    console.log(homePath);
+    push(homePath);
   };
 
   return <button onClick={changePath}>Hide details</button>;

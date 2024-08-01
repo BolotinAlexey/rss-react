@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { IPlanet } from '../../interfaces';
 import Card from '../Card';
-import './dataView.css';
 import Loader from '../Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetPlanetsQuery } from '../../service/apiRtk';

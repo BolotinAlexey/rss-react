@@ -1,5 +1,4 @@
 import { ChangeEvent } from 'react';
-import './form.css';
 import useLS from '../../hooks/useLS';
 import { Form } from 'react-router-dom';
 

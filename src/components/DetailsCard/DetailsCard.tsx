@@ -9,8 +9,6 @@ import { useDispatch } from 'react-redux';
 import { useGetDetailsQuery } from '../../service/apiRtk';
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
-import './detailsCard.css';
-
 export default function DetailsCard() {
   const [theme] = useTheme();
   const themeStyles = styleTheme(theme);

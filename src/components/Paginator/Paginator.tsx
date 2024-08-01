@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
 import LinkPage from './LinkPage';
-import './paginator.css';
 import { useGetPlanetsQuery } from '../../service/apiRtk';
 
 export default function Paginator() {

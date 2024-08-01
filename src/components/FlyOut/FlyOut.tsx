@@ -5,8 +5,6 @@ import styleTheme from '../../utils/styleTheme';
 import UnselectButton from './UnselectButton';
 import DownloadButton from './DownloadButton';
 
-import './flyOut.css';
-
 export default function FlyOut() {
   const num = useSelector(
     (state: RootState) => state.cards.selectedCards.length

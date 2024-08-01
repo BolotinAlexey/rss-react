@@ -5,8 +5,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
 
-import './card.css';
-
 export default function Card(planet: IPlanet) {
   const location = useLocation();
   const params = new URLSearchParams(location.search);

@@ -1,3 +1,10 @@
+import App from '../App';
+import Header from '../components/Header';
+import { ThemeProvider } from '../components/ThemeProvider';
+
 export default function main() {
-  return <h1>Planets</h1>;
+  <ThemeProvider>
+    <Header />
+    <App />
+  </ThemeProvider>;
 }

@@ -1,6 +1,6 @@
-import { useTheme } from '../hooks/useTheme';
-import styleTheme from '../utils/styleTheme';
-import CloseDetailsButton from '../components/DetailsCard/CloseDetailsButton';
+import CloseDetailsButton from '../../components/DetailsCard/CloseDetailsButton';
+import { useTheme } from '../../hooks/useTheme';
+import styleTheme from '../../utils/styleTheme';
 
 export default function details() {
   const [theme] = useTheme();

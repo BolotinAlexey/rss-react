@@ -8,6 +8,5 @@ export default function searchString(router: NextRouter) {
       .filter((el) => el !== 'id')
       .map((q) => `${q}=${query[q]}`)
       .join('&');
-  console.log(homePath);
   return homePath;
 }

@@ -354,12 +354,15 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .paginator__link {
+  outline: none;
+  border: none;
   padding: 1rem;
   color: currentColor;
 }
 
 .paginator__link:hover {
   color: red;
+  box-shadow: none;
 }
 
 /* Fly Out */

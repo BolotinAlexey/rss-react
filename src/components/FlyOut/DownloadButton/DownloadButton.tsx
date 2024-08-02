@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import convertToCsv from '../../../utils/convertToCsv';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   createCsvBlob,
   createCsvUrl,
@@ -13,13 +13,22 @@ export default function DownloadButton() {
 
   const csvContent = useMemo(() => convertToCsv(cards), [cards]);
   const blob = useMemo(() => createCsvBlob(csvContent), [csvContent]);
-  const url = useMemo(() => createCsvUrl(blob), [blob]);
+  const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    const newUrl = createCsvUrl(blob);
+    setUrl(newUrl);
+
     return () => {
-      revokeCsvUrl(url);
+      if (url) {
+        revokeCsvUrl(url);
+      }
     };
-  }, [url]);
+  }, [blob]);
+
+  if (!url) {
+    return null;
+  }
 
   return (
     <a

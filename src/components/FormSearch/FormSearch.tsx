@@ -8,7 +8,7 @@ export default function FormSearch() {
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    const currentQuery = { ...router.query, search: name };
+    const currentQuery = { ...router.query, search: name, page: 1 };
     router.push({ pathname: router.pathname, query: currentQuery });
 
     saveNameToLocalStorage();

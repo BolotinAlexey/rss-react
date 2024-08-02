@@ -1,14 +1,14 @@
 import DataView from '../DataView';
 import FormSearch from '../FormSearch';
-// import Paginator from '../Paginator';
+import Paginator from '../Paginator';
 import { useDispatch } from 'react-redux';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/router';
 import searchString from '../../utils/searchString';
-import { IPlanet } from '../../interfaces';
+import { IPlanetResponse } from '../../interfaces';
 
-export default function Main({ data }: { data: IPlanet[] }) {
+export default function Main({ response }: { response: IPlanetResponse }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -27,8 +27,8 @@ export default function Main({ data }: { data: IPlanet[] }) {
         <h1>Planets</h1>
         <FormSearch />
         <hr />
-        <DataView planets={data} />
-        {/* <Paginator /> */}
+        <DataView planets={response?.results} />
+        <Paginator countPages={response?.count} />
         <FlyOut />
       </div>
       {/* <div className="right-section">

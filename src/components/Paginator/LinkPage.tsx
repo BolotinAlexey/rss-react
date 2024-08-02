@@ -1,30 +1,23 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { LS_KEY } from '../../constants';
+import { useRouter } from 'next/router';
 
 export default function LinkPage({ page }: { page: number }) {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
+  const router = useRouter();
 
-  const createPageUrl = (pageNumber: number) => {
-    params.set('page', pageNumber.toString());
-    if (params.get('search') === null) {
-      const word = localStorage.getItem(LS_KEY) ?? '';
-      params.set('search', word);
-    }
-
-    return `/?${params.toString()}`;
+  const createPageUrl = () => {
+    const currentQuery = { ...router.query, page };
+    router.push({ pathname: router.pathname, query: currentQuery });
   };
 
   const isActive = () => {
-    return params.get('page') === page.toString();
+    return router.query.page === page.toString();
   };
 
   return (
-    <NavLink
+    <button
+      onClick={createPageUrl}
       className={isActive() ? 'paginator__link active-page' : 'paginator__link'}
-      to={createPageUrl(page)}
     >
       {page}
-    </NavLink>
+    </button>
   );
 }

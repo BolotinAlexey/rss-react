@@ -1,16 +1,16 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import useLS from '../../hooks/useLS';
-import { Form } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
-type Props = {
-  onSubmitName: (name: string) => void;
-};
+export default function FormSearch() {
+  const router = useRouter();
+  const [name, setName, saveNameToLocalStorage] = useLS(router);
 
-export default function FormSearch({ onSubmitName }: Props) {
-  const [name, setName, saveNameToLocalStorage] = useLS(onSubmitName);
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    const currentQuery = { ...router.query, search: name };
+    router.push({ pathname: router.pathname, query: currentQuery });
 
-  const submitHandler = () => {
-    onSubmitName(name);
     saveNameToLocalStorage();
   };
 
@@ -20,7 +20,7 @@ export default function FormSearch({ onSubmitName }: Props) {
 
   return (
     <section className="section section-form">
-      <Form className="form" onSubmit={submitHandler}>
+      <form className="form" onSubmit={submitHandler}>
         <input
           className="input"
           type="search"
@@ -32,7 +32,7 @@ export default function FormSearch({ onSubmitName }: Props) {
         <button className="submit-button" type="submit">
           Search
         </button>
-      </Form>
+      </form>
     </section>
   );
 }

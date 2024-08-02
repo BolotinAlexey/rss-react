@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { IPlanet } from '../../interfaces';
 import searchLastNumber from '../../utils/searchLastNumber';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
+import { useRouter } from 'next/router';
+import searchString from '../../utils/searchString';
 
 export default function Card(planet: IPlanet) {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const id = searchLastNumber(planet.url);
-  const path = `/details/${id}/?${params.toString()}`;
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const searchPath = searchString(router);
+
+  const id = searchLastNumber(planet.url);
+  const path = `/details/${id}${searchPath}`;
   const selectedCards = useSelector(
     (state: RootState) => state.cards.selectedCards
   );
@@ -25,7 +25,7 @@ export default function Card(planet: IPlanet) {
       e.target instanceof HTMLInputElement
     )
       return;
-    navigate(path);
+    router.push(path);
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,30 +1,37 @@
-import { useEffect } from 'react';
 import { IPlanet } from '../../interfaces';
 import Card from '../Card';
 import Loader from '../Loader';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetPlanetsQuery } from '../../service/apiRtk';
+// import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+// import { useRouter } from 'next/router';
+// import searchString from '../../utils/searchString';
+// import { getPage } from '../../service/api';
 
-export default function DataView({ name }: { name: string | null }) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const search = params.get('search') || '';
-  const page = Number.parseInt(params.get('page') || '1');
+export default function DataView({ planets }: { planets: IPlanet[] }) {
+  // const router = useRouter();
+  // const { query, push } = router;
+  // console.log(router);
 
-  const { data, isFetching, error } = useGetPlanetsQuery({ page, search });
+  // const searchStringURL = searchString(router);
 
-  useEffect(() => {
-    if (name !== null) navigate(`?page=1&search=${name}`);
-  }, [name]);
+  // const valueSearch =
+  // const search = Object.keys(query).find((el) => el === 'search') || '';
+  // const search = query?.search?.toString() || '';
+  // const page = Number.parseInt(query?.page?.toString() || '1');
+  // console.log('page' + page);
 
-  const planets = data?.results;
+  // const { data, isFetching, error } = useGetPlanetsQuery({ page, search });
 
-  if (error) return <h3>Error: {error.message}</h3>;
+  // useEffect(() => {
+  //   if (name !== null) push(`?page=${page}&search=${name}`);
+  // }, [name]);
+
+  // const planets = data?.results;
+
+  // if (error) return <h3>Error: {error.message}</h3>;
 
   return (
     <section className="section section-list">
-      {isFetching ? (
+      {!planets ? (
         <Loader />
       ) : planets?.length ? (
         <ul className="list">

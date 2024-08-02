@@ -1,27 +1,22 @@
-import { useState } from 'react';
 import DataView from '../DataView';
 import FormSearch from '../FormSearch';
-import Paginator from '../Paginator';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+// import Paginator from '../Paginator';
 import { useDispatch } from 'react-redux';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import FlyOut from '../FlyOut/FlyOut';
+import { useRouter } from 'next/router';
+import searchString from '../../utils/searchString';
+import { IPlanet } from '../../interfaces';
 
-export default function Main() {
-  const [name, setName] = useState<null | string>(null);
-  const navigate = useNavigate();
-  const location = useLocation();
+export default function Main({ data }: { data: IPlanet[] }) {
   const dispatch = useDispatch();
-
-  const onSubmitNameApp = (name: string) => {
-    setName(name);
-  };
+  const router = useRouter();
 
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     const { target } = event;
     if (!(target instanceof HTMLElement)) return;
-    if (location.pathname.includes('/details/')) {
-      navigate(`/${location.search}`, { replace: true });
+    if (router.pathname.includes('/details/')) {
+      router.push(searchString(router));
     }
     dispatch(resetCurrentCard());
   };
@@ -30,15 +25,15 @@ export default function Main() {
     <section className="main-wrap">
       <div className="left-section" onClick={handleClickOutside}>
         <h1>Planets</h1>
-        <FormSearch onSubmitName={onSubmitNameApp} />
+        <FormSearch />
         <hr />
-        <DataView name={name} />
-        <Paginator />
+        <DataView planets={data} />
+        {/* <Paginator /> */}
         <FlyOut />
       </div>
-      <div className="right-section">
+      {/* <div className="right-section">
         <Outlet />
-      </div>
+      </div> */}
     </section>
   );
 }

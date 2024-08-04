@@ -4,15 +4,14 @@ import searchLastNumber from '../../utils/searchLastNumber';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
 import { useRouter } from 'next/router';
-import searchString from '../../utils/searchString';
 
 export default function Card(planet: IPlanet) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const searchPath = searchString(router);
 
   const id = searchLastNumber(planet.url);
-  const path = `/details/${id}${searchPath}`;
+  const path = { ...router.query, details: id };
+
   const selectedCards = useSelector(
     (state: RootState) => state.cards.selectedCards
   );
@@ -25,7 +24,7 @@ export default function Card(planet: IPlanet) {
       e.target instanceof HTMLInputElement
     )
       return;
-    router.push(path);
+    router.push({ pathname: router.pathname, query: path });
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

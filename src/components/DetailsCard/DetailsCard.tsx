@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import CloseDetailsButton from '../../components/DetailsCard/CloseDetailsButton';
-import { useTheme } from '../../hooks/useTheme';
 import { IPlanet } from '../../interfaces';
-import styleTheme from '../../utils/styleTheme';
 import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
 import { useDispatch } from 'react-redux';
 
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
 export default function details({ planet }: { planet: IPlanet }) {
-  const [theme] = useTheme();
-  const themeStyles = styleTheme(theme);
   const [filmTitles, setFilmTitles] = useState('');
   const [residentNames, setResidentNames] = useState('');
   const dispatch = useDispatch();
@@ -52,7 +48,7 @@ export default function details({ planet }: { planet: IPlanet }) {
   };
 
   return (
-    <section style={themeStyles} className="section details">
+    <section className="section details">
       <h2 className="details__titles">Details</h2>
       <h3 className="card__title-details">
         Planet: <i>{name}</i>

@@ -1,3 +1,4 @@
+'use client';
 import { useTheme } from '../../hooks/useTheme';
 
 export default function Header() {
@@ -14,6 +15,7 @@ export default function Header() {
             type="checkbox"
             aria-label="Toggle theme"
             name="theme"
+            checked={theme}
           />
           <span className="switcher__icon-sun switcher__icon flex-center">
             <svg

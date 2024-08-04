@@ -1,4 +1,10 @@
-import { ChangeEventHandler, createContext, ReactNode, useState } from 'react';
+import {
+  ChangeEventHandler,
+  createContext,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import { LS_KEY_THEME } from '../../constants';
 
 const ThemeContext = createContext<boolean>(false);
@@ -7,13 +13,19 @@ const ThemeUpdateContext = createContext<ChangeEventHandler<HTMLInputElement>>(
 );
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  const themeLS =
-    typeof window !== 'undefined' ? localStorage.getItem(LS_KEY_THEME) : false;
-  const [theme, setTheme] = useState(themeLS === 'true' ? true : false);
+  const [theme, setTheme] = useState<boolean>(false);
+
+  useEffect(() => {
+    const themeLS = localStorage.getItem(LS_KEY_THEME);
+    if (themeLS) {
+      setTheme(themeLS === 'true');
+    }
+  }, []);
 
   function toggleTheme() {
-    if (localStorage) localStorage.setItem(LS_KEY_THEME, (!theme).toString());
-    setTheme((prev: boolean) => !prev);
+    const newTheme = !theme;
+    localStorage.setItem(LS_KEY_THEME, newTheme.toString());
+    setTheme(newTheme);
   }
 
   return (

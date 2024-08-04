@@ -4,6 +4,8 @@
   --trans: 0.3s linear;
   --accent-color: #cc8e1e;
   --color: #777;
+  --main-color: #2b3f5b;
+  --background-color: #f6f5f2;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -13,6 +15,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+:root:has(.dark) {
+  --background-color: #2b3f5b;
+  --main-color: #f6f5f2;
+}
+
 #root {
   margin: 0 auto;
   padding: 2rem;
@@ -35,15 +43,8 @@ body {
   margin: 0;
   display: flex;
   min-height: 100vh;
-  color: #2b3f5b;
-  background-color: #f6f5f2;
-}
-body:has(.dark) {
-  margin: 0;
-  display: flex;
-  min-height: 100vh;
-  background-color: #2b3f5b;
-  color: #f6f5f2;
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 h1 {

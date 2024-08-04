@@ -7,10 +7,16 @@ import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/router';
 import searchString from '../../utils/searchString';
 import { IPlanetResponse } from '../../interfaces';
+import { useTheme } from '../../hooks/useTheme';
+import styleTheme from '../../utils/styleTheme';
 
 export default function Main({ response }: { response: IPlanetResponse }) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [theme] = useTheme();
+  const cls: string = theme ? 'dark' : 'light';
+
+  const themeStyles = styleTheme(theme);
 
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     const { target } = event;
@@ -22,7 +28,7 @@ export default function Main({ response }: { response: IPlanetResponse }) {
   };
 
   return (
-    <section className="main-wrap">
+    <section style={themeStyles} className={cls + 'main-wrap'}>
       <div className="left-section" onClick={handleClickOutside}>
         <h1>Planets</h1>
         <FormSearch />

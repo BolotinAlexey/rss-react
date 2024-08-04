@@ -1,14 +1,11 @@
 import { useTheme } from '../../hooks/useTheme';
-import styleTheme from '../../utils/styleTheme';
 
 export default function Header() {
   const [theme, toggleTheme] = useTheme();
   const cls: string = theme ? 'dark' : 'light';
 
-  const themeStyles = styleTheme(theme);
-
   return (
-    <header style={themeStyles} className={cls}>
+    <header className={cls}>
       <div className="switcher">
         <label className="switcher__label">
           <input

@@ -12,7 +12,7 @@ import DetailsCard from '../components/DetailsCard';
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const { params, query } = context;
+  const { query } = context;
   const { page, search, details } = query;
   const resp = await getPage(
     Number.parseInt(page?.toString() ?? '1'),
@@ -21,10 +21,6 @@ export const getServerSideProps = async (
   const planet: IPlanet | null = details
     ? await getDetails(details.toString() ?? '1')
     : null;
-
-  console.log('Параметры маршрута:', params);
-
-  console.log('Query-параметры:', query);
 
   return { props: { resp, planet } };
 };

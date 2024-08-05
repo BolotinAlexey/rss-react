@@ -7,10 +7,22 @@ import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/router';
 import { IPlanetResponse } from '../../interfaces';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
+import { useEffect } from 'react';
 
 export default function Main({ response }: { response: IPlanetResponse }) {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  useEffect(() => {
+    const query = { ...router.query };
+    if (!router.query.page) query.page = '1';
+    if (!router.query.search) query.search = '';
+    if (!router.query.page || !router.query.search)
+      router.push({
+        pathname: router.pathname,
+        query,
+      });
+  }, []);
 
   const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     const { target } = event;

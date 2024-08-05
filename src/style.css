@@ -45,6 +45,9 @@ body {
   min-height: 100vh;
   color: var(--main-color);
   background-color: var(--background-color);
+  transition:
+    color var(--trans),
+    background-color var(--trans);
 }
 
 h1 {
@@ -357,6 +360,10 @@ input[type='search']::-webkit-search-cancel-button {
   padding: 1rem;
   color: currentColor;
 }
+.paginator__link:focus,
+.paginator__link:focus-visible {
+  outline: none;
+}
 
 .paginator__link:hover {
   color: red;
@@ -381,6 +388,7 @@ input[type='search']::-webkit-search-cancel-button {
   border-radius: 1rem;
   border: solid 1px currentColor;
   transition: all 0.3s linear;
+  background-color: var(--background-color);
 }
 
 .fly.show {

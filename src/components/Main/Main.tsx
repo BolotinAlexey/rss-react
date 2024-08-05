@@ -5,11 +5,18 @@ import { useDispatch } from 'react-redux';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/router';
-import { IPlanetResponse } from '../../interfaces';
+import { IPlanet, IPlanetResponse } from '../../interfaces';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 import { useEffect } from 'react';
+import DetailsCard from '../DetailsCard';
 
-export default function Main({ response }: { response: IPlanetResponse }) {
+export default function Main({
+  response,
+  planet,
+}: {
+  response: IPlanetResponse;
+  planet: IPlanet;
+}) {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -44,6 +51,7 @@ export default function Main({ response }: { response: IPlanetResponse }) {
         <Paginator countPages={response?.count} />
         <FlyOut />
       </div>
+      {planet && <DetailsCard planet={planet} />}
     </section>
   );
 }

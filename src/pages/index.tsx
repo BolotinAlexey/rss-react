@@ -7,7 +7,6 @@ import Main from '../components/Main';
 import { getDetails, getPage } from '../service/api';
 import { IPlanet, IPlanetResponse } from '../interfaces';
 import { GetServerSidePropsContext } from 'next';
-import DetailsCard from '../components/DetailsCard';
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -37,8 +36,7 @@ export default function index({
       <Provider store={store}>
         <ThemeProvider>
           <Header />
-          <Main response={resp} />
-          {planet && <DetailsCard planet={planet} />}
+          <Main response={resp} planet={planet} />
         </ThemeProvider>
       </Provider>
     </ErrorBoundary>

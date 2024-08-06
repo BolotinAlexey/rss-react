@@ -1,55 +1,125 @@
-import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import Card from './Card';
-import { IPlanet } from '../../interfaces';
-import { describe, expect, it, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import store from '../../store';
+import { configureStore } from '@reduxjs/toolkit';
+import { describe, it, expect, vi, Mock } from 'vitest';
+import Card from './Card';
+import { useRouter } from 'next/router';
+import { initialState, mockPlanet1, mockRouter } from '../../tests/mockData';
+import cardsSlice, {
+  CardsState,
+  addCard,
+  removeCard,
+} from '../../store/slices/cardsSlice';
+import currentCardSlice, {
+  CurrentCardState,
+} from '../../store/slices/currentCardSlice';
 
-vi.mock('../../utils/searchLastNumber', () => ({
-  default: vi
-    .fn()
-    .mockImplementation((url) => url.split('/').filter(Boolean).pop()),
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }));
 
+const initialCardsState: CardsState = {
+  selectedCards: [],
+};
+const initialCurrentCardState: CurrentCardState = {
+  currentCard: null,
+};
+
+(useRouter as Mock).mockReturnValue(mockRouter);
+
+const renderWithStore = (initialState: {
+  cards: CardsState;
+  currentCard: CurrentCardState;
+}) => {
+  const store = configureStore({
+    reducer: {
+      currentCard: currentCardSlice,
+      cards: cardsSlice,
+    },
+    preloadedState: initialState,
+  });
+
+  return render(
+    <Provider store={store}>
+      <Card {...mockPlanet1} />
+    </Provider>
+  );
+};
+
 describe('Card component', () => {
-  const planet: IPlanet = {
-    climate: 'arid',
-    created: new Date('2014-12-09T13:50:49.641000Z'),
-    diameter: '10465',
-    edited: new Date('2014-12-20T20:58:18.411000Z'),
-    films: [
-      'https://swapi.dev/api/films/1/',
-      'https://swapi.dev/api/films/3/',
-      'https://swapi.dev/api/films/4/',
-    ],
-    gravity: '1 standard',
-    name: 'Tatooine',
-    orbital_period: '304',
-    population: '200000',
-    residents: [
-      'https://swapi.dev/api/people/1/',
-      'https://swapi.dev/api/people/2/',
-    ],
-    rotation_period: '23',
-    surface_water: '1',
-    terrain: 'desert',
-    url: 'https://swapi.dev/api/planets/1/',
-  };
+  it('should render correctly', () => {
+    renderWithStore(initialState);
 
-  const renderWithRouter = (ui: React.ReactElement) => {
-    return render(<BrowserRouter>{ui}</BrowserRouter>);
-  };
+    expect(screen.getByText('Tatooine')).toBeInTheDocument();
+    expect(screen.getByLabelText('add to favorites')).toBeInTheDocument();
+  });
 
-  it('should render the planet name correctly', () => {
-    const { getByText } = renderWithRouter(
+  it('should add a card when checkbox is checked', () => {
+    const store = configureStore({
+      reducer: {
+        currentCard: currentCardSlice,
+        cards: cardsSlice,
+      },
+      preloadedState: initialState,
+    });
+
+    const dispatchMock = vi.fn();
+    store.dispatch = dispatchMock;
+
+    render(
       <Provider store={store}>
-        <Card {...planet} />
+        <Card {...mockPlanet1} />
       </Provider>
     );
 
-    expect(getByText('Planet:')).toBeInTheDocument();
-    expect(getByText('Tatooine')).toBeInTheDocument();
+    const checkbox = screen.getByLabelText('add to favorites');
+    fireEvent.click(checkbox);
+
+    expect(dispatchMock).toHaveBeenCalledWith(addCard(mockPlanet1));
+  });
+
+  it('should remove a card when checkbox is unchecked', () => {
+    const initialState = {
+      cards: {
+        selectedCards: [mockPlanet1],
+      },
+      currentCard: initialCurrentCardState,
+    };
+
+    const store = configureStore({
+      reducer: {
+        currentCard: currentCardSlice,
+        cards: cardsSlice,
+      },
+      preloadedState: initialState,
+    });
+
+    const dispatchMock = vi.fn();
+    store.dispatch = dispatchMock;
+
+    render(
+      <Provider store={store}>
+        <Card {...mockPlanet1} />
+      </Provider>
+    );
+
+    const checkbox = screen.getByLabelText('remove from favorites');
+    fireEvent.click(checkbox);
+
+    expect(dispatchMock).toHaveBeenCalledWith(removeCard(mockPlanet1.name));
+  });
+
+  it('should navigate to details page and set loading state on card click', () => {
+    renderWithStore({
+      cards: initialCardsState,
+      currentCard: initialCurrentCardState,
+    });
+
+    fireEvent.click(screen.getByText('Tatooine'));
+
+    expect(mockRouter.push).toHaveBeenCalledWith({
+      pathname: '/',
+      query: { details: '1' },
+    });
   });
 });

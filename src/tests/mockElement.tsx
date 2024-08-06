@@ -1,9 +1,9 @@
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
 import useLS from '../hooks/useLS';
-import { mockRouter } from './mockData';
+import { mockRouterFn } from './mockData';
 
 export const TestComponent = ({ query }: { query: NextParsedUrlQuery }) => {
-  const [name, setName] = useLS(mockRouter(query));
+  const [name, setName] = useLS(mockRouterFn(query));
 
   return (
     <div>

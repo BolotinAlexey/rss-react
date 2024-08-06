@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cardsSlice from './slices/cardsSlice';
 import currentCardSlice from './slices/currentCardSlice';
-import loadingSlice from './slices/loadingSlice';
+// import loadingSlice from './slices/loadingSlice';
 
 const store = configureStore({
   reducer: {
     currentCard: currentCardSlice,
     cards: cardsSlice,
-    loading: loadingSlice,
+    // loading: loadingSlice,
   },
 });
 

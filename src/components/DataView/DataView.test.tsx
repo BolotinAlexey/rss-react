@@ -1,29 +1,27 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import DataView from './DataView';
 import { Provider } from 'react-redux';
 import store from '../../store';
+import { mockPlanet1, mockPlanet2 } from '../../tests/mockData';
 
+const planets = [mockPlanet1, mockPlanet2];
 describe('DataView', () => {
   it("displays 'Loading..' when loading", async () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={''} />
-        </BrowserRouter>
+        <DataView planets={planets} />
       </Provider>
     );
     expect(screen.getByText('Loading..')).toBeInTheDocument();
   });
+
   it('renders a Tatooine and Alderaan planets with relevant data', async () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={''} />
-        </BrowserRouter>
+        <DataView planets={planets} />
       </Provider>
     );
     setTimeout(async () => {
@@ -43,9 +41,7 @@ describe('DataView', () => {
   it('renders the specified number of planets', async () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={''} />
-        </BrowserRouter>
+        <DataView planets={planets} />
       </Provider>
     );
 
@@ -60,9 +56,7 @@ describe('DataView', () => {
   it("displays 'Not found' when there are no results", async () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={'no exist'} />
-        </BrowserRouter>
+        <DataView planets={planets} />
       </Provider>
     );
     await waitFor(() =>

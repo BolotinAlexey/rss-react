@@ -1,6 +1,8 @@
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta';
 import { NextRouter } from 'next/router';
 import { vi } from 'vitest';
+import { CardsState } from '../store/slices/cardsSlice';
+import { CurrentCardState } from '../store/slices/currentCardSlice';
 
 vi.mock('../service/apiRtk.ts', () => ({
   useGetDetailsQuery: vi.fn(() => ({
@@ -86,7 +88,25 @@ export const planetArrayDetails2 = {
   residentNames: 'Leia Organa, Bail Prestor Organa, Raymus Antilles',
 };
 
-export const mockRouter = (query: NextParsedUrlQuery): NextRouter =>
+export const mockRouterFn = (query: NextParsedUrlQuery): NextRouter =>
   ({
     query,
   }) as unknown as NextRouter;
+
+const initialCardsState: CardsState = {
+  selectedCards: [],
+};
+const initialCurrentCardState: CurrentCardState = {
+  currentCard: null,
+};
+
+export const initialState = {
+  cards: initialCardsState,
+  currentCard: initialCurrentCardState,
+};
+
+export const mockRouter: NextRouter = {
+  push: vi.fn(),
+  pathname: '/',
+  query: {},
+} as unknown as NextRouter;

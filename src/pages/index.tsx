@@ -3,11 +3,13 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import store from '../store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import Header from '../components/Header';
-import Main from '../components/Main';
 import { getDetails, getPage } from '../service/api';
 import { IPlanet, IPlanetResponse } from '../interfaces';
 import { GetServerSidePropsContext } from 'next';
+import transformPropsArrayToString from '../utils/transformPropsArrayToString';
+import IndexPage from '../components/IndexPage/IndexPage';
 
+export type PlanetArrayDetails = Record<'filmTitles' | 'residentNames', string>;
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
@@ -21,22 +23,46 @@ export const getServerSideProps = async (
     ? await getDetails(details.toString() ?? '1')
     : null;
 
-  return { props: { resp, planet } };
+  const planetArrayDetails: PlanetArrayDetails = {
+    filmTitles: '',
+    residentNames: '',
+  };
+  if (planet && planet?.films) {
+    planetArrayDetails.filmTitles = await transformPropsArrayToString(
+      planet.films,
+      'title'
+    );
+  }
+
+  if (planet && planet?.residents) {
+    planetArrayDetails.residentNames = await transformPropsArrayToString(
+      planet.residents,
+      'name'
+    );
+  }
+
+  return { props: { resp, planet, planetArrayDetails } };
 };
 
 export default function index({
   resp,
   planet,
+  planetArrayDetails,
 }: {
   resp: IPlanetResponse;
   planet: IPlanet;
+  planetArrayDetails: PlanetArrayDetails;
 }) {
   return (
     <ErrorBoundary>
       <Provider store={store}>
         <ThemeProvider>
           <Header />
-          <Main response={resp} planet={planet} />
+          <IndexPage
+            response={resp}
+            planet={planet}
+            planetArrayDetails={planetArrayDetails}
+          />
         </ThemeProvider>
       </Provider>
     </ErrorBoundary>

@@ -2,23 +2,29 @@ import DataView from '../DataView';
 import FormSearch from '../FormSearch';
 import Paginator from '../Paginator';
 import { useDispatch } from 'react-redux';
-import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/router';
 import { IPlanet, IPlanetResponse } from '../../interfaces';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 import { useEffect } from 'react';
 import DetailsCard from '../DetailsCard';
+import { resetCurrentCard } from '../../store/slices/currentCardSlice';
+import { PlanetArrayDetails } from '../../pages';
+import useLoading from '../../hooks/useLoading';
+import Loader from '../Loader';
 
 export default function Main({
   response,
   planet,
+  planetArrayDetails,
 }: {
   response: IPlanetResponse;
   planet: IPlanet;
+  planetArrayDetails: PlanetArrayDetails;
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isLoading] = useLoading();
 
   useEffect(() => {
     const query = { ...router.query };
@@ -43,6 +49,7 @@ export default function Main({
 
   return (
     <section className={'main-wrap'}>
+      {isLoading && <Loader />}
       <div className="left-section" onClick={handleClickOutside}>
         <h1>Planets</h1>
         <FormSearch />
@@ -51,7 +58,9 @@ export default function Main({
         <Paginator countPages={response?.count} />
         <FlyOut />
       </div>
-      {planet && <DetailsCard planet={planet} />}
+      {planet && (
+        <DetailsCard planet={planet} planetArrayDetails={planetArrayDetails} />
+      )}
     </section>
   );
 }

@@ -26,6 +26,10 @@
   padding: 2rem;
 }
 
+#__next {
+  width: 100vw;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -99,6 +103,7 @@ button:focus-visible {
 
 /* Main */
 .main-wrap {
+  position: relative;
   display: flex;
   margin-bottom: 75px;
 }
@@ -417,10 +422,10 @@ input[type='search']::-webkit-search-cancel-button {
 
 /* Loader */
 .loader {
-  position: absolute;
+  position: fixed;
   left: 50%;
-  right: 50%;
-  min-width: 100%;
+  top: 50%;
+  max-width: fit-content;
   transform: translate(-50%, -50%);
   width: fit-content;
   font-size: 30px;
@@ -434,8 +439,8 @@ input[type='search']::-webkit-search-cancel-button {
   border-right: 5px solid #0000;
   border-left: 5px solid #0000;
   background-origin: border-box;
-  position: relative;
   animation: text 2s infinite;
+  color: white;
 }
 .loader::before {
   content: '';

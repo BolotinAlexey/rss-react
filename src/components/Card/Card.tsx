@@ -4,6 +4,7 @@ import searchLastNumber from '../../utils/searchLastNumber';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
 import { useRouter } from 'next/router';
+import { setIsLoadingDetails } from '../../store/slices/loadingSlice';
 
 export default function Card(planet: IPlanet) {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default function Card(planet: IPlanet) {
       e.target instanceof HTMLInputElement
     )
       return;
+    dispatch(setIsLoadingDetails(true));
     router.push({ pathname: router.pathname, query: path });
   };
 

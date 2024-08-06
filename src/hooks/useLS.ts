@@ -6,6 +6,7 @@ export default function useLS(
   router: NextRouter
 ): [string, Dispatch<SetStateAction<string>>, () => void] {
   const [name, setName] = useState('');
+
   useEffect(() => {
     const { search } = router.query;
     const lsWord = search
@@ -13,7 +14,7 @@ export default function useLS(
       : localStorage.getItem(LS_KEY) ?? '';
     setName(lsWord);
     return () => saveNameToLocalStorage();
-  }, []);
+  }, [router.query]); // Dependency array should include `router.query`
 
   const saveNameToLocalStorage = () => {
     localStorage.setItem(LS_KEY, name);

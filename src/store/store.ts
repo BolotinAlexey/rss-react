@@ -1,16 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import { apiSW } from '../service/apiRtk';
 import cardsSlice from './slices/cardsSlice';
 import currentCardSlice from './slices/currentCardSlice';
+import loadingSlice from './slices/loadingSlice';
 
 const store = configureStore({
   reducer: {
-    // [apiSW.reducerPath]: apiSW.reducer,
     currentCard: currentCardSlice,
     cards: cardsSlice,
+    loading: loadingSlice,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(apiSW.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

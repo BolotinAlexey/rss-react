@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import NotFound from './404';
 
-// Mock ThemeProvider to avoid any potential issues with it in tests
 vi.mock('../components/ThemeProvider', () => ({
   __esModule: true,
   ThemeProvider: ({ children }: { children: React.ReactNode }) => (

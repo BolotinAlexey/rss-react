@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import * as IndexPageModule from './index'; // Import everything from the index file
+import * as IndexPageModule from './index';
 import { vi } from 'vitest';
 import { mockPlanet1 } from '../tests/mockData';
 

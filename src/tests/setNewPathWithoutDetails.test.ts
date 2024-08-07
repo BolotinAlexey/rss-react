@@ -9,7 +9,7 @@ describe('setNewPathWithoutDetails', () => {
       query: {
         page: '1',
         search: 'test',
-        details: '123', // This should be removed
+        details: '123',
       },
       asPath: '',
       basePath: '',

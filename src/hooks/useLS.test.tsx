@@ -32,42 +32,4 @@ describe('useLS', () => {
 
     expect(screen.getByTestId('name').textContent).toBe('queryValue');
   });
-
-  // it('should update localStorage when name changes', async () => {
-  //   render(<TestComponent query={{}} />);
-
-  //   act(() => {
-  //     screen.getByText('Update Name').click();
-  //   });
-
-  //   await act(async () => {
-  //     new Promise((r) => setTimeout(r, 100));
-  //   });
-
-  //   expect(window.localStorage.setItem).toHaveBeenCalledWith(
-  //     LS_KEY,
-  //     'newValue'
-  //   );
-  //   expect(screen.getByTestId('name').textContent).toBe('newValue');
-  // });
-
-  // it('should save name to localStorage on unmount', async () => {
-  //   render(<TestComponent query={{}} />);
-
-  //   act(() => {
-  //     screen.getByText('Update Name').click();
-  //   });
-
-  //   const { unmount } = render(<TestComponent query={{}} />);
-  //   unmount();
-
-  //   await act(async () => {
-  //     new Promise((r) => setTimeout(r, 100));
-  //   });
-
-  //   expect(window.localStorage.setItem).toHaveBeenCalledWith(
-  //     LS_KEY,
-  //     'newValue'
-  //   );
-  // });
 });

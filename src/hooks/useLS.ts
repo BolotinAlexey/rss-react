@@ -14,7 +14,7 @@ export default function useLS(
       : localStorage.getItem(LS_KEY) ?? '';
     setName(lsWord);
     return () => saveNameToLocalStorage();
-  }, [router.query]); // Dependency array should include `router.query`
+  }, [router.query]);
 
   const saveNameToLocalStorage = () => {
     localStorage.setItem(LS_KEY, name);

@@ -21,6 +21,7 @@ export default defineConfig({
         'src/main.tsx',
         'src/**/*.test.*',
         'src/tests/',
+        'src/interfaces',
       ],
       thresholds: {
         statements: 80,

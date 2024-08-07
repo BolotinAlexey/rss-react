@@ -76,14 +76,14 @@ export const mockPlanet2 = {
   url: 'https://swapi.dev/api/planets/2/',
 };
 
-export const planetArrayDetails1 = {
+export const mockPlanetArrayDetails1 = {
   filmTitles:
     'A New Hope, Return of the Jedi, The Phantom Menace, Attack of the Clones, Revenge of the Sith',
   residentNames:
     'Luke Skywalker, C-3PO, Darth Vader, Owen Lars, Beru Whitesun lars, R5-D4, Biggs Darklighter, Anakin Skywalker, Shmi Skywalker, Cliegg Lars',
 };
 
-export const planetArrayDetails2 = {
+export const mockPlanetArrayDetails2 = {
   filmTitles: 'A New Hope, Revenge of the Sith',
   residentNames: 'Leia Organa, Bail Prestor Organa, Raymus Antilles',
 };

@@ -1,68 +1,70 @@
-import { render, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { Provider } from 'react-redux';
-import DetailsCard from './DetailsCard';
-import store from '../../store/store';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, Mock } from 'vitest';
+import { useDispatch } from 'react-redux';
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
-import { mockPlanet1, planetArrayDetails1 } from '../../tests/mockData';
+import { mockPlanet1, mockPlanetArrayDetails1 } from '../../tests/mockData';
+import DetailaCard from './DetailsCard';
 
-// vi.mock('../../service/apiRtk', async (importOriginal) => {
-//   const actual = (await importOriginal()) as typeof import('react-redux');
-//   return {
-//     ...actual,
-//     useGetDetailsQuery: vi.fn(),
-//   };
-// });
-
-vi.mock('../../utils/transformPropsArrayToString', () => ({
-  default: vi.fn().mockResolvedValue('mocked string'),
+vi.mock('react-redux', () => ({
+  useDispatch: vi.fn(),
 }));
 
-// vi.mock('../../utils/styleTheme', () => ({
-//   default: vi.fn().mockReturnValue({ backgroundColor: 'white' }),
-// }));
-
-// vi.mock('../../hooks/useTheme', () => ({
-//   useTheme: () => ['light'],
-// }));
-
-vi.mock('./CloseDetailsButton', () => ({
+vi.mock('../../components/DetailsCard/CloseDetailsButton', () => ({
+  __esModule: true,
   default: () => <button>Close</button>,
 }));
 
-describe('DetailsCard Component', () => {
-  // it('should display error message if there is an error', () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <DetailsCard
-  //         planet={mockPlanet1}
-  //         planetArrayDetails={planetArrayDetails1}
-  //       />
-  //     </Provider>
-  //   );
+describe('DetailaCard', () => {
+  const mockDispatch = vi.fn();
 
-  //   expect(screen.getByText('Error: Error message')).toBeInTheDocument();
-  // });
+  beforeEach(() => {
+    (useDispatch as unknown as Mock).mockReturnValue(mockDispatch);
+  });
 
-  it('should dispatch setCurrentCard action when data is fetched', async () => {
-    // (useGetDetailsQuery as Mock).mockReturnValue({
-    //   data: mockPlanet,
-    //   isFetching: false,
-    //   error: null,
-    // });
-
-    const dispatch = vi.spyOn(store, 'dispatch');
+  it('should render the component and dispatch setCurrentCard action on mount', () => {
     render(
-      <Provider store={store}>
-        <DetailsCard
-          planet={mockPlanet1}
-          planetArrayDetails={planetArrayDetails1}
-        />
-      </Provider>
+      <DetailaCard
+        planet={mockPlanet1}
+        planetArrayDetails={{ filmTitles: 'film1', residentNames: 'people1' }}
+      />
     );
 
-    await waitFor(() => {
-      expect(dispatch).toHaveBeenCalledWith(setCurrentCard(mockPlanet1));
-    });
+    expect(mockDispatch).toHaveBeenCalledWith(setCurrentCard(mockPlanet1));
+
+    expect(screen.getByText(/Details/)).toBeInTheDocument();
+    expect(screen.getByText(/Planet:/)).toBeInTheDocument();
+    expect(screen.getByText(/Tatooine/)).toBeInTheDocument();
+    expect(screen.getByText(/created/)).toBeInTheDocument();
+    expect(screen.getByText(/edited/)).toBeInTheDocument();
+    expect(screen.getByText(/film1/)).toBeInTheDocument();
+    expect(screen.getByText(/people1/)).toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveAttribute(
+      'href',
+      'https://swapi.dev/api/planets/1/'
+    );
+    expect(screen.getByText(/Close/)).toBeInTheDocument();
+  });
+
+  it('should format dates correctly', () => {
+    render(
+      <DetailaCard
+        planet={mockPlanet1}
+        planetArrayDetails={mockPlanetArrayDetails1}
+      />
+    );
+
+    expect(screen.getByText(/Tue Dec 09/)).toBeInTheDocument();
+    expect(screen.getByText(/Sat Dec 20/)).toBeInTheDocument();
+  });
+
+  it('should conditionally render additional details', () => {
+    render(
+      <DetailaCard
+        planet={mockPlanet1}
+        planetArrayDetails={{ filmTitles: '', residentNames: '' }}
+      />
+    );
+    expect(screen.queryByText(/films:/)).toBeNull();
+    expect(screen.queryByText(/residents:/)).toBeNull();
   });
 });

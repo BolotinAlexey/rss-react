@@ -1,50 +1,54 @@
-// import { render, screen } from '@testing-library/react';
-// import { MemoryRouter, Route, Routes } from 'react-router-dom';
-// import LinkPage from './LinkPage';
-// import { LS_KEY } from '../../constants';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, Mock } from 'vitest';
+import { useRouter } from 'next/router';
+import LinkPage from './LinkPage';
 
-// const renderWithRouter = (ui: React.ReactElement, { route = '/' } = {}) => {
-//   window.history.pushState({}, 'Test page', route);
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
-//   return render(
-//     <MemoryRouter initialEntries={[route]}>
-//       <Routes>
-//         <Route path="/" element={ui} />
-//       </Routes>
-//     </MemoryRouter>
-//   );
-// };
+describe('LinkPage', () => {
+  it('should navigate to the correct page on button click', () => {
+    const mockPush = vi.fn();
+    (useRouter as Mock).mockReturnValue({
+      pathname: '/',
+      query: { page: '1' },
+      push: mockPush,
+    });
 
-// describe('LinkPage component', () => {
-//   beforeEach(() => {
-//     localStorage.setItem(LS_KEY, 'test');
-//   });
+    render(<LinkPage page={2} />);
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
+    fireEvent.click(screen.getByText('2'));
 
-//   it('renders NavLink with the correct page number', () => {
-//     renderWithRouter(<LinkPage page={1} />);
+    expect(mockPush).toHaveBeenCalledWith({
+      pathname: '/',
+      query: { page: 2 },
+    });
+  });
 
-//     const linkElement = screen.getByText('1');
-//     expect(linkElement).toBeInTheDocument();
-//     expect(linkElement).toHaveClass('paginator__link');
-//   });
+  it('should have the active-page class when page matches the current query', () => {
+    (useRouter as Mock).mockReturnValue({
+      pathname: '/',
+      query: { page: '2' },
+      push: vi.fn(),
+    });
 
-//   it('sets the correct URL in the NavLink', () => {
-//     renderWithRouter(<LinkPage page={2} />, { route: '/?page=1&search=test' });
+    render(<LinkPage page={2} />);
 
-//     const linkElement = screen.getByText('2');
-//     expect(linkElement).toBeInTheDocument();
-//     expect(linkElement).toHaveAttribute('href', '/?page=2&search=test');
-//   });
+    const button = screen.getByText('2');
+    expect(button).toHaveClass('paginator__link active-page');
+  });
 
-//   it('applies the active-page class when the link is active', () => {
-//     renderWithRouter(<LinkPage page={2} />, { route: '/?page=2&search=test' });
+  it('should not have the active-page class when page does not match the current query', () => {
+    (useRouter as Mock).mockReturnValue({
+      pathname: '/',
+      query: { page: '1' },
+      push: vi.fn(),
+    });
 
-//     const linkElement = screen.getByText('2');
-//     expect(linkElement).toBeInTheDocument();
-//     expect(linkElement).toHaveClass('active-page');
-//   });
-// });
+    render(<LinkPage page={2} />);
+
+    const button = screen.getByText('2');
+    expect(button).toHaveClass('paginator__link');
+  });
+});

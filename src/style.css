@@ -420,6 +420,14 @@ input[type='search']::-webkit-search-cancel-button {
   font-size: 2rem;
 }
 
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 /* Loader */
 .loader {
   position: fixed;

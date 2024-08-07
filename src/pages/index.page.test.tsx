@@ -39,12 +39,10 @@ describe('index.tsx page component', () => {
       />
     );
 
-    expect(screen.getByText('Header')).toBeInTheDocument();
     expect(screen.getByText('Loading..')).toBeInTheDocument();
 
     setTimeout(async () => {
       await waitFor(() => {
-        expect(screen.getByText('Header')).toBeInTheDocument();
         expect(screen.queryByText('Loading..')).not.toBeInTheDocument();
       });
     }, 1000);

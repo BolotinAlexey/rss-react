@@ -1,8 +1,6 @@
 import { Provider } from 'react-redux';
 import ErrorBoundary from '../components/ErrorBoundary';
 import store from '../store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import Header from '../components/Header';
 import { getDetails, getPage } from '../service/api';
 import { IPlanet, IPlanetResponse } from '../interfaces';
 import { GetServerSidePropsContext } from 'next';
@@ -56,14 +54,11 @@ export default function index({
   return (
     <ErrorBoundary>
       <Provider store={store}>
-        <ThemeProvider>
-          <Header />
-          <IndexPage
-            response={resp}
-            planet={planet}
-            planetArrayDetails={planetArrayDetails}
-          />
-        </ThemeProvider>
+        <IndexPage
+          response={resp}
+          planet={planet}
+          planetArrayDetails={planetArrayDetails}
+        />
       </Provider>
     </ErrorBoundary>
   );

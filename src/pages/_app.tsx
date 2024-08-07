@@ -1,10 +1,13 @@
 import { AppProps } from 'next/app';
 import '../style.css';
+import Layout from '../components/Layout/Layout';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <main>
-    <Component {...pageProps} />
-  </main>
+  <Layout>
+    <main>
+      <Component {...pageProps} />
+    </main>
+  </Layout>
 );
 
 export default MyApp;

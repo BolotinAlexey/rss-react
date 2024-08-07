@@ -1,13 +1,10 @@
 import { IPlanet } from '../../interfaces';
 import Card from '../Card';
-import Loader from '../Loader';
 
 export default function DataView({ planets }: { planets: IPlanet[] }) {
   return (
     <section className="section section-list">
-      {!planets ? (
-        <Loader />
-      ) : planets?.length ? (
+      {planets?.length ? (
         <ul className="list">
           {planets.map((planet: IPlanet) => {
             return (

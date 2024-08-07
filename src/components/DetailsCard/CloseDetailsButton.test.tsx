@@ -2,59 +2,57 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
 import { useRouter } from 'next/router';
 import CloseDetailsButton from './CloseDetailsButton';
+import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 
-interface MockRouter {
-  query: Record<string, string>;
-  push: (path: string) => void;
-}
+vi.mock('../../utils/setNewPathWithoutDetails', () => ({
+  __esModule: true,
+  default: vi.fn(),
+}));
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
 
-describe('CloseDetailsButton component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+const mockPush = vi.fn();
 
+const mockRouter = {
+  pathname: '/current-page',
+  query: {
+    page: '1',
+    search: 'test',
+    details: '123',
+  },
+  push: mockPush,
+};
+
+describe('CloseDetailsButton', () => {
   it('should render the button with correct text', () => {
-    const mockRouter: MockRouter = {
-      query: {},
-      push: vi.fn(),
-    };
-
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    (useRouter as Mock).mockReturnValue(mockRouter);
 
     render(<CloseDetailsButton />);
     const button = screen.getByText('Hide details');
     expect(button).toBeInTheDocument();
   });
 
-  it('should call navigate with the correct path when button is clicked', () => {
-    const mockPush = vi.fn();
-    (useRouter as unknown as Mock).mockReturnValue({
-      query: { page: '1', search: 'test' },
-      push: mockPush,
-    });
+  it('should call setNewPathWithoutDetails and push new path on button click', () => {
+    (useRouter as unknown as Mock).mockReturnValue(mockRouter);
+
+    const newPathWithoutDetails = {
+      pathname: '/current-page',
+      query: {
+        page: '1',
+        search: 'test',
+      },
+    };
+    (setNewPathWithoutDetails as unknown as Mock).mockReturnValue(
+      newPathWithoutDetails
+    );
 
     render(<CloseDetailsButton />);
+
     fireEvent.click(screen.getByText('Hide details'));
 
-    expect(mockPush).toHaveBeenCalledWith('/?page=1&search=test');
-  });
-
-  it('should handle empty query', () => {
-    const mockRouter: MockRouter = {
-      query: {},
-      push: vi.fn(),
-    };
-
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
-
-    render(<CloseDetailsButton />);
-    const button = screen.getByText('Hide details');
-    fireEvent.click(button);
-
-    expect(mockRouter.push).toHaveBeenCalledWith('/?');
+    expect(setNewPathWithoutDetails).toHaveBeenCalledWith(mockRouter);
+    expect(mockPush).toHaveBeenCalledWith(newPathWithoutDetails);
   });
 });

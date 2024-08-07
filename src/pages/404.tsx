@@ -7,9 +7,7 @@ export default function NotFound() {
     <ThemeProvider>
       <section className="not-found">
         <h2 className="section__title">404 Not Found</h2>
-        <Link href="/" className="text-red-800 text-3xl">
-          Go Back
-        </Link>
+        <Link href="/">Go Back</Link>
       </section>
     </ThemeProvider>
   );

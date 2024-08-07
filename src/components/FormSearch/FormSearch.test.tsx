@@ -1,31 +1,104 @@
-// import { render, screen } from '@testing-library/react';
-// import { vi } from 'vitest';
-// import FormSearch from '../FormSearch';
-// import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, Mock } from 'vitest';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import useLS from '../../hooks/useLS';
+import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
+import { resetCurrentCard } from '../../store/slices/currentCardSlice';
+import FormSearch from './FormSearch';
 
-// vi.mock('../../hooks/useLS', () => ({
-//   __esModule: true,
-//   default: () => ['', vi.fn(), vi.fn()],
-// }));
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
-// const renderWithRouter = (ui: React.ReactElement) => {
-//   const routes = [{ path: '/', element: ui }];
-//   const router = createMemoryRouter(routes, { initialEntries: ['/'] });
-//   return render(<RouterProvider router={router} />);
-// };
+vi.mock('react-redux', () => ({
+  useDispatch: vi.fn(),
+}));
 
-// const onSubmitName = vi.fn();
+vi.mock('../../hooks/useLS', () => ({
+  __esModule: true,
+  default: vi.fn(),
+}));
 
-// it('renders input with placeholder "Enter name"', async () => {
-//   renderWithRouter(<FormSearch onSubmitName={onSubmitName} />);
+vi.mock('../../utils/setNewPathWithoutDetails', () => ({
+  __esModule: true,
+  default: vi.fn(),
+}));
 
-//   const inputElement = screen.getByPlaceholderText('Enter name');
-//   expect(inputElement).toBeInTheDocument();
-// });
+describe('FormSearch', () => {
+  it('should update input value on change', () => {
+    const mockSetName = vi.fn();
+    (useLS as Mock).mockReturnValue(['', mockSetName, vi.fn()]);
 
-// it('renders button with text "Search"', async () => {
-//   renderWithRouter(<FormSearch onSubmitName={onSubmitName} />);
+    render(<FormSearch />);
 
-//   const buttonElement = screen.getByText('Search');
-//   expect(buttonElement).toBeInTheDocument();
-// });
+    const input = screen.getByPlaceholderText('Enter name');
+    fireEvent.change(input, { target: { value: 'Tatooine' } });
+
+    expect(mockSetName).toHaveBeenCalledWith('tatooine');
+  });
+
+  it('should navigate and dispatch action on form submit with details query', async () => {
+    const mockPush = vi.fn();
+    const mockDispatch = vi.fn();
+    const mockSaveNameToLocalStorage = vi.fn();
+    const mockSetNewPathWithoutDetails = {
+      pathname: '/',
+      query: { page: '1', search: '' },
+    };
+
+    (useRouter as Mock).mockReturnValue({
+      pathname: '/',
+      query: { details: '123' },
+      push: mockPush,
+    });
+
+    (useDispatch as unknown as Mock).mockReturnValue(mockDispatch);
+    (useLS as Mock).mockReturnValue(['', vi.fn(), mockSaveNameToLocalStorage]);
+    (setNewPathWithoutDetails as Mock).mockReturnValue(
+      mockSetNewPathWithoutDetails
+    );
+
+    render(<FormSearch />);
+
+    fireEvent.submit(screen.getByTestId('form'));
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith(mockSetNewPathWithoutDetails);
+      expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
+      expect(mockSaveNameToLocalStorage).toHaveBeenCalled();
+    });
+  });
+
+  it('should navigate with search query on form submit without details query', async () => {
+    const mockPush = vi.fn();
+    const mockDispatch = vi.fn();
+    const mockSaveNameToLocalStorage = vi.fn();
+
+    (useRouter as Mock).mockReturnValue({
+      pathname: '/',
+      query: {},
+      push: mockPush,
+    });
+
+    (useDispatch as unknown as Mock).mockReturnValue(mockDispatch);
+    (useLS as Mock).mockReturnValue([
+      'tatooine',
+      vi.fn(),
+      mockSaveNameToLocalStorage,
+    ]);
+
+    render(<FormSearch />);
+
+    fireEvent.submit(screen.getByTestId('form'));
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith({
+        pathname: '/',
+        query: { search: 'tatooine', page: 1 },
+      });
+      expect(mockDispatch).not.toHaveBeenCalled();
+      expect(mockSaveNameToLocalStorage).toHaveBeenCalled();
+    });
+  });
+});

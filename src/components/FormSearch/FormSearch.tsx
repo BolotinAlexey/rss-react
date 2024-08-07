@@ -31,7 +31,7 @@ export default function FormSearch() {
 
   return (
     <section className="section section-form">
-      <form className="form" onSubmit={submitHandler}>
+      <form className="form" data-testid="form" onSubmit={submitHandler}>
         <input
           className="input"
           type="search"

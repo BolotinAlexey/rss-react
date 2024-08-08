@@ -1,20 +1,18 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { LS_KEY } from '../constants';
-import { NextRouter } from 'next/router';
+import { ReadonlyURLSearchParams } from 'next/navigation';
 
 export default function useLS(
-  router: NextRouter
+  query: ReadonlyURLSearchParams
 ): [string, Dispatch<SetStateAction<string>>, () => void] {
   const [name, setName] = useState('');
 
   useEffect(() => {
-    const { search } = router.query;
-    const lsWord = search
-      ? search.toString()
-      : localStorage.getItem(LS_KEY) ?? '';
+    const search = query.get('search');
+    const lsWord = search ? search : localStorage.getItem(LS_KEY) ?? '';
     setName(lsWord);
     return () => saveNameToLocalStorage();
-  }, [router.query]);
+  }, [query]);
 
   const saveNameToLocalStorage = () => {
     localStorage.setItem(LS_KEY, name);

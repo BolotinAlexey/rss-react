@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { IPlanet, IPlanetResponse } from '../../interfaces';
-import { PlanetArrayDetails } from '../../pages';
+import { IPlanet, IPlanetResponse, PlanetArrayDetails } from '../../interfaces';
 import Loader from '../Loader';
 
 const Main = dynamic(() => import('../Main'), {
@@ -18,7 +17,7 @@ export default function IndexPage({
   planetArrayDetails,
 }: {
   response: IPlanetResponse;
-  planet: IPlanet;
+  planet: IPlanet | null;
   planetArrayDetails: PlanetArrayDetails;
 }) {
   return (

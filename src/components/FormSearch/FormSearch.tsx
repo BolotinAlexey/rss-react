@@ -1,25 +1,24 @@
 import { ChangeEvent, FormEvent } from 'react';
 import useLS from '../../hooks/useLS';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 import { useDispatch } from 'react-redux';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 
 export default function FormSearch() {
   const router = useRouter();
+  const query = useSearchParams();
   const dispatch = useDispatch();
-  const [name, setName, saveNameToLocalStorage] = useLS(router);
+  const [name, setName, saveNameToLocalStorage] = useLS(query);
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
 
-    if (router.query.details) {
-      const newPathWithoutDetails = setNewPathWithoutDetails(router);
-      router.push(newPathWithoutDetails);
+    if (query.has('details')) {
+      router.push(setNewPathWithoutDetails(query));
       dispatch(resetCurrentCard());
     } else {
-      const currentQuery = { ...router.query, search: name, page: 1 };
-      router.push({ pathname: router.pathname, query: currentQuery });
+      router.push(`/?page=${query.get('page') ?? '1'}&search=${name ?? ''}`);
     }
 
     saveNameToLocalStorage();

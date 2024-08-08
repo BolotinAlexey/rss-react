@@ -2,12 +2,11 @@ import { Provider } from 'react-redux';
 import ErrorBoundary from '../components/ErrorBoundary';
 import store from '../store';
 import { getDetails, getPage } from '../service/api';
-import { IPlanet, IPlanetResponse } from '../interfaces';
+import { IPlanet, IPlanetResponse, PlanetArrayDetails } from '../interfaces';
 import { GetServerSidePropsContext } from 'next';
 import transformPropsArrayToString from '../utils/transformPropsArrayToString';
 import IndexPage from '../components/IndexPage/IndexPage';
 
-export type PlanetArrayDetails = Record<'filmTitles' | 'residentNames', string>;
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {

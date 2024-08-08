@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import CloseDetailsButton from '../../components/DetailsCard/CloseDetailsButton';
-import { IPlanet } from '../../interfaces';
+import { IPlanet, PlanetArrayDetails } from '../../interfaces';
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
-import { PlanetArrayDetails } from '../../pages';
 import { useDispatch } from 'react-redux';
 
 export default function DetailaCard({

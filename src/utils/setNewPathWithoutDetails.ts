@@ -1,10 +1,10 @@
-import { NextRouter } from 'next/router';
+import { ReadonlyURLSearchParams } from 'next/navigation';
 
-export default function setNewPathWithoutDetails(router: NextRouter) {
-  const { page, search } = router.query;
-  const newPathWithoutDetails = {
-    pathname: router.pathname,
-    query: { page, search },
-  };
-  return newPathWithoutDetails;
+export default function setNewPathWithoutDetails(
+  query: ReadonlyURLSearchParams
+) {
+  const page = query.get('page');
+  const search = query.get('search');
+
+  return `/?page=${page}&search=${search}`;
 }

@@ -5,13 +5,12 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 export default function useLS(
   query: ReadonlyURLSearchParams
 ): [string, Dispatch<SetStateAction<string>>, () => void] {
-  const [name, setName] = useState('');
+  const [name, setName] = useState<string>('');
 
   useEffect(() => {
     const search = query.get('search');
-    const lsWord = search ? search : localStorage.getItem(LS_KEY) ?? '';
+    const lsWord = search || localStorage.getItem(LS_KEY) || '';
     setName(lsWord);
-    return () => saveNameToLocalStorage();
   }, [query]);
 
   const saveNameToLocalStorage = () => {

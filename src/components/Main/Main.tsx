@@ -1,6 +1,6 @@
 'use client';
 
-// import DataView from '../DataView';
+import DataView from '../DataView';
 import FormSearch from '../FormSearch';
 // import Paginator from '../Paginator';
 import { useDispatch } from 'react-redux';
@@ -60,8 +60,8 @@ export default function Main({
         <h1>Planets</h1>
         <FormSearch />
         <hr />
-        {/* <DataView planets={response?.results} />
-        <Paginator countPages={response?.count} /> */}
+        <DataView planets={response?.results} />
+        {/* <Paginator countPages={response?.count} /> */}
         <FlyOut />
       </div>
       {/* {planet && (

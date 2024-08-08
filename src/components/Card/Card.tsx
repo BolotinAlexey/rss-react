@@ -3,14 +3,16 @@ import { IPlanet } from '../../interfaces';
 import searchLastNumber from '../../utils/searchLastNumber';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
+import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 
 export default function Card(planet: IPlanet) {
   const dispatch = useDispatch();
+  const query = useSearchParams();
   const router = useRouter();
 
   const id = searchLastNumber(planet.url);
-  const path = { ...router.query, details: id };
+  const path = `${setNewPathWithoutDetails(query)}&details=${id}`;
 
   const selectedCards = useSelector(
     (state: RootState) => state.cards.selectedCards
@@ -24,7 +26,7 @@ export default function Card(planet: IPlanet) {
       e.target instanceof HTMLInputElement
     )
       return;
-    router.push({ pathname: router.pathname, query: path });
+    router.push(path);
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

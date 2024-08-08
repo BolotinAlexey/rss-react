@@ -18,7 +18,7 @@ export default function FormSearch() {
       router.push(setNewPathWithoutDetails(query));
       dispatch(resetCurrentCard());
     } else {
-      router.push(`/?page=${query.get('page') ?? '1'}&search=${name ?? ''}`);
+      router.push(`/?page=${query.get('page') ?? '1'}&search=${name}`);
     }
 
     saveNameToLocalStorage();

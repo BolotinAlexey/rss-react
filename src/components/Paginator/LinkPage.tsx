@@ -1,15 +1,16 @@
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function LinkPage({ page }: { page: number }) {
   const router = useRouter();
+  const query = useSearchParams();
 
   const createPageUrl = () => {
-    const currentQuery = { ...router.query, page };
-    router.push({ pathname: router.pathname, query: currentQuery });
+    const search = query.get('search');
+    router.push(`?page=${page}&search=${search}`);
   };
 
   const isActive = () => {
-    return router.query.page === page.toString();
+    return query.get('page') === page.toString();
   };
 
   return (

@@ -2,7 +2,7 @@
 
 import DataView from '../DataView';
 import FormSearch from '../FormSearch';
-// import Paginator from '../Paginator';
+import Paginator from '../Paginator';
 import { useDispatch } from 'react-redux';
 import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/navigation';
@@ -61,7 +61,7 @@ export default function Main({
         <FormSearch />
         <hr />
         <DataView planets={response?.results} />
-        {/* <Paginator countPages={response?.count} /> */}
+        <Paginator countPages={response?.count} />
         <FlyOut />
       </div>
       {/* {planet && (

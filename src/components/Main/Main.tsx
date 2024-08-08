@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { IPlanet, IPlanetResponse, PlanetArrayDetails } from '../../interfaces';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 import { useEffect } from 'react';
-// import DetailsCard from '../DetailsCard';
+import DetailsCard from '../DetailsCard';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 // import useLoading from '../../hooks/useLoading';
 import Loader from '../Loader';
@@ -64,9 +64,9 @@ export default function Main({
         <Paginator countPages={response?.count} />
         <FlyOut />
       </div>
-      {/* {planet && (
+      {planet && (
         <DetailsCard planet={planet} planetArrayDetails={planetArrayDetails} />
-      )} */}
+      )}
     </section>
   );
 }

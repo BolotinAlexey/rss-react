@@ -3,6 +3,7 @@ import { NextRouter } from 'next/router';
 import { vi } from 'vitest';
 import { CardsState } from '../store/slices/cardsSlice';
 import { CurrentCardState } from '../store/slices/currentCardSlice';
+import { useRouter } from 'next/navigation';
 
 vi.mock('../service/apiRtk.ts', () => ({
   useGetDetailsQuery: vi.fn(() => ({
@@ -105,8 +106,51 @@ export const initialState = {
   currentCard: initialCurrentCardState,
 };
 
-export const mockRouter: NextRouter = {
+export const mockSearchParams: Readonly<URLSearchParams> = {
+  get: (key: string) => {
+    const params: Record<string, string> = {
+      details: '1',
+      anotherParam: 'value',
+    };
+    return params[key] || null;
+  },
+  toString: () => {
+    return 'details=1&anotherParam=value';
+  },
+  has: (key: string) => ['details', 'anotherParam'].includes(key),
+  getAll: (key: string) => [mockSearchParams.get(key) || ''],
+  keys: () =>
+    Object.keys({ details: '1', anotherParam: 'value' })[Symbol.iterator](),
+  entries: () =>
+    Object.entries({ details: '1', anotherParam: 'value' })[Symbol.iterator](),
+  values: () =>
+    Object.values({ details: '1', anotherParam: 'value' })[Symbol.iterator](),
+  [Symbol.iterator]: function* () {
+    yield* Object.entries({ details: '1', anotherParam: 'value' });
+  },
+  append: () => {
+    throw new Error('Not implemented');
+  },
+  delete: () => {
+    throw new Error('Not implemented');
+  },
+  set: () => {
+    throw new Error('Not implemented');
+  },
+  sort: () => {
+    throw new Error('Not implemented');
+  },
+} as unknown as Readonly<URLSearchParams>;
+
+export const mockRouter = {
   push: vi.fn(),
+  back: vi.fn(),
+  refresh: vi.fn(),
+  replace: vi.fn(),
+  route: '/',
   pathname: '/',
   query: {},
-} as unknown as NextRouter;
+  asPath: '/',
+  basePath: '/',
+  locale: 'en',
+} as unknown as ReturnType<typeof useRouter>;

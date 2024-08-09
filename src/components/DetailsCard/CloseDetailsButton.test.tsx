@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import CloseDetailsButton from './CloseDetailsButton';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 
@@ -9,50 +9,48 @@ vi.mock('../../utils/setNewPathWithoutDetails', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
+  useSearchParams: vi.fn(),
 }));
 
-const mockPush = vi.fn();
-
-const mockRouter = {
-  pathname: '/current-page',
-  query: {
-    page: '1',
-    search: 'test',
-    details: '123',
-  },
-  push: mockPush,
-};
-
 describe('CloseDetailsButton', () => {
-  it('should render the button with correct text', () => {
-    (useRouter as Mock).mockReturnValue(mockRouter);
+  const mockPush = vi.fn();
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+
+    (useRouter as Mock).mockReturnValue({
+      push: mockPush,
+    });
+
+    (useSearchParams as Mock).mockReturnValue({
+      get: (key: 'page' | 'search' | 'details') => {
+        const params: Record<'page' | 'search' | 'details', string> = {
+          page: '1',
+          search: 'test',
+          details: '123',
+        };
+        return params[key];
+      },
+    });
+  });
+
+  it('should render the button with correct text', () => {
     render(<CloseDetailsButton />);
     const button = screen.getByText('Hide details');
     expect(button).toBeInTheDocument();
   });
 
   it('should call setNewPathWithoutDetails and push new path on button click', () => {
-    (useRouter as unknown as Mock).mockReturnValue(mockRouter);
-
-    const newPathWithoutDetails = {
-      pathname: '/current-page',
-      query: {
-        page: '1',
-        search: 'test',
-      },
-    };
-    (setNewPathWithoutDetails as unknown as Mock).mockReturnValue(
-      newPathWithoutDetails
-    );
+    const newPathWithoutDetails = '/?page=1&search=test';
+    (setNewPathWithoutDetails as Mock).mockReturnValue(newPathWithoutDetails);
 
     render(<CloseDetailsButton />);
 
     fireEvent.click(screen.getByText('Hide details'));
 
-    expect(setNewPathWithoutDetails).toHaveBeenCalledWith(mockRouter);
+    expect(setNewPathWithoutDetails).toHaveBeenCalledWith(expect.any(Object));
     expect(mockPush).toHaveBeenCalledWith(newPathWithoutDetails);
   });
 });

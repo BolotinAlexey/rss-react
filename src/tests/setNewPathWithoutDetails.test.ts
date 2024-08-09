@@ -1,102 +1,45 @@
-import { describe, it, expect, vi } from 'vitest';
-import { NextRouter } from 'next/router';
+import { describe, it, expect } from 'vitest';
+import { ReadonlyURLSearchParams } from 'next/navigation';
 import setNewPathWithoutDetails from '../utils/setNewPathWithoutDetails';
 
 describe('setNewPathWithoutDetails', () => {
+  const createMockSearchParams = (
+    params: Record<string, string | undefined>
+  ) => {
+    return {
+      get: (key: string) => params[key] || null,
+    } as ReadonlyURLSearchParams;
+  };
+
   it('should return a path without the details query parameter', () => {
-    const mockRouter: NextRouter = {
-      pathname: '/current-page',
-      query: {
-        page: '1',
-        search: 'test',
-        details: '123',
-      },
-      asPath: '',
-      basePath: '',
-      isFallback: false,
-      prefetch: vi.fn(),
-      push: vi.fn(),
-      replace: vi.fn(),
-      reload: vi.fn(),
-      back: vi.fn(),
-      beforePopState: vi.fn(),
-      events: {
-        on: vi.fn(),
-        off: vi.fn(),
-        emit: vi.fn(),
-      },
-    } as unknown as NextRouter;
-
-    const result = setNewPathWithoutDetails(mockRouter);
-
-    expect(result).toEqual({
-      pathname: '/current-page',
-      query: {
-        page: '1',
-        search: 'test',
-      },
+    const mockQuery = createMockSearchParams({
+      page: '1',
+      search: 'test',
+      details: '123',
     });
+
+    const result = setNewPathWithoutDetails(mockQuery);
+
+    expect(result).toBe('/?page=1&search=test');
   });
 
   it('should handle missing query parameters', () => {
-    const mockRouter: NextRouter = {
-      pathname: '/current-page',
-      query: {},
-      asPath: '',
-      basePath: '',
-      isFallback: false,
-      prefetch: vi.fn(),
-      push: vi.fn(),
-      replace: vi.fn(),
-      reload: vi.fn(),
-      back: vi.fn(),
-      beforePopState: vi.fn(),
-      events: {
-        on: vi.fn(),
-        off: vi.fn(),
-        emit: vi.fn(),
-      },
-    } as unknown as NextRouter;
+    const mockQuery = createMockSearchParams({});
 
-    const result = setNewPathWithoutDetails(mockRouter);
+    const result = setNewPathWithoutDetails(mockQuery);
 
-    expect(result).toEqual({
-      pathname: '/current-page',
-      query: {},
-    });
+    expect(result).toBe('/?page=null&search=null');
   });
 
   it('should handle query parameters with undefined values', () => {
-    const mockRouter: NextRouter = {
-      pathname: '/current-page',
-      query: {
-        page: undefined,
-        search: 'test',
-        details: '123',
-      },
-      asPath: '',
-      basePath: '',
-      isFallback: false,
-      prefetch: vi.fn(),
-      push: vi.fn(),
-      replace: vi.fn(),
-      reload: vi.fn(),
-      back: vi.fn(),
-      beforePopState: vi.fn(),
-      events: {
-        on: vi.fn(),
-        off: vi.fn(),
-        emit: vi.fn(),
-      },
-    } as unknown as NextRouter;
-
-    const result = setNewPathWithoutDetails(mockRouter);
-
-    expect(result).toEqual({
-      pathname: '/current-page',
-      query: {
-        search: 'test',
-      },
+    const mockQuery = createMockSearchParams({
+      page: undefined,
+      search: 'test',
+      details: '123',
     });
+
+    const result = setNewPathWithoutDetails(mockQuery);
+
+    expect(result).toBe('/?page=null&search=test');
   });
 });

@@ -3,8 +3,12 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { describe, it, expect, vi, Mock } from 'vitest';
 import Card from './Card';
-import { useRouter } from 'next/router';
-import { initialState, mockPlanet1, mockRouter } from '../../tests/mockData';
+import { useRouter, useSearchParams } from 'next/navigation';
+import {
+  initialState,
+  mockPlanet1,
+  mockSearchParams,
+} from '../../tests/mockData';
 import cardsSlice, {
   CardsState,
   addCard,
@@ -14,18 +18,17 @@ import currentCardSlice, {
   CurrentCardState,
 } from '../../store/slices/currentCardSlice';
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
+  useSearchParams: vi.fn(),
 }));
 
-const initialCardsState: CardsState = {
-  selectedCards: [],
-};
 const initialCurrentCardState: CurrentCardState = {
   currentCard: null,
 };
 
-(useRouter as Mock).mockReturnValue(mockRouter);
+(useRouter as Mock).mockReturnValue({ push: vi.fn() });
+(useSearchParams as Mock).mockReturnValue(mockSearchParams);
 
 const renderWithStore = (initialState: {
   cards: CardsState;
@@ -107,19 +110,5 @@ describe('Card component', () => {
     fireEvent.click(checkbox);
 
     expect(dispatchMock).toHaveBeenCalledWith(removeCard(mockPlanet1.name));
-  });
-
-  it('should navigate to details page and set loading state on card click', () => {
-    renderWithStore({
-      cards: initialCardsState,
-      currentCard: initialCurrentCardState,
-    });
-
-    fireEvent.click(screen.getByText('Tatooine'));
-
-    expect(mockRouter.push).toHaveBeenCalledWith({
-      pathname: '/',
-      query: { details: '1' },
-    });
   });
 });

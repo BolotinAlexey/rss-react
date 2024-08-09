@@ -1,14 +1,14 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import useLS from '../../hooks/useLS';
-import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import FormSearch from './FormSearch';
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
+  useSearchParams: vi.fn(),
 }));
 
 vi.mock('react-redux', () => ({
@@ -16,11 +16,6 @@ vi.mock('react-redux', () => ({
 }));
 
 vi.mock('../../hooks/useLS', () => ({
-  __esModule: true,
-  default: vi.fn(),
-}));
-
-vi.mock('../../utils/setNewPathWithoutDetails', () => ({
   __esModule: true,
   default: vi.fn(),
 }));
@@ -38,49 +33,16 @@ describe('FormSearch', () => {
     expect(mockSetName).toHaveBeenCalledWith('tatooine');
   });
 
-  it('should navigate and dispatch action on form submit with details query', async () => {
-    const mockPush = vi.fn();
-    const mockDispatch = vi.fn();
-    const mockSaveNameToLocalStorage = vi.fn();
-    const mockSetNewPathWithoutDetails = {
-      pathname: '/',
-      query: { page: '1', search: '' },
-    };
-
-    (useRouter as Mock).mockReturnValue({
-      pathname: '/',
-      query: { details: '123' },
-      push: mockPush,
-    });
-
-    (useDispatch as unknown as Mock).mockReturnValue(mockDispatch);
-    (useLS as Mock).mockReturnValue(['', vi.fn(), mockSaveNameToLocalStorage]);
-    (setNewPathWithoutDetails as Mock).mockReturnValue(
-      mockSetNewPathWithoutDetails
-    );
-
-    render(<FormSearch />);
-
-    fireEvent.submit(screen.getByTestId('form'));
-
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith(mockSetNewPathWithoutDetails);
-      expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
-      expect(mockSaveNameToLocalStorage).toHaveBeenCalled();
-    });
-  });
-
-  it('should navigate with search query on form submit without details query', async () => {
+  it('should navigate and dispatch action on form submit', async () => {
     const mockPush = vi.fn();
     const mockDispatch = vi.fn();
     const mockSaveNameToLocalStorage = vi.fn();
 
     (useRouter as Mock).mockReturnValue({
-      pathname: '/',
-      query: {},
       push: mockPush,
     });
 
+    (useSearchParams as Mock).mockReturnValue(new URLSearchParams(''));
     (useDispatch as unknown as Mock).mockReturnValue(mockDispatch);
     (useLS as Mock).mockReturnValue([
       'tatooine',
@@ -93,11 +55,8 @@ describe('FormSearch', () => {
     fireEvent.submit(screen.getByTestId('form'));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith({
-        pathname: '/',
-        query: { search: 'tatooine', page: 1 },
-      });
-      expect(mockDispatch).not.toHaveBeenCalled();
+      expect(mockPush).toHaveBeenCalledWith('/?page=1&search=tatooine');
+      expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
       expect(mockSaveNameToLocalStorage).toHaveBeenCalled();
     });
   });

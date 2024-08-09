@@ -1,6 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi, Mock } from 'vitest';
-import { TestComponent } from '../tests/mockElement';
+import { ReadonlyURLSearchParams } from 'next/navigation';
+import useLS from '../hooks/useLS';
+
+vi.mock('next/navigation', () => ({
+  __esModule: true,
+  ReadonlyURLSearchParams: vi.fn(),
+}));
+
+const TestComponent = ({ query }: { query: ReadonlyURLSearchParams }) => {
+  const [name] = useLS(query);
+
+  return <div data-testid="name">{name}</div>;
+};
 
 describe('useLS', () => {
   beforeEach(() => {
@@ -19,16 +31,23 @@ describe('useLS', () => {
     vi.clearAllMocks();
   });
 
-  it('should initialize with value from localStorage if no query param', () => {
+  it('should initialize with value from localStorage if no search query param is provided', () => {
     (window.localStorage.getItem as Mock).mockReturnValue('storedValue');
 
-    render(<TestComponent query={{}} />);
+    const mockQuery =
+      new URLSearchParams() as unknown as ReadonlyURLSearchParams;
+
+    render(<TestComponent query={mockQuery} />);
 
     expect(screen.getByTestId('name').textContent).toBe('storedValue');
   });
 
-  it('should initialize with query parameter if provided', () => {
-    render(<TestComponent query={{ search: 'queryValue' }} />);
+  it('should initialize with search query parameter if provided', () => {
+    const mockQuery = new URLSearchParams({
+      search: 'queryValue',
+    }) as unknown as ReadonlyURLSearchParams;
+
+    render(<TestComponent query={mockQuery} />);
 
     expect(screen.getByTestId('name').textContent).toBe('queryValue');
   });

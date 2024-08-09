@@ -9,12 +9,19 @@ import cardsSlice, { CardsState } from '../../store/slices/cardsSlice';
 import currentCardSlice, {
   CurrentCardState,
 } from '../../store/slices/currentCardSlice';
-import { mockPlanet1, mockPlanet2, mockRouter } from '../../tests/mockData';
+import {
+  mockPlanet1,
+  mockPlanet2,
+  mockRouter,
+  mockSearchParams,
+} from '../../tests/mockData';
 import { IPlanet } from '../../interfaces';
 
 const planets: IPlanet[] = [mockPlanet1, mockPlanet2];
-vi.mock('next/router', () => ({
+
+vi.mock('next/navigation', () => ({
   useRouter: () => mockRouter,
+  useSearchParams: () => mockSearchParams,
 }));
 
 const initialCardsState: CardsState = {
@@ -61,10 +68,9 @@ describe('DataView', () => {
     user.click(tatooine);
 
     await waitFor(() => {
-      expect(mockRouter.push).toHaveBeenCalledWith({
-        pathname: '/',
-        query: { details: '1' },
-      });
+      expect(mockRouter.push).toHaveBeenCalledWith(
+        '/?page=null&search=null&details=1'
+      );
     });
   });
 
@@ -99,6 +105,7 @@ describe('DataView', () => {
         </Provider>
       );
     };
+
     renderWithStoreEmpty({
       cards: initialCardsState,
       currentCard: initialCurrentCardState,

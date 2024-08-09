@@ -1,35 +1,25 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import Main from './Main';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import { IPlanet, IPlanetResponse } from '../../interfaces';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
-import useLoading from '../../hooks/useLoading';
 import { mockPlanet1, mockPlanetArrayDetails1 } from '../../tests/mockData';
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
+  useSearchParams: vi.fn(),
 }));
 
 vi.mock('react-redux', () => ({
   useDispatch: vi.fn(),
 }));
 
-vi.mock('../../hooks/useLoading', () => ({
-  __esModule: true,
-  default: vi.fn(),
-}));
-
 vi.mock('../../utils/setNewPathWithoutDetails', () => ({
   __esModule: true,
   default: vi.fn(),
-}));
-
-vi.mock('../Loader', () => ({
-  __esModule: true,
-  default: () => <div>Loading...</div>,
 }));
 
 vi.mock('../DataView', () => ({
@@ -57,6 +47,11 @@ vi.mock('../DetailsCard', () => ({
   default: () => <div>DetailsCard</div>,
 }));
 
+vi.mock('../Loader', () => ({
+  __esModule: true,
+  default: () => <div>Loading...</div>,
+}));
+
 describe('Main Component', () => {
   const mockResponse: IPlanetResponse = {
     results: [{ name: 'Tatooine' }] as IPlanet[],
@@ -64,15 +59,17 @@ describe('Main Component', () => {
     next: null,
     previous: null,
   };
-  (useLoading as Mock).mockReturnValue([false]);
 
   it('should render child components correctly', () => {
     const mockPush = vi.fn();
+    const mockSearchParams = new URLSearchParams();
+
     (useRouter as Mock).mockReturnValue({
       pathname: '/',
-      query: {},
       push: mockPush,
     });
+
+    (useSearchParams as Mock).mockReturnValue(mockSearchParams);
 
     render(
       <Main
@@ -82,7 +79,6 @@ describe('Main Component', () => {
       />
     );
 
-    expect(screen.getByText('Planets')).toBeInTheDocument();
     expect(screen.getByText('FormSearch')).toBeInTheDocument();
     expect(screen.getByText('DataView')).toBeInTheDocument();
     expect(screen.getByText('Paginator')).toBeInTheDocument();
@@ -91,33 +87,15 @@ describe('Main Component', () => {
   });
 
   it('should render Loader when isLoading is true', () => {
-    (useLoading as Mock).mockReturnValue([true]);
     const mockPush = vi.fn();
+    const mockSearchParams = new URLSearchParams();
+
     (useRouter as Mock).mockReturnValue({
       pathname: '/',
-      query: {},
       push: mockPush,
     });
 
-    render(
-      <Main
-        response={mockResponse}
-        planet={mockPlanet1}
-        planetArrayDetails={mockPlanetArrayDetails1}
-      />
-    );
-
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-  });
-
-  it('should not render Loader when isLoading is false', () => {
-    (useLoading as Mock).mockReturnValue([false]);
-    const mockPush = vi.fn();
-    (useRouter as Mock).mockReturnValue({
-      pathname: '/',
-      query: {},
-      push: mockPush,
-    });
+    (useSearchParams as Mock).mockReturnValue(mockSearchParams);
 
     render(
       <Main
@@ -133,14 +111,11 @@ describe('Main Component', () => {
   it('should handle click outside and dispatch resetCurrentCard action', async () => {
     const mockPush = vi.fn();
     const mockDispatch = vi.fn();
-    const mockSetNewPathWithoutDetails = {
-      pathname: '/',
-      query: { page: '1', search: '' },
-    };
+    const mockSetNewPathWithoutDetails = '/?page=1&search=';
+    const mockSearchParams = new URLSearchParams({ details: '123' });
 
     (useRouter as Mock).mockReturnValue({
       pathname: '/',
-      query: { details: '123' },
       push: mockPush,
     });
 
@@ -149,6 +124,8 @@ describe('Main Component', () => {
       mockSetNewPathWithoutDetails
     );
 
+    (useSearchParams as Mock).mockReturnValue(mockSearchParams);
+
     render(
       <Main
         response={mockResponse}
@@ -157,8 +134,7 @@ describe('Main Component', () => {
       />
     );
 
-    fireEvent.click(screen.getByText('Planets'));
-
+    fireEvent.click(screen.getByText('FormSearch'));
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith(mockSetNewPathWithoutDetails);
       expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
@@ -167,12 +143,14 @@ describe('Main Component', () => {
 
   it('should redirect to the correct query page on mount', () => {
     const mockPush = vi.fn();
+    const mockSearchParams = new URLSearchParams();
 
     (useRouter as Mock).mockReturnValue({
       pathname: '/',
-      query: { search: '', page: '' },
       push: mockPush,
     });
+
+    (useSearchParams as Mock).mockReturnValue(mockSearchParams);
 
     render(
       <Main
@@ -182,9 +160,6 @@ describe('Main Component', () => {
       />
     );
 
-    expect(mockPush).toHaveBeenCalledWith({
-      pathname: '/',
-      query: { search: '', page: '1' },
-    });
+    expect(mockPush).toHaveBeenCalledWith('/?page=1&search=');
   });
 });

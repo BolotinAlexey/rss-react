@@ -1,10 +1,5 @@
-// export const metadata: Metadata = {
-//   title: 'StarWars planets',
-//   description: 'Next.js app',
-// };
-
-import IndexPage from '../components/IndexPage';
-import { IPlanet, PlanetArrayDetails } from '../interfaces';
+import Main from '../components/Main';
+import { IPlanet, IPlanetResponse, PlanetArrayDetails } from '../interfaces';
 import { getDetails, getPage } from '../service/api';
 import transformPropsArrayToString from '../utils/transformPropsArrayToString';
 
@@ -14,13 +9,13 @@ export default async function Page({
   searchParams: { [key: string]: string };
 }) {
   const { page, search, details } = searchParams;
-  const resp = await getPage(
+  const resp = (await getPage(
     Number.parseInt(page?.toString() ?? '1'),
     search?.toString() ?? ''
-  );
+  )) as IPlanetResponse;
 
   const planet: IPlanet | null = details
-    ? await getDetails(details.toString() ?? '1')
+    ? ((await getDetails(details.toString() ?? '1')) as IPlanet)
     : null;
 
   const planetArrayDetails: PlanetArrayDetails = {
@@ -41,7 +36,7 @@ export default async function Page({
     );
   }
   return (
-    <IndexPage
+    <Main
       response={resp}
       planet={planet}
       planetArrayDetails={planetArrayDetails}

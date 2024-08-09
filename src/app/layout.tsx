@@ -18,7 +18,10 @@ export default function RootLayout({
         <Provider store={store}>
           <body>
             <Header />
-            <main>{children}</main>
+            <main>
+              <h1>Planets</h1>
+              {children}
+            </main>
           </body>
         </Provider>
       </ThemeProvider>

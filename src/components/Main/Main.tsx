@@ -8,10 +8,9 @@ import FlyOut from '../FlyOut/FlyOut';
 import { useRouter } from 'next/navigation';
 import { IPlanet, IPlanetResponse, PlanetArrayDetails } from '../../interfaces';
 import setNewPathWithoutDetails from '../../utils/setNewPathWithoutDetails';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import DetailsCard from '../DetailsCard';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
-// import useLoading from '../../hooks/useLoading';
 import Loader from '../Loader';
 import { useSearchParams } from 'next/navigation';
 
@@ -27,8 +26,6 @@ export default function Main({
   const router = useRouter();
   const dispatch = useDispatch();
   const query = useSearchParams();
-  // const [isLoading] = useLoading();
-  console.log(response, planet, planetArrayDetails);
 
   useEffect(() => {
     const page = query.has('page') ? query.get('page') : '1';
@@ -47,7 +44,6 @@ export default function Main({
     const { target } = event;
     if (!(target instanceof HTMLElement)) return;
     if (query.has('details')) {
-      console.log(query.get('details'));
       router.push(setNewPathWithoutDetails(query));
       dispatch(resetCurrentCard());
     }
@@ -55,17 +51,22 @@ export default function Main({
 
   return (
     <section className={'main-wrap'}>
-      {false && <Loader />}
       <div className="left-section" onClick={handleClickOutside}>
-        <h1>Planets</h1>
         <FormSearch />
         <hr />
-        <DataView planets={response?.results} />
+        <Suspense fallback={<Loader />}>
+          <DataView planets={response?.results} />
+        </Suspense>
         <Paginator countPages={response?.count} />
         <FlyOut />
       </div>
       {planet && (
-        <DetailsCard planet={planet} planetArrayDetails={planetArrayDetails} />
+        <Suspense fallback={<Loader />}>
+          <DetailsCard
+            planet={planet}
+            planetArrayDetails={planetArrayDetails}
+          />
+        </Suspense>
       )}
     </section>
   );

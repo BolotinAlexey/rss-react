@@ -1,5 +1,6 @@
+import fetch from 'node-fetch';
 import { URL } from '../constants';
-import { IPlanet, IPlanetResponse, Resources } from '../interfaces';
+import { Resources } from '../interfaces';
 
 const resource: Resources = Resources.Planets;
 export async function request(endpoint: string) {
@@ -9,10 +10,10 @@ export async function request(endpoint: string) {
 export async function getPage(
   page: number = 1,
   search: string = ''
-): Promise<IPlanetResponse> {
+): Promise<unknown> {
   return await request(`${resource}?page=${page}&search=${search}`);
 }
 
-export async function getDetails(id: string): Promise<IPlanet> {
+export async function getDetails(id: string): Promise<unknown> {
   return request(`${resource}/${id}`);
 }

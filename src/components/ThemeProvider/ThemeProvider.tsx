@@ -7,7 +7,10 @@ const ThemeUpdateContext = createContext<ChangeEventHandler<HTMLInputElement>>(
 );
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  const themeLS = localStorage.getItem(LS_KEY_THEME);
+  const themeLS =
+    typeof window === 'undefined'
+      ? 'false'
+      : localStorage.getItem(LS_KEY_THEME);
   const [theme, setTheme] = useState(themeLS === 'true' ? true : false);
 
   function toggleTheme() {

@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
-import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import CloseDetailsButton from './CloseDetailsButton';
 import { useTheme } from '../../hooks/useTheme';
 import styleTheme from '../../utils/styleTheme';
 import { useDispatch } from 'react-redux';
-import { useGetDetailsQuery } from '../../service/apiRtk';
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
 import './detailsCard.css';
+import { useLoaderData } from '@remix-run/react';
+import { IPlanet } from '../../interfaces';
 
 export default function DetailsCard() {
   const [theme] = useTheme();
@@ -18,15 +18,9 @@ export default function DetailsCard() {
   const [residentNames, setResidentNames] = useState('');
   const dispatch = useDispatch();
 
-  const params = useParams();
-  const detailsNumber: string | undefined = params?.namePlanet;
-  const id = detailsNumber ? Number(detailsNumber) : 0;
-
-  const {
-    data: planet,
-    isFetching,
-    error,
-  } = useGetDetailsQuery({ id, skip: !id });
+  // const detailsNumber: string | undefined = params?.namePlanet;
+  // const id = detailsNumber ? Number(detailsNumber) : 0;
+  const { planet } = useLoaderData() as unknown as { planet: IPlanet };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,8 +49,7 @@ export default function DetailsCard() {
     }
   }, [planet, dispatch]);
 
-  if (error) return <>Error: {error.message}</>;
-  if (!id || !planet) return null;
+  if (/* !id || */ !planet) return null;
 
   const { url, name, films, residents, created, edited, ...restProps } = planet;
 
@@ -68,7 +61,7 @@ export default function DetailsCard() {
 
   return (
     <section style={themeStyles} className="section details">
-      {isFetching || !planet ? (
+      {!planet ? (
         <Loader />
       ) : (
         <>

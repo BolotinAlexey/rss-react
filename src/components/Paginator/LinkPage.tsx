@@ -8,7 +8,8 @@ export default function LinkPage({ page }: { page: number }) {
   const createPageUrl = (pageNumber: number) => {
     params.set('page', pageNumber.toString());
     if (params.get('search') === null) {
-      const word = localStorage.getItem(LS_KEY) ?? '';
+      const word =
+        typeof window === 'undefined' ? '' : localStorage.getItem(LS_KEY) ?? '';
       params.set('search', word);
     }
 

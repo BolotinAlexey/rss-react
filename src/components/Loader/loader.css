@@ -22,6 +22,10 @@
   position: relative;
   animation: text 2s infinite;
 }
+.loader > p {
+  color: white;
+}
+
 .loader::before {
   content: '';
 }

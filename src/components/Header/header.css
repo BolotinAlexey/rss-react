@@ -20,6 +20,8 @@ header {
   justify-content: right;
   align-items: center;
   border-bottom: 1px solid currentColor;
+  color: var(--main-color);
+  background-color: var(--bg-color);
 }
 
 .switcher {

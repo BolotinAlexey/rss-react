@@ -1,10 +1,19 @@
-import { json, Links, Meta, Scripts } from '@remix-run/react';
+import {
+  json,
+  Link,
+  Links,
+  Meta,
+  Scripts,
+  useRouteError,
+} from '@remix-run/react';
 import { Provider } from 'react-redux';
 import store from '../src/store/store';
 import { ThemeProvider } from '../src/components/ThemeProvider';
 import { getPage } from '../src/service/api';
 import Main from '../src/components/Main';
 import { LoaderFunctionArgs } from '@remix-run/node';
+import Header from '../src/components/Header';
+import './index.css';
 
 export default function App() {
   return (
@@ -17,6 +26,7 @@ export default function App() {
       <Provider store={store}>
         <ThemeProvider>
           <body>
+            <Header />
             <Main />
             <Scripts />
           </body>
@@ -32,3 +42,22 @@ export const loader = async (req: LoaderFunctionArgs) => {
   const res = await getPage(sp.get('page') ?? '1', sp.get('search') ?? '');
   return json({ res });
 };
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  console.error(error);
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <p>Occur error!</p>
+        <Link to="/?page=1&search=">Go Home</Link>
+        <Scripts />
+      </body>
+    </html>
+  );
+}

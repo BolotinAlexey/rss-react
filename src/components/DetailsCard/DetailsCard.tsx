@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import transformPropsArrayToString from '../../utils/transformPropsArrayToString';
 import Loader from '../Loader';
 import CloseDetailsButton from './CloseDetailsButton';
-import { useTheme } from '../../hooks/useTheme';
-import styleTheme from '../../utils/styleTheme';
 import { useDispatch } from 'react-redux';
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
@@ -12,8 +10,6 @@ import { useLoaderData, useNavigation } from '@remix-run/react';
 import { IPlanet } from '../../interfaces';
 
 export default function DetailsCard() {
-  const [theme] = useTheme();
-  const themeStyles = styleTheme(theme);
   const [filmTitles, setFilmTitles] = useState('');
   const [residentNames, setResidentNames] = useState('');
   const dispatch = useDispatch();
@@ -59,7 +55,7 @@ export default function DetailsCard() {
   };
 
   return (
-    <section style={themeStyles} className="section details">
+    <section className="section details">
       {!planet || navigation.state === 'loading' ? (
         <Loader />
       ) : (

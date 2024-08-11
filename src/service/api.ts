@@ -15,7 +15,5 @@ export async function getPage(page: string = '1', search?: string) {
 }
 
 export async function getDetails(id: string) {
-  console.log(`${resource}/${id}`);
-
   return request(`${resource}/${id}`);
 }

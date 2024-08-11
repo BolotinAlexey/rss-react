@@ -1,31 +1,29 @@
 import { useEffect } from 'react';
-import { IPlanet } from '../../interfaces';
+import { IPlanet, IPlanetResponse } from '../../interfaces';
 import Card from '../Card';
 import './dataView.css';
 import Loader from '../Loader';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetPlanetsQuery } from '../../service/apiRtk';
+import { useLoaderData, useNavigate, useNavigation } from '@remix-run/react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export default function DataView({ name }: { name: string | null }) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const search = params.get('search') || '';
-  const page = Number.parseInt(params.get('page') || '1');
-
-  const { data, isFetching, error } = useGetPlanetsQuery({ page, search });
+  const navigation = useNavigation();
+  const { res } = useLoaderData() as unknown as { res: IPlanetResponse };
 
   useEffect(() => {
     if (name !== null) navigate(`?page=1&search=${name}`);
   }, [name]);
 
-  const planets = data?.results;
-
-  if (error) return <h3>Error: {error.message}</h3>;
+  const planets = res?.results;
+  const currentPlanet = useSelector(
+    (state: RootState) => state.currentCard.currentCard
+  );
 
   return (
     <section className="section section-list">
-      {isFetching ? (
+      {navigation.state === 'loading' && !currentPlanet ? (
         <Loader />
       ) : planets?.length ? (
         <ul className="list">

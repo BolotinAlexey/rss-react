@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DataView from '../DataView';
 import FormSearch from '../FormSearch';
 import Paginator from '../Paginator';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from '@remix-run/react';
 import { useDispatch } from 'react-redux';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import FlyOut from '../FlyOut/FlyOut';

@@ -15,10 +15,6 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
     '@typescript-eslint/no-explicit-any': 'error',
     'prettier/prettier': 'error',
     'react-compiler/react-compiler': 'error',

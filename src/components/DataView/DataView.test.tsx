@@ -1,72 +1,60 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
-import DataView from './DataView';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { Provider } from 'react-redux';
+import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import store from '../../store';
+import CloseDetailsButton from '../DetailsCard/CloseDetailsButton';
 
-describe('DataView', () => {
-  it("displays 'Loading..' when loading", async () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={''} />
-        </BrowserRouter>
-      </Provider>
-    );
-    expect(screen.getByText('Loading..')).toBeInTheDocument();
-  });
-  it('renders a Tatooine and Alderaan planets with relevant data', async () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={''} />
-        </BrowserRouter>
-      </Provider>
-    );
-    setTimeout(async () => {
-      await waitFor(() => {
-        expect(screen.getByText('Tatooine')).toBeInTheDocument();
-        expect(screen.getByText('Alderaan')).toBeInTheDocument();
-      });
-      const user = userEvent.setup();
-      const tatooine = screen.getByText('Tatooine');
+const mockNavigate = vi.fn();
+const mockDispatch = vi.fn();
 
-      user.click(tatooine);
+vi.mock('@remix-run/react', async () => {
+  const actual = await vi.importActual('@remix-run/react');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+    useLocation: () => ({ search: '?example=search' }),
+  };
+});
 
-      await waitFor(() => expect(window.location.pathname).toBe(`/details/1/`));
-    }, 1000);
+describe('CloseDetailsButton component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it('renders the specified number of planets', async () => {
+  it('should render the button with correct text', () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={''} />
-        </BrowserRouter>
+        <CloseDetailsButton />
       </Provider>
     );
 
-    setTimeout(async () => {
-      await waitFor(() => {
-        const characterList = screen.getAllByRole('listitem');
-        expect(characterList).toHaveLength(10);
-      });
-    }, 1000);
+    expect(screen.getByText('Hide details')).toBeInTheDocument();
   });
 
-  it("displays 'Not found' when there are no results", async () => {
+  it('should call navigate with the correct path when button is clicked', () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <DataView name={'no exist'} />
-        </BrowserRouter>
+        <CloseDetailsButton />
       </Provider>
     );
-    await waitFor(() =>
-      expect(screen.getByText('Not found')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByText('Hide details'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('/?example=search');
+  });
+
+  it('should dispatch resetCurrentCard action when button is clicked', () => {
+    vi.spyOn(store, 'dispatch').mockImplementation(mockDispatch);
+
+    render(
+      <Provider store={store}>
+        <CloseDetailsButton />
+      </Provider>
     );
+
+    fireEvent.click(screen.getByText('Hide details'));
+
+    expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
   });
 });

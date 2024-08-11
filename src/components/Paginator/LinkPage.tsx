@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from '@remix-run/react';
 import { LS_KEY } from '../../constants';
 
 export default function LinkPage({ page }: { page: number }) {
@@ -8,7 +8,8 @@ export default function LinkPage({ page }: { page: number }) {
   const createPageUrl = (pageNumber: number) => {
     params.set('page', pageNumber.toString());
     if (params.get('search') === null) {
-      const word = localStorage.getItem(LS_KEY) ?? '';
+      const word =
+        typeof window === 'undefined' ? '' : localStorage.getItem(LS_KEY) ?? '';
       params.set('search', word);
     }
 

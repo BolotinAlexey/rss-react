@@ -2,13 +2,14 @@ import { useTheme } from '../../hooks/useTheme';
 import './header.css';
 
 export default function Header() {
-  const [, toggleTheme] = useTheme();
+  const [theme, toggleTheme] = useTheme();
 
   return (
-    <header>
+    <header className={theme ? 'header dark' : 'header'}>
       <div className="switcher">
         <label className="switcher__label">
           <input
+            checked={theme}
             onChange={toggleTheme}
             className="switcher__input"
             type="checkbox"

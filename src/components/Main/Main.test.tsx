@@ -4,8 +4,8 @@ import Main from './Main';
 import store from '../../store';
 import { Provider } from 'react-redux';
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('@remix-run/react', async () => {
+  const actual = await vi.importActual('@remix-run/react');
   return {
     ...actual,
     useLocation: () => ({ pathname: '/' }),

@@ -13,7 +13,6 @@
 .paginator__item {
   width: 2rem;
   height: 2rem;
-  /* border: solid 1px currentColor; */
   -webkit-box-shadow:
     3px 3px 10px#777,
     -3px -3px 10px #777;

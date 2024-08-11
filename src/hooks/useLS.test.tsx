@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import useLS from './useLS';
 import { vi } from 'vitest';
 
-vi.mock('react-router-dom', () => ({
+vi.mock('@remix-run/react', () => ({
   useLocation: vi.fn(() => ({
     search: '?page=1&search=test',
   })),

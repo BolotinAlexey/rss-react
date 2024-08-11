@@ -1,1 +1,1 @@
-# nextjs-ssr-pages-api
+# Next.js-ssr-pages-api

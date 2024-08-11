@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { LS_KEY } from '../constants';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@remix-run/react';
 
 export default function useLS(
   onSubmitName: (name: string) => void

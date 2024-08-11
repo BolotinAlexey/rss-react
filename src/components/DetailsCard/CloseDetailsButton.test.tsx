@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import CloseDetailsButton from './CloseDetailsButton';
 import { resetCurrentCard } from '../../store/slices/currentCardSlice';
 import store from '../../store';
@@ -9,8 +9,8 @@ import store from '../../store';
 const mockNavigate = vi.fn();
 const mockDispatch = vi.fn();
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('@remix-run/react', async () => {
+  const actual = await vi.importActual('@remix-run/react');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
@@ -26,9 +26,9 @@ describe('CloseDetailsButton component', () => {
   it('should render the button with correct text', () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
+        <MemoryRouter>
           <CloseDetailsButton />
-        </BrowserRouter>
+        </MemoryRouter>
       </Provider>
     );
 
@@ -38,29 +38,29 @@ describe('CloseDetailsButton component', () => {
   it('should call navigate with the correct path when button is clicked', () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
+        <MemoryRouter>
           <CloseDetailsButton />
-        </BrowserRouter>
+        </MemoryRouter>
       </Provider>
     );
 
     fireEvent.click(screen.getByText('Hide details'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('/?example=search', {
-      replace: true,
-    });
+    expect(mockNavigate).toHaveBeenCalledWith('/?example=search');
   });
 
   it('should dispatch resetCurrentCard action when button is clicked', () => {
     vi.spyOn(store, 'dispatch').mockImplementation(mockDispatch);
 
-    const { getByText } = render(
+    render(
       <Provider store={store}>
-        <CloseDetailsButton />
+        <MemoryRouter>
+          <CloseDetailsButton />
+        </MemoryRouter>
       </Provider>
     );
 
-    fireEvent.click(getByText('Hide details'));
+    fireEvent.click(screen.getByText('Hide details'));
 
     expect(mockDispatch).toHaveBeenCalledWith(resetCurrentCard());
   });

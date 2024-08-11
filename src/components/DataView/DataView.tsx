@@ -21,8 +21,6 @@ export default function DataView({ name }: { name: string | null }) {
     (state: RootState) => state.currentCard.currentCard
   );
 
-  // if (error) return <h3>Error: {error.message}</h3>;
-
   return (
     <section className="section section-list">
       {navigation.state === 'loading' && !currentPlanet ? (

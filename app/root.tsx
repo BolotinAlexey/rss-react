@@ -1,11 +1,4 @@
-import {
-  json,
-  Link,
-  Links,
-  Meta,
-  Scripts,
-  useRouteError,
-} from '@remix-run/react';
+import { json, Links, Meta, Scripts, useRouteError } from '@remix-run/react';
 import { Provider } from 'react-redux';
 import store from '../src/store/store';
 import { ThemeProvider } from '../src/components/ThemeProvider';
@@ -55,7 +48,7 @@ export function ErrorBoundary() {
       </head>
       <body>
         <p>Occur error!</p>
-        <Link to="/?page=1&search=">Go Home</Link>
+        <a href="/?page=1&search=">Go Home</a>
         <Scripts />
       </body>
     </html>

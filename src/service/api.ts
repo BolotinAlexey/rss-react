@@ -6,7 +6,7 @@ export async function request(endpoint: string) {
   return await fetch(URL + endpoint).then((res) => res.json());
 }
 
-export async function getPage(page: number = 1, search?: string) {
+export async function getPage(page: string = '1', search?: string) {
   if (search) {
     return await request(`${resource}?page=${page}&search=${search}`);
   }

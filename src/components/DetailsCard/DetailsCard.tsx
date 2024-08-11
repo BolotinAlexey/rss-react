@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentCard } from '../../store/slices/currentCardSlice';
 
 import './detailsCard.css';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigation } from '@remix-run/react';
 import { IPlanet } from '../../interfaces';
 
 export default function DetailsCard() {
@@ -17,9 +17,8 @@ export default function DetailsCard() {
   const [filmTitles, setFilmTitles] = useState('');
   const [residentNames, setResidentNames] = useState('');
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-  // const detailsNumber: string | undefined = params?.namePlanet;
-  // const id = detailsNumber ? Number(detailsNumber) : 0;
   const { planet } = useLoaderData() as unknown as { planet: IPlanet };
 
   useEffect(() => {
@@ -49,7 +48,7 @@ export default function DetailsCard() {
     }
   }, [planet, dispatch]);
 
-  if (/* !id || */ !planet) return null;
+  if (!planet) return null;
 
   const { url, name, films, residents, created, edited, ...restProps } = planet;
 
@@ -61,7 +60,7 @@ export default function DetailsCard() {
 
   return (
     <section style={themeStyles} className="section details">
-      {!planet ? (
+      {!planet || navigation.state === 'loading' ? (
         <Loader />
       ) : (
         <>

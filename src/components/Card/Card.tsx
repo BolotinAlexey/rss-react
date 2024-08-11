@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { IPlanet } from '../../interfaces';
 import searchLastNumber from '../../utils/searchLastNumber';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@remix-run/react';
 import { RootState } from '../../store/store';
 import { addCard, removeCard } from '../../store/slices/cardsSlice';
 

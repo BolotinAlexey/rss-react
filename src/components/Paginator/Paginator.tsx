@@ -1,18 +1,13 @@
-import { useLocation } from 'react-router-dom';
+import { useLoaderData } from '@remix-run/react';
 import LinkPage from './LinkPage';
 import './paginator.css';
-import { useGetPlanetsQuery } from '../../service/apiRtk';
+import { IPlanetResponse } from '../../interfaces';
 
 export default function Paginator() {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const search = params.get('search') || '';
-  const page = Number.parseInt(params.get('page') || '1');
-  const { data } = useGetPlanetsQuery({ page, search });
+  const { res } = useLoaderData() as unknown as { res: IPlanetResponse };
+  const number = res?.count ? Math.ceil(res?.count / 10) : 0;
 
-  const number = data?.count ? Math.ceil(Number.parseInt(data?.count) / 10) : 0;
-
-  if (!data) return null;
+  if (!res) return null;
   return (
     <div className="paginator">
       <ul className="paginator__list">

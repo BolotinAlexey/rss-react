@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from '@remix-run/react';
 import { LS_KEY } from '../../constants';
 
 export default function LinkPage({ page }: { page: number }) {

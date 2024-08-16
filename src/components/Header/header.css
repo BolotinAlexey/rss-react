@@ -1,0 +1,9 @@
+header {
+  padding: 1rem;
+  border-bottom: 1px currentColor solid;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

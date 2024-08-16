@@ -4,6 +4,7 @@ import UncontrolledForm from './pages/UncontrolledForm';
 import ReactHookForm from './pages/ReactHookForm';
 import ErrorPage from './pages/ErrorPage';
 import Root from './pages/Root';
+import './App.css';
 
 function App() {
   const router = createBrowserRouter([

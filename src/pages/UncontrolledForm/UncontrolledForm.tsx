@@ -1,8 +1,9 @@
 import { useRef, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import * as yup from 'yup';
 import { RootState } from '../../redux/store';
+import { formSchema } from '../../validation/formSchema';
 import { setUploadedUncontroledImage } from '../../redux/formSlice';
-import { FormData } from '../../types&interfaces/types';
 
 function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -18,133 +19,158 @@ function UncontrolledForm() {
   const pictureRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const nameErrorRef = useRef<HTMLSpanElement>(null);
+  const ageErrorRef = useRef<HTMLSpanElement>(null);
+  const emailErrorRef = useRef<HTMLSpanElement>(null);
+  const passwordErrorRef = useRef<HTMLSpanElement>(null);
+  const confirmPasswordErrorRef = useRef<HTMLSpanElement>(null);
+  const genderErrorRef = useRef<HTMLSpanElement>(null);
+  const termsErrorRef = useRef<HTMLSpanElement>(null);
+  const pictureErrorRef = useRef<HTMLSpanElement>(null);
+  const countryErrorRef = useRef<HTMLSpanElement>(null);
+
+  const clearErrors = () => {
+    nameErrorRef.current!.textContent = '';
+    ageErrorRef.current!.textContent = '';
+    emailErrorRef.current!.textContent = '';
+    passwordErrorRef.current!.textContent = '';
+    confirmPasswordErrorRef.current!.textContent = '';
+    genderErrorRef.current!.textContent = '';
+    termsErrorRef.current!.textContent = '';
+    pictureErrorRef.current!.textContent = '';
+    countryErrorRef.current!.textContent = '';
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const name = nameRef.current?.value ?? '';
-    const age = parseInt(ageRef.current?.value ?? '0', 10);
-    const email = emailRef.current?.value ?? '';
-    const password = passwordRef.current?.value ?? '';
-    const confirmPassword = confirmPasswordRef.current?.value ?? '';
-    const gender = genderRef.current?.value ?? '';
-    const termsAccepted = termsRef.current?.checked ?? false;
-    const picture = pictureRef.current?.files?.[0];
-    const country = countryRef.current?.value ?? '';
-
-    if (!/^[A-Z]/.test(name)) {
-      console.log('Name should start with an uppercase letter.');
-      return;
-    }
-
-    if (isNaN(age) || age <= 0) {
-      console.log('Age should be a positive number.');
-      return;
-    }
-
-    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      console.log('Please enter a valid email address.');
-      return;
-    }
-
-    const passwordStrength =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#]).{8,}$/;
-    if (!passwordStrength.test(password)) {
-      console.log(
-        'Password must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and 1 special character.'
-      );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      console.log('Passwords do not match.');
-      return;
-    }
-
-    if (!termsAccepted) {
-      console.log('You must accept the Terms and Conditions.');
-      return;
-    }
-
-    if (picture) {
-      const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-      if (!allowedExtensions.exec(picture.name)) {
-        console.log('Please upload a picture in JPEG or PNG format.');
-        return;
-      }
-
-      if (picture.size > 2 * 1024 * 1024) {
-        console.log('File size should not exceed 2 MB.');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        dispatch(setUploadedUncontroledImage(base64String));
-      };
-      reader.readAsDataURL(picture);
-    }
-
-    const formData: FormData = {
-      name,
-      age,
-      email,
-      password,
-      confirmPassword,
-      gender,
-      termsAccepted,
-      country,
+    const formData = {
+      name: nameRef.current?.value ?? '',
+      age: parseInt(ageRef.current?.value ?? '0', 10),
+      email: emailRef.current?.value ?? '',
+      password: passwordRef.current?.value ?? '',
+      confirmPassword: confirmPasswordRef.current?.value ?? '',
+      gender: genderRef.current?.value ?? '',
+      termsAccepted: termsRef.current?.checked ?? false,
+      country: countryRef.current?.value ?? '',
     };
 
-    console.log('Form Submitted:', formData);
-    console.log('Form submitted successfully!');
+    clearErrors();
+
+    try {
+      await formSchema.validate(formData, { abortEarly: false });
+
+      const picture = pictureRef.current?.files?.[0];
+
+      if (picture) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result?.toString();
+          dispatch(setUploadedUncontroledImage(base64String));
+        };
+        reader.readAsDataURL(picture);
+      }
+
+      console.log('Form Submitted:', formData);
+      console.log('Form submitted successfully!');
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        err.inner.forEach((error) => {
+          if (error.path === 'name')
+            nameErrorRef.current!.textContent = error.message;
+          if (error.path === 'age')
+            ageErrorRef.current!.textContent = error.message;
+          if (error.path === 'email')
+            emailErrorRef.current!.textContent = error.message;
+          if (error.path === 'password')
+            passwordErrorRef.current!.textContent = error.message;
+          if (error.path === 'confirmPassword')
+            confirmPasswordErrorRef.current!.textContent = error.message;
+          if (error.path === 'gender')
+            genderErrorRef.current!.textContent = error.message;
+          if (error.path === 'termsAccepted')
+            termsErrorRef.current!.textContent = error.message;
+          if (error.path === 'country')
+            countryErrorRef.current!.textContent = error.message;
+        });
+      }
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name:</label>
-      <input id="name" type="text" ref={nameRef} required />
+    <>
+      <h2 className="section__title">Uncontrolled Form</h2>
+      <form className="form form-uncontroled" onSubmit={handleSubmit}>
+        <label htmlFor="name">
+          Name:
+          <input id="name" type="text" ref={nameRef} />
+          <span ref={nameErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="age">Age:</label>
-      <input id="age" type="number" ref={ageRef} required />
+        <label htmlFor="age">
+          Age:
+          <input id="age" type="number" ref={ageRef} />
+          <span ref={ageErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="email">Email:</label>
-      <input id="email" type="email" ref={emailRef} required />
+        <label htmlFor="email">
+          Email:
+          <input id="email" type="text" ref={emailRef} />
+          <span ref={emailErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="password">Password:</label>
-      <input id="password" type="password" ref={passwordRef} required />
+        <label htmlFor="password">
+          Password:
+          <input id="password" type="password" ref={passwordRef} />
+          <span ref={passwordErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="confirmPassword">Confirm Password:</label>
-      <input
-        id="confirmPassword"
-        type="password"
-        ref={confirmPasswordRef}
-        required
-      />
+        <label htmlFor="confirmPassword">
+          Confirm Password:
+          <input
+            id="confirmPassword"
+            type="password"
+            ref={confirmPasswordRef}
+          />
+          <span ref={confirmPasswordErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="gender">Gender:</label>
-      <select id="gender" ref={genderRef} required>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
+        <label htmlFor="gender">
+          Gender:
+          <select id="gender" ref={genderRef}>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <span ref={genderErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="terms">Accept Terms and Conditions:</label>
-      <input id="terms" type="checkbox" ref={termsRef} required />
+        <label htmlFor="terms">
+          Accept Terms and Conditions:
+          <input id="terms" type="checkbox" ref={termsRef} />
+          <span ref={termsErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="picture">Upload Picture:</label>
-      <input id="picture" type="file" ref={pictureRef} required />
+        <label htmlFor="picture">
+          Upload Picture:
+          <input id="picture" type="file" ref={pictureRef} />
+          <span ref={pictureErrorRef} className="error"></span>
+        </label>
 
-      <label htmlFor="country">Country:</label>
-      <input id="country" list="country-list" ref={countryRef} required />
-      <datalist id="country-list">
-        {countries.map((country, index) => (
-          <option key={index} value={country} />
-        ))}
-      </datalist>
+        <label htmlFor="country">
+          Country:
+          <input id="country" list="country-list" ref={countryRef} />
+          <datalist id="country-list">
+            {countries.map((country, index) => (
+              <option key={index} value={country} />
+            ))}
+          </datalist>
+          <span ref={countryErrorRef} className="error"></span>
+        </label>
 
-      <button type="submit">Submit</button>
-    </form>
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 }
 

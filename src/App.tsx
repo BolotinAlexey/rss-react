@@ -1,15 +1,21 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Main from './components/Main';
-import UncontrolledForm from './components/UncontrolledForm';
-import ReactHookForm from './components/ReactHookForm';
+import Main from './pages/Main';
+import UncontrolledForm from './pages/UncontrolledForm';
+import ReactHookForm from './pages/ReactHookForm';
+import ErrorPage from './pages/ErrorPage';
+import Root from './pages/Root';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Main />,
-      // errorElement: <ErrorPage />,
+      element: <Root />,
+      errorElement: <ErrorPage />,
       children: [
+        {
+          index: true,
+          element: <Main />,
+        },
         {
           path: '/uncontroled',
           element: <UncontrolledForm />,

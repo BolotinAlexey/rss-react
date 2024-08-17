@@ -27,17 +27,19 @@ export const formSchema = object().shape({
     .required(reqMessage),
   country: string().required(reqMessage),
   picture: mixed()
-    .required('Picture is required')
+    .required(reqMessage)
     .test('fileSize', 'File size should not exceed 1 MB', (value) => {
-      if (!(value instanceof File)) return false;
-      return value && value.size <= 1024 * 1024;
+      if (!(value instanceof FileList)) return false;
+
+      return value && value[0].size <= 1024 * 1024;
     })
     .test(
       'fileFormat',
       'Unsupported format. Only JPEG and PNG are allowed',
       (value) => {
-        if (!(value instanceof File)) return false;
-        return value && ['image/jpeg', 'image/png'].includes(value.type);
+        if (!(value instanceof FileList)) return false;
+
+        return value && ['image/jpeg', 'image/png'].includes(value[0].type);
       }
     ),
 });

@@ -1,7 +1,13 @@
-// redux/formSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import { FormData } from '../types&interfaces/types';
 
-const initialState = {
+interface IStoreState {
+  countries: string[];
+  formDataControled: FormData[];
+  formDataUncontroled: FormData[];
+}
+
+const initialState: IStoreState = {
   countries: [
     'Afghanistan',
     'Albania',
@@ -209,8 +215,8 @@ const initialState = {
     'Zambia',
     'Zimbabwe',
   ],
-  uploadedImageUncontroled: '',
-  uploadedImageControled: '',
+  formDataControled: [],
+  formDataUncontroled: [],
 };
 
 const formSlice = createSlice({
@@ -220,18 +226,18 @@ const formSlice = createSlice({
     setCountries: (state, action) => {
       state.countries = action.payload;
     },
-    setUploadedUncontroledImage: (state, action) => {
-      state.uploadedImageUncontroled = action.payload;
+    setFormUncontroled(state, action) {
+      state.formDataUncontroled = [
+        ...state.formDataUncontroled,
+        action.payload,
+      ];
     },
-    setUploadedControledImage: (state, action) => {
-      state.uploadedImageControled = action.payload;
+    setFormControled: (state, action) => {
+      state.formDataControled = [...state.formDataControled, action.payload];
     },
   },
 });
 
-export const {
-  setCountries,
-  setUploadedUncontroledImage,
-  setUploadedControledImage,
-} = formSlice.actions;
+export const { setCountries, setFormUncontroled, setFormControled } =
+  formSlice.actions;
 export default formSlice.reducer;

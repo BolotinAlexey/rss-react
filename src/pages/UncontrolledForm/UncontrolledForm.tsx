@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { RootState } from '../../redux/store';
 import { formSchema } from '../../validation/formSchema';
-import { setUploadedUncontroledImage } from '../../redux/formSlice';
+import { setFormUncontroled } from '../../redux/formSlice';
+import { FormData, FormDataStore } from '../../types&interfaces/types';
 
 function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ function UncontrolledForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = {
+    const formData: FormData = {
       name: nameRef.current?.value ?? '',
       age: parseInt(ageRef.current?.value ?? '0', 10),
       email: emailRef.current?.value ?? '',
@@ -53,6 +54,7 @@ function UncontrolledForm() {
       gender: genderRef.current?.value ?? '',
       termsAccepted: termsRef.current?.checked ?? false,
       country: countryRef.current?.value ?? '',
+      picture: pictureRef.current?.files ?? null,
     };
 
     clearErrors();
@@ -61,19 +63,26 @@ function UncontrolledForm() {
       await formSchema.validate(formData, { abortEarly: false });
 
       const picture = pictureRef.current?.files?.[0];
-
+      const reader = new FileReader();
       if (picture) {
-        const reader = new FileReader();
         reader.onloadend = () => {
-          const base64String = reader.result?.toString();
-          dispatch(setUploadedUncontroledImage(base64String));
+          const base64String = reader.result?.toString() as string;
+          const formDataStore: FormDataStore = {
+            ...formData,
+            picture: base64String,
+          };
+          dispatch(setFormUncontroled(formDataStore));
         };
+
         reader.readAsDataURL(picture);
+      } else {
+        dispatch(setFormUncontroled({ ...formData, picure: '' }));
       }
 
-      console.log('Form Submitted:', formData);
       console.log('Form submitted successfully!');
     } catch (err) {
+      console.log(err);
+
       if (err instanceof yup.ValidationError) {
         err.inner.forEach((error) => {
           if (error.path === 'name')
@@ -92,6 +101,8 @@ function UncontrolledForm() {
             termsErrorRef.current!.textContent = error.message;
           if (error.path === 'country')
             countryErrorRef.current!.textContent = error.message;
+          if (error.path === 'picture')
+            pictureErrorRef.current!.textContent = error.message;
         });
       }
     }

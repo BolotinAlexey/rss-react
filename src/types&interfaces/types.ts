@@ -7,6 +7,9 @@ type FormData = {
   gender: string;
   termsAccepted: boolean;
   country: string;
+  picture: null | FileList;
 };
 
-export type { FormData };
+type FormDataStore = Omit<FormData, 'picture'> & { picture: string };
+
+export type { FormData, FormDataStore };

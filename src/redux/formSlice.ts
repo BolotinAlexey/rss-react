@@ -17,12 +17,12 @@ const formSlice = createSlice({
   reducers: {
     setFormUncontroled(state, action) {
       state.formDataUncontroled = [
-        ...state.formDataUncontroled,
         action.payload,
+        ...state.formDataUncontroled,
       ];
     },
     setFormControled: (state, action) => {
-      state.formDataControled = [...state.formDataControled, action.payload];
+      state.formDataControled = [action.payload, ...state.formDataControled];
     },
   },
 });

@@ -35,13 +35,17 @@ ul {
 
 .page__title {
   position: fixed;
+  margin-top: 0;
   right: 1rem;
-  top: 0;
+  top: 0.9rem;
+  color: transparent;
+  -webkit-text-stroke: 0.3px white;
 }
 
 @media screen and (max-width: 600px) {
   .page__title {
     position: static;
     text-align: right;
+    color: currentColor;
   }
 }

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { FormData } from '../types&interfaces/types';
+import { FormDataStore } from '../types&interfaces/types';
 
 interface IStoreStateForm {
-  formDataControled: FormData[];
-  formDataUncontroled: FormData[];
+  formDataControled: FormDataStore[];
+  formDataUncontroled: FormDataStore[];
 }
 
 const initialState: IStoreStateForm = {

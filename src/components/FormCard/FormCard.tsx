@@ -1,39 +1,28 @@
+import { FormField } from '../../types&interfaces/enums';
 import { FormDataStore } from '../../types&interfaces/types';
+import './formCard.css';
 
-function SummaryPage({ formData }: { formData: FormDataStore }) {
+export default function FormCard({ formData }: { formData: FormDataStore }) {
   if (!formData) return null;
-  const { name, age, email, gender, country, picture } = formData;
 
   return (
-    <div>
-      <h1>Form Summary</h1>
-      <p>
-        <strong>Name:</strong> {name}
-      </p>
-      <p>
-        <strong>Age:</strong> {age}
-      </p>
-      <p>
-        <strong>Email:</strong> {email}
-      </p>
-      <p>
-        <strong>Gender:</strong> {gender}
-      </p>
-      <p>
-        <strong>Country:</strong> {country}
-      </p>
-      {picture && (
-        <div>
-          <strong>Uploaded Picture:</strong>
-          <img
-            src={picture}
-            alt="Uploaded"
-            style={{ width: '200px', height: 'auto' }}
-          />
-        </div>
-      )}
+    <div className="card">
+      {Object.keys(formData).map((field, i) => {
+        if (field === FormField.picture)
+          return (
+            <li className="card__item" key={i}>
+              <img className="card__img" src={formData[field]} alt="image" />
+            </li>
+          );
+        return (
+          <li key={i}>
+            <p>
+              <strong>{field}:</strong>{' '}
+              {formData[field as keyof FormDataStore].toString()}
+            </p>
+          </li>
+        );
+      })}
     </div>
   );
 }
-
-export default SummaryPage;

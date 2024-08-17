@@ -16,6 +16,11 @@ input {
   margin-left: 1rem;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
 .error {
   position: absolute;
   bottom: -1.5rem;
@@ -26,4 +31,17 @@ input {
 
 .error:empty {
   transform: translateX(calc(-100% - 10px));
+}
+
+.page__title {
+  position: fixed;
+  right: 1rem;
+  top: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .page__title {
+    position: static;
+    text-align: right;
+  }
 }

@@ -5,10 +5,12 @@ import { RootState } from '../../redux/store';
 import { formSchema } from '../../validation/formSchema';
 import { setFormUncontroled } from '../../redux/formSlice';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
+import { useNavigate } from 'react-router-dom';
 
 function UncontrolledForm() {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
+  const navigate = useNavigate();
 
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
@@ -76,6 +78,7 @@ function UncontrolledForm() {
         };
 
         reader.readAsDataURL(picture);
+        navigate('/');
       } else {
         dispatch(setFormUncontroled({ ...formData, picure: '' }));
       }
@@ -109,7 +112,7 @@ function UncontrolledForm() {
 
   return (
     <>
-      <h2 className="section__title">Uncontrolled Form</h2>
+      <h2 className="page__title">Uncontrolled Form</h2>
       <form className="form form-uncontroled" onSubmit={handleSubmit}>
         <label htmlFor="name">
           Name:

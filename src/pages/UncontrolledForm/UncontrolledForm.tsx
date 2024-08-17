@@ -8,7 +8,7 @@ import { FormData, FormDataStore } from '../../types&interfaces/types';
 
 function UncontrolledForm() {
   const dispatch = useDispatch();
-  const countries = useSelector((state: RootState) => state.form.countries);
+  const countries = useSelector((state: RootState) => state.countries);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
@@ -64,6 +64,7 @@ function UncontrolledForm() {
 
       const picture = pictureRef.current?.files?.[0];
       const reader = new FileReader();
+
       if (picture) {
         reader.onloadend = () => {
           const base64String = reader.result?.toString() as string;
@@ -78,11 +79,7 @@ function UncontrolledForm() {
       } else {
         dispatch(setFormUncontroled({ ...formData, picure: '' }));
       }
-
-      console.log('Form submitted successfully!');
     } catch (err) {
-      console.log(err);
-
       if (err instanceof yup.ValidationError) {
         err.inner.forEach((error) => {
           if (error.path === 'name')
@@ -104,6 +101,8 @@ function UncontrolledForm() {
           if (error.path === 'picture')
             pictureErrorRef.current!.textContent = error.message;
         });
+      } else {
+        console.warn(err);
       }
     }
   };

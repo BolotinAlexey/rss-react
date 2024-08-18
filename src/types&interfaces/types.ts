@@ -4,10 +4,10 @@ type FormData = {
   email: string;
   password: string;
   confirmPassword: string;
-  gender: string;
+  gender: 'male' | 'female' | 'other';
   termsAccepted: boolean;
   country: string;
-  picture: null | FileList;
+  picture: FileList | undefined;
 };
 
 type FormDataStore = Omit<FormData, 'picture'> & { picture: string };

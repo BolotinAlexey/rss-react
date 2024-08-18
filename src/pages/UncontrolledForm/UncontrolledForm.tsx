@@ -7,7 +7,7 @@ import { setFormUncontroled } from '../../redux/formSlice';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
 
-function UncontrolledForm() {
+export default function UncontrolledForm() {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
   const navigate = useNavigate();
@@ -53,10 +53,13 @@ function UncontrolledForm() {
       email: emailRef.current?.value ?? '',
       password: passwordRef.current?.value ?? '',
       confirmPassword: confirmPasswordRef.current?.value ?? '',
-      gender: genderRef.current?.value ?? '',
+      gender: (genderRef.current?.value ?? 'male') as
+        | 'male'
+        | 'female'
+        | 'other',
       termsAccepted: termsRef.current?.checked ?? false,
       country: countryRef.current?.value ?? '',
-      picture: pictureRef.current?.files ?? null,
+      picture: pictureRef.current?.files ?? undefined,
     };
 
     clearErrors();
@@ -186,5 +189,3 @@ function UncontrolledForm() {
     </>
   );
 }
-
-export default UncontrolledForm;

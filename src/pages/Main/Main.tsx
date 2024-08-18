@@ -9,14 +9,8 @@ export default function Main() {
     <>
       <h2 className="page__title">Main Page Form</h2>
       <div className="page__wrap">
-        <FormList
-          formsArray={forms.formDataUncontroled}
-          title="Uncontroled forms"
-        />
-        <FormList
-          formsArray={forms.formDataControled}
-          title="Controled forms"
-        />
+        <FormList formsArray={forms.formDataUncontroled} title="Uncontroled" />
+        <FormList formsArray={forms.formDataControled} title="Controled" />
       </div>
     </>
   );

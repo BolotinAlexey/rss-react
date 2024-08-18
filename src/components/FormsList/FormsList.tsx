@@ -9,11 +9,11 @@ interface IFormList {
 export default function FormList({ formsArray, title }: IFormList) {
   return (
     <section className="section">
-      <h3 className="section__title">{title}</h3>
+      <h3 className="section__title">{`${title} form`}</h3>
       <ul className="section__list">
         {formsArray.map((form, i) => (
           <li className="section__item" key={i}>
-            <FormCard formData={form} />
+            <FormCard formData={form} isControl={title === 'Controled'} />
           </li>
         ))}
       </ul>

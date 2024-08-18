@@ -2,12 +2,21 @@ import { FormField } from '../../types&interfaces/enums';
 import { FormDataStore } from '../../types&interfaces/types';
 import './formCard.css';
 
-export default function FormCard({ formData }: { formData: FormDataStore }) {
+export default function FormCard({
+  formData,
+  isControl,
+}: {
+  formData: FormDataStore;
+  isControl: boolean;
+}) {
   if (!formData) return null;
+  const formArray = isControl
+    ? Object.keys(formData).reverse()
+    : Object.keys(formData);
 
   return (
-    <div className="card">
-      {Object.keys(formData).map((field, i) => {
+    <ul className="card">
+      {formArray.map((field, i) => {
         if (field === FormField.picture)
           return (
             <li className="card__item" key={i}>
@@ -23,6 +32,6 @@ export default function FormCard({ formData }: { formData: FormDataStore }) {
           </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

@@ -1,9 +1,9 @@
 import { useRef, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as yup from 'yup';
+import { ValidationError } from 'yup';
 import { RootState } from '../../redux/store';
 import { formSchema } from '../../validation/formSchema';
-import { setFormUncontroled } from '../../redux/formSlice';
+import { setFormUncontrolled } from '../../redux/formSlice';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
 import { Controll } from '../../types&interfaces/enums';
@@ -81,16 +81,16 @@ export default function UncontrolledForm() {
             ...formData,
             picture: base64String,
           };
-          dispatch(setFormUncontroled(formDataStore));
+          dispatch(setFormUncontrolled(formDataStore));
         };
 
         reader.readAsDataURL(picture);
         navigate('/', { state: { from: Controll.uncontrolled } });
       } else {
-        dispatch(setFormUncontroled({ ...formData, picure: '' }));
+        dispatch(setFormUncontrolled({ ...formData, picure: '' }));
       }
     } catch (err) {
-      if (err instanceof yup.ValidationError) {
+      if (err instanceof ValidationError) {
         err.inner.forEach((error) => {
           if (error.path === 'name')
             nameErrorRef.current!.textContent = error.message;
@@ -120,7 +120,11 @@ export default function UncontrolledForm() {
   return (
     <>
       <h2 className="page__title">Uncontrolled Form</h2>
-      <form className="form form-uncontroled" onSubmit={handleSubmit}>
+      <form
+        className="form form-uncontrolled"
+        onSubmit={handleSubmit}
+        autoComplete="on"
+      >
         <label htmlFor="name">
           Name:
           <input id="name" type="text" ref={nameRef} />

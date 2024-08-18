@@ -18,11 +18,11 @@ function App() {
           element: <Main />,
         },
         {
-          path: '/uncontroled',
+          path: '/uncontrolled',
           element: <UncontrolledForm />,
         },
         {
-          path: '/controled',
+          path: '/controlled',
           element: <ReactHookForm />,
         },
       ],

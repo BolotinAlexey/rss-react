@@ -15,7 +15,7 @@ export default function FormList({ formsArray, title, isLast }: IFormList) {
         {formsArray.map((form, i) => (
           <li className="section__item" key={i}>
             {isLast && i === 0 && <p className="section__last">Last form</p>}
-            <FormCard formData={form} isControl={title === 'Controled'} />
+            <FormCard formData={form} isControl={title === 'Controlled'} />
           </li>
         ))}
       </ul>

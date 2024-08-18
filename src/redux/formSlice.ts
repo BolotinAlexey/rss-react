@@ -2,30 +2,30 @@ import { createSlice } from '@reduxjs/toolkit';
 import { FormDataStore } from '../types&interfaces/types';
 
 interface IStoreStateForm {
-  formDataControled: FormDataStore[];
-  formDataUncontroled: FormDataStore[];
+  formDataControlled: FormDataStore[];
+  formDataUncontrolled: FormDataStore[];
 }
 
 const initialState: IStoreStateForm = {
-  formDataControled: [],
-  formDataUncontroled: [],
+  formDataControlled: [],
+  formDataUncontrolled: [],
 };
 
 const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    setFormUncontroled(state, action) {
-      state.formDataUncontroled = [
+    setFormUncontrolled(state, action) {
+      state.formDataUncontrolled = [
         action.payload,
-        ...state.formDataUncontroled,
+        ...state.formDataUncontrolled,
       ];
     },
-    setFormControled: (state, action) => {
-      state.formDataControled = [action.payload, ...state.formDataControled];
+    setFormControlled: (state, action) => {
+      state.formDataControlled = [action.payload, ...state.formDataControlled];
     },
   },
 });
 
-export const { setFormUncontroled, setFormControled } = formSlice.actions;
+export const { setFormUncontrolled, setFormControlled } = formSlice.actions;
 export default formSlice.reducer;

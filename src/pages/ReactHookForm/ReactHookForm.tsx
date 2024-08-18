@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store';
 import { formSchema } from '../../validation/formSchema';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
-import { setFormControled } from '../../redux/formSlice';
+import { setFormControlled } from '../../redux/formSlice';
 import { Controll, FormField } from '../../types&interfaces/enums';
 import Progress from '../../components/Progress';
 import { useEffect, useState } from 'react';
@@ -40,12 +40,12 @@ export default function ReactHookForm() {
             ...data,
             picture: base64String,
           };
-          dispatch(setFormControled(formDataStore));
+          dispatch(setFormControlled(formDataStore));
         };
 
         reader.readAsDataURL(picture);
       } else {
-        dispatch(setFormControled({ ...data, picture: '' }));
+        dispatch(setFormControlled({ ...data, picture: '' }));
       }
 
       reset();
@@ -71,6 +71,7 @@ export default function ReactHookForm() {
       <form
         className="form form-controlled"
         onSubmit={handleSubmit((data) => onSubmit(data as FormData))}
+        autoComplete="on"
       >
         <label htmlFor="name">
           Name:

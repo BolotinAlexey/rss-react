@@ -14,13 +14,13 @@ export default function Main() {
       <h2 className="page__title">Main Page Form</h2>
       <div className="page__wrap">
         <FormList
-          formsArray={forms.formDataUncontroled}
-          title="Uncontroled"
+          formsArray={forms.formDataUncontrolled}
+          title="Uncontrolled"
           isLast={state?.from === Controll.uncontrolled}
         />
         <FormList
-          formsArray={forms.formDataControled}
-          title="Controled"
+          formsArray={forms.formDataControlled}
+          title="Controlled"
           isLast={state?.from === Controll.controlled}
         />
       </div>

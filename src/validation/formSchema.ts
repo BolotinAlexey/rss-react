@@ -41,6 +41,9 @@ export const formSchema = object().shape({
 
   picture: mixed()
     .required(reqMessage)
+    .test('chooseFile', "Don't choosen file.", (value) => {
+      return value instanceof FileList && !!value.length;
+    })
     .test('fileSize', 'File size should not exceed 1 MB', (value) => {
       if (!(value instanceof FileList) || value.length === 0) return true;
       return value[0].size <= 1024 * 1024;

@@ -8,10 +8,10 @@ export default function Header() {
         <NavLink className="nav__link" to="/">
           Main
         </NavLink>
-        <NavLink className="nav__link" to="/uncontroled">
-          Uncontroled Form
+        <NavLink className="nav__link" to="/uncontrolled">
+          Uncontrolled Form
         </NavLink>
-        <NavLink className="nav__link" to="/controled">
+        <NavLink className="nav__link" to="/controlled">
           React Hook Form
         </NavLink>
       </nav>

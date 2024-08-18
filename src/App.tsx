@@ -5,6 +5,7 @@ import ReactHookForm from './pages/ReactHookForm';
 import ErrorPage from './pages/ErrorPage';
 import Root from './pages/Root';
 import './App.css';
+import NotFound from './pages/NotFound';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
           element: <ReactHookForm />,
         },
       ],
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ]);
 

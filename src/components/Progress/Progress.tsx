@@ -1,8 +1,8 @@
 import './progress.css';
 
 export default function Progress({ deg }: { deg: number }) {
-  const progressArray = ['red', 'yellow', 'green'];
-  if (!deg) return <ul className="progress"></ul>;
+  const progressArray = ['purple', 'red', 'orange', 'yellow', 'green'];
+  if (!deg) return null;
   return (
     <ul className="progress">
       {...new Array(deg).fill(

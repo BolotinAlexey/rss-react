@@ -16,10 +16,10 @@ export const formSchema = object().shape({
 
   password: string()
     .min(8, 'Password must be at least 8 characters long')
-    .matches(
-      /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])/,
-      'Password must contain an uppercase letter, a lowercase letter, a number, and a special character'
-    )
+    .matches(/[A-Z]/, 'Password must contain an uppercase letter')
+    .matches(/[a-z]/, 'Password must contain a lowercase letter')
+    .matches(/\d/, 'Password must contain a number')
+    .matches(/[@$!%*?&#]/, 'Password must contain a special character')
     .required(reqMessage),
 
   confirmPassword: string()

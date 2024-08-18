@@ -83,7 +83,7 @@ export default function ReactHookForm() {
         <label htmlFor="password">
           Password:
           <input id="password" type="password" {...register('password')} />
-          <span className="error">{errors.password?.message}</span>
+          <span className="error password">{errors.password?.message}</span>
           <Progress deg={1} />
         </label>
 
@@ -94,7 +94,9 @@ export default function ReactHookForm() {
             type="password"
             {...register('confirmPassword')}
           />
-          <span className="error">{errors.confirmPassword?.message}</span>
+          <span className="error password">
+            {errors.confirmPassword?.message}
+          </span>
         </label>
 
         <label htmlFor="gender">

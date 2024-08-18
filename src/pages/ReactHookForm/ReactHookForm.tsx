@@ -6,18 +6,21 @@ import { formSchema } from '../../validation/formSchema';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
 import { setFormControled } from '../../redux/formSlice';
-import { Controll } from '../../types&interfaces/enums';
+import { Controll, FormField } from '../../types&interfaces/enums';
 import Progress from '../../components/Progress';
+import { useEffect, useState } from 'react';
+import checkPassword from '../../utils/checkPassword';
 
 export default function ReactHookForm() {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
   const navigate = useNavigate();
+  const [deg, setDeg] = useState(0);
 
   const {
     register,
     handleSubmit,
-    // watch,
+    watch,
     formState: { errors, isValid },
     reset,
   } = useForm({
@@ -52,8 +55,15 @@ export default function ReactHookForm() {
     }
   };
 
-  // const watchedFields = watch();
-  // console.log(watchedFields);
+  useEffect(() => {
+    const subscription = watch(({ password }, { name }) => {
+      if (name === FormField.password) {
+        checkPassword(password || '', setDeg);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <>
@@ -84,7 +94,7 @@ export default function ReactHookForm() {
           Password:
           <input id="password" type="password" {...register('password')} />
           <span className="error password">{errors.password?.message}</span>
-          <Progress deg={1} />
+          <Progress deg={deg} />
         </label>
 
         <label htmlFor="confirmPassword">

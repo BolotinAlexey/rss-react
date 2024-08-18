@@ -29,6 +29,7 @@ ul {
   left: 0;
   color: var(--error);
   transition: var(--trans);
+  transform: translateX(0);
 }
 
 .error.password {
@@ -36,6 +37,7 @@ ul {
 }
 
 .error:empty {
+  transition: var(--trans);
   transform: translateX(calc(-100% - 10px));
 }
 

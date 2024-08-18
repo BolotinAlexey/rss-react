@@ -7,6 +7,7 @@ import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
 import { setFormControled } from '../../redux/formSlice';
 import { Controll } from '../../types&interfaces/enums';
+import Progress from '../../components/Progress';
 
 export default function ReactHookForm() {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ export default function ReactHookForm() {
           Password:
           <input id="password" type="password" {...register('password')} />
           <span className="error">{errors.password?.message}</span>
+          <Progress deg={1} />
         </label>
 
         <label htmlFor="confirmPassword">

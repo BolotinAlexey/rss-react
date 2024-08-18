@@ -1,0 +1,14 @@
+:root {
+  --gap: 2px;
+}
+.progress {
+  width: 100%;
+  display: flex;
+  gap: var(--gap);
+  outline: 0.005px currentColor solid;
+}
+
+.progress__item {
+  height: 7px;
+  width: calc((100% - 2 * var(--gap)) / 3);
+}

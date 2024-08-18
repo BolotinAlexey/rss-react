@@ -7,3 +7,7 @@ header {
   align-items: center;
   gap: 1rem;
 }
+
+.nav__link.active {
+  border-bottom: 1px solid currentColor;
+}

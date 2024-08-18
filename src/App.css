@@ -24,7 +24,7 @@ ul {
 
 .error {
   position: absolute;
-  width: calc(100vw - 2rem);
+  width: calc(100vw - 4rem);
   bottom: -1.5rem;
   left: 0;
   color: var(--error);

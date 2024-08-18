@@ -15,7 +15,7 @@ const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    setFormUncontrolled(state, action) {
+    setFormUncontrolled: (state, action) => {
       state.formDataUncontrolled = [
         action.payload,
         ...state.formDataUncontrolled,

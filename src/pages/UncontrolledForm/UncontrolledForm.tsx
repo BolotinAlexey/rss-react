@@ -12,7 +12,9 @@ import Progress from '../../components/Progress';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
-  const countries = useSelector((state: RootState) => state.countries);
+  const countries = useSelector(
+    (state: RootState) => state.countries.countries
+  );
   const navigate = useNavigate();
   const [deg, setDeg] = useState(0);
 
@@ -53,7 +55,7 @@ export default function UncontrolledForm() {
 
     const formData: FormData = {
       name: nameRef.current?.value ?? '',
-      age: parseInt(ageRef.current?.value ?? '0', 10),
+      age: +(ageRef.current?.value ?? '0'),
       email: emailRef.current?.value ?? '',
       password: passwordRef.current?.value ?? '',
       confirmPassword: confirmPasswordRef.current?.value ?? '',

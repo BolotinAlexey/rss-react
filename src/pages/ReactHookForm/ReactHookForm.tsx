@@ -13,7 +13,9 @@ import checkPassword from '../../utils/checkPassword';
 
 export default function ReactHookForm() {
   const dispatch = useDispatch();
-  const countries = useSelector((state: RootState) => state.countries);
+  const countries = useSelector(
+    (state: RootState) => state.countries.countries
+  );
   const navigate = useNavigate();
   const [deg, setDeg] = useState(0);
 

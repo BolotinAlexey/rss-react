@@ -16,3 +16,42 @@
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
+
+.section__item:has(.section__last) {
+  animation: shake-rotate 1s linear;
+  animation-iteration-count: 3;
+}
+
+.section__last {
+  margin: 0.2rem;
+  text-align: end;
+  color: var(--error);
+}
+
+@keyframes shake-rotate {
+  0% {
+    border: 1px solid var(--error);
+  }
+  15% {
+    transform: rotate(7deg);
+  }
+  30% {
+    transform: rotate(-7deg);
+  }
+  40% {
+    transform: rotate(4deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
+  65% {
+    transform: rotate(2deg);
+  }
+  85% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+    border: 1px solid greenyellow;
+  }
+}

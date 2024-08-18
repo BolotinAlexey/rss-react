@@ -6,6 +6,7 @@ import { formSchema } from '../../validation/formSchema';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
 import { setFormControled } from '../../redux/formSlice';
+import { Controll } from '../../types&interfaces/enums';
 
 export default function ReactHookForm() {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export default function ReactHookForm() {
       }
 
       reset();
-      navigate('/');
+      navigate('/', { state: { from: Controll.controlled } });
     } catch (err) {
       console.warn('Error processing the form:', err);
     }

@@ -7,3 +7,8 @@ export enum FormField {
   picture = 'picture',
   country = 'country',
 }
+
+export enum Controll {
+  controlled = 'controlled',
+  uncontrolled = 'uncontrolled',
+}

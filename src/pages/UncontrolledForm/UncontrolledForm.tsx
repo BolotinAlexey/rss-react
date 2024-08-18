@@ -6,6 +6,7 @@ import { formSchema } from '../../validation/formSchema';
 import { setFormUncontroled } from '../../redux/formSlice';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
+import { Controll } from '../../types&interfaces/enums';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ export default function UncontrolledForm() {
         };
 
         reader.readAsDataURL(picture);
-        navigate('/');
+        navigate('/', { state: { from: Controll.uncontrolled } });
       } else {
         dispatch(setFormUncontroled({ ...formData, picure: '' }));
       }

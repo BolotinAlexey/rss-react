@@ -1,14 +1,13 @@
 .page__wrap {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .section__list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: max-content;
-  max-width: 45vw;
+  width: 45vw;
 }
 
 .section__item {

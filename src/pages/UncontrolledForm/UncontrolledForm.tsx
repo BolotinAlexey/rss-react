@@ -1,4 +1,4 @@
-import { useRef, FormEvent } from 'react';
+import { useRef, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { RootState } from '../../redux/store';
@@ -7,11 +7,14 @@ import { setFormUncontroled } from '../../redux/formSlice';
 import { FormData, FormDataStore } from '../../types&interfaces/types';
 import { useNavigate } from 'react-router-dom';
 import { Controll } from '../../types&interfaces/enums';
+import checkPassword from '../../utils/checkPassword';
+import Progress from '../../components/Progress';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.countries);
   const navigate = useNavigate();
+  const [deg, setDeg] = useState(0);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
@@ -138,8 +141,16 @@ export default function UncontrolledForm() {
 
         <label htmlFor="password">
           Password:
-          <input id="password" type="password" ref={passwordRef} />
+          <input
+            id="password"
+            type="password"
+            ref={passwordRef}
+            onChange={() =>
+              checkPassword(passwordRef.current?.value || '', setDeg)
+            }
+          />
           <span ref={passwordErrorRef} className="error"></span>
+          <Progress deg={deg} />
         </label>
 
         <label htmlFor="confirmPassword">

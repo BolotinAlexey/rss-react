@@ -1,0 +1,13 @@
+header {
+  padding: 1rem;
+  border-bottom: 1px currentColor solid;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav__link.active {
+  border-bottom: 1px solid currentColor;
+}

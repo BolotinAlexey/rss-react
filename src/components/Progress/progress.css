@@ -1,0 +1,14 @@
+:root {
+  --gap: 2px;
+  --num: 5;
+}
+.progress {
+  width: 100%;
+  display: flex;
+  gap: var(--gap);
+}
+
+.progress__item {
+  height: 7px;
+  width: calc((100% - (var(--num) - 1) * var(--gap)) / var(--num));
+}

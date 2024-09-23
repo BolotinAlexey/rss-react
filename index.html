@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+TZ:wght@100..400&family=Poetsen+One&family=Press+Start+2P&family=Sedan+SC&family=Ubuntu:wght@300;700&
+      family=Gochi+Hand&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>RSS React</title>
+
+  </head>
+  <body>
+    <script src="persistTheme.js" defer></script>
+  <!-- H E A D E R -->
+    <header class="header">
+      <div class="logo">
+        <h2 class="logo__title">
+          <a href="https://bolotinalexey.github.io/my_resume/">
+            Oleksii Bolotin
+          </a>
+        </h2>
+      </div>
+
+      <nav class="header__nav">
+        <ul class="header__list">
+          <li class="header__item">
+            <a
+              href="https://bolotinalexey.github.io/rss-stage0"
+              class="link header__link"
+              >RSS Stage0 projects</a
+            >
+          </li>
+          <li class="header__item">
+            <a
+              href="https://bolotinalexey.github.io/rss-stage1-stage2/"
+              class="link header__link"
+              >RSS Stage1-2 projects</a
+            >
+          </li>
+          <li class="header__item">
+            <a
+              href="https://bolotinalexey.github.io/goitProjects/"
+              class="link header__link"
+              >GO IT projects</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+        <label class="theme-btn">
+        <svg class="weather__icon" width="20" height="20">
+                  <use href="./assets/sprite.svg#moon"></use>
+                </svg>
+          <input type="checkbox" class="theme-btn__input">
+          </input>
+          <span class="theme-btn__inner">
+          </span>
+          <svg class="weather__icon" width="20" height="20" fill="none">
+                  <use href="./assets/sprite.svg#sun"></use>
+                </svg>
+        </label>
+    </header>
+
+    <main class="main">
+      <h1 class="page-title">
+        My written projects in
+        <a class="link" href="https://rs.school/">RS-School</a> React/Next.js
+      </h1>
+      <ul class="list container">
+
+        <!-- GraphQL/REST client -->
+        <li
+          class="project graphql"
+          title="The application that is used to test the sending of queries using Graphql and Rest on various APIs. Thanks to the use of Next.js (requests proxy), requests to the API are sent from the server, not from the client, which helps to avoid problems with CORS."
+        >
+          <div class="project__wrap">
+            <div class="project__overlay-top">
+              <p class="project__pet">Team project</p>
+              <p class="project__describe">
+                GraphQL/REST client. Postman analog
+              </p>
+            </div>
+            <div class="project__overlay-bottom">
+              <p class="project__stack">
+                [ Next.js, TypeScript, MUI, Vite, Vitest, Firebase]
+              </p>
+            </div>
+            <a href="https://comp-store-rss.netlify.app/">
+              <img
+              class="project__img"
+              src="assets/GrQL.png"
+              alt="GraphQL/REST client"
+            />
+            </a>
+          </div>
+          <div class="project__links">
+            <a
+              href="https://comp-store-rss.netlify.app/"
+              class="project__deploy link"
+              >deploy</a
+            >
+            <a
+              href="https://github.com/React2024Q3/graphiql-app/tree/develop"
+              class="project__code link"
+              >code</a
+            >
+          </div>
+          <h2 class="project__title">GraphQL/REST client</h2>
+        </li>
+
+        <!-- Star Wars Planets -->
+        <li
+          class="project starwars"
+          title="Application for requests to the popular API https://swapi.dev/api, to obtain data on planets using various approaches: React, React Router, Next.js and Remix."
+        >
+          <div class="project__wrap">
+            <div class="project__overlay-top">
+              <p class="project__pet">Pet project</p>
+              <p class="project__describe">
+                Application for requests to the popular API https://swapi.dev/api, to obtain data on planets using various approaches
+              </p>
+            </div>
+            <div class="project__overlay-bottom">
+              <p class="project__stack">[React, React Router, Next.js, Remix, TypeScript, Vitest ]</p>
+            </div>
+            <a href="https://github.com/BolotinAlexey/rss-react-2024">
+              <img
+              class="project__img"
+              src="assets/starWars.png"
+              alt="Star Wars Planets"
+            />
+            </a>
+          </div>
+          <div class="project__links">
+            <a
+              href="https://66a685b31fc25e685fb35027--preeminent-biscochitos-4a8a31.netlify.app/"
+              class="project__deploy link"
+              >deploy</a
+            >
+            <a
+              href="https://github.com/BolotinAlexey/rss-react-2024"
+              class="project__code link"
+              >code</a
+            >
+          </div>
+          <h2 class="project__title">Star Wars Planets</h2>
+        </li>
+
+        <!-- F O R M S -->
+        <li
+          title="The implementation of two types of standard forms with validation, indicating the strength of the password and other features."
+          class="project forms"
+        >
+          <div class="project__wrap">
+            <div class="project__overlay-top">
+              <p class="project__pet">Pet project</p>
+              <p class="project__describe">
+                The use of controlled and non controlled forms in React.
+              </p>
+            </div>
+            <div class="project__overlay-bottom">
+              <p class="project__stack">[React, Redux, React Router, Typecript, React Hook Form, Yup]</p>
+            </div>
+            <a href="https://github.com/BolotinAlexey/rss-react-2024/tree/forms">
+              <img
+              class="project__img"
+              src="assets/form.png"
+              alt="forms"
+            />
+            </a>
+          </div>
+          <div class="project__links">
+            <a
+              href="https://66c27215f1bcf7facf0d6052--effulgent-nasturtium-284a28.netlify.app/"
+              class="project__deploy link"
+              >deploy</a
+            >
+            <a
+              href="https://github.com/BolotinAlexey/rss-react-2024/tree/forms"
+              class="project__code link"
+              >code</a
+            >
+          </div>
+          <h2 class="project__title">Forms</h2>
+        </li>
+
+
+      </ul>
+    </main>
+
+    <!---FOOTER -->
+    <footer>
+      <ul class="footer__list">
+        <!-- LinkedIn -->
+        <li>
+          <a
+            class="contacts__link"
+            href="https://www.linkedin.com/in/oleksii-bolotin/"
+          >
+            <svg class="contacts__icon-invert" width="36" height="36">
+              <use href="./assets/sprite.svg#linkedin"></use>
+            </svg>
+          </a>
+        </li>
+
+        <!-- GitHub -->
+        <li>
+          <a class="contacts__link" href="https://github.com/BolotinAlexey">
+            <svg class="contacts__icon-invert" width="36" height="36">
+              <use href="./assets/sprite.svg#github"></use>
+            </svg>
+          </a>
+        </li>
+
+        <!-- Telegram -->
+        <li>
+          <a class="contacts__link" href="https://t.me/samkiral">
+            <svg class="contacts__icon-invert" width="36" height="36">
+              <use href="./assets/sprite.svg#telegram"></use>
+            </svg>
+          </a>
+        </li>
+      </ul>
+      <h2 class="year">2024</h2>
+      <div class="logo">
+        <h2 class="logo__title">
+          <a href="https://bolotinalexey.github.io/my_resume/">
+            Oleksii Bolotin
+          </a>
+        </h2>
+      </div>
+    </footer>
+
+  </body>
+</html>
